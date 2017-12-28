@@ -10,6 +10,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\CarType;
 use App\Entity\Cars;
 
 
@@ -19,35 +20,16 @@ Class MainController extends Controller
     {
         $car = new Cars;
 
-        $car->setImmat("BB-345-DD");
-        $car->setMarque("Mercedes");
-        $car->setProprio("Aps");
-        $car->setNumParc(9685);
-        $car->setSite("La Roche sur Foron");
-        $car->setNumSerie("WNNNNNNNSDSDN2323");
-        $car->setTypecar("Crossway");
-        $car->setTypePanne("C'est une panne dû au filtre a huile qui n'est pas très importante...");
+        $form = $this->createForm(CarType::class, $car);
 
-
-
-
-
-        //recuperation de l'entity manager
+        /*recuperation de l'entity manager
         $em = $this->getDoctrine()->getManager();
 
         $em->persist($car);
-        $em->flush();
-
-
-
-
-
-
-
-        $name = "Yags";
+        $em->flush();*/
 
         return $this->render('front/index.html.twig', array(
-            'name' => $name,
+            'form' => $form->createView(),
         ));
 
     }
