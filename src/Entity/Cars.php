@@ -9,12 +9,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Cars
  * @package App\Entity
  * @ORM\Entity
  * @ORM\Table(name="cars")
+ *
  */
 
 class Cars
@@ -27,7 +30,8 @@ class Cars
     protected $id;
 
     /**
-     * @ORM\Column(name="immat", type="string", length=100)
+     * @ORM\Column(name="immat", type="string", length=100, unique=true)
+     * @Assert\NotBlank()
      */
     protected $immat;
 
@@ -39,11 +43,19 @@ class Cars
 
     /**
      * @ORM\Column(name="num_parc", type="integer")
+     * @Assert\Range(
+     *     min = 062,
+     *     max = 999999,
+     *     minMessage = "Le numéro de parc est incorrect (trop petit)",
+     *     maxMessage = "Le numéro de parc est incorrect (trop élevé)"
+     * )
      */
     protected $num_parc;
 
     /**
      * @ORM\Column(name="site", type="string", length=100)
+     * @Assert\NotBlank
+     * @Assert\Regex("/^\w+/")
      */
     protected $site;
 
@@ -53,17 +65,19 @@ class Cars
     protected $num_serie;
 
     /**
-     * @ORM\Column(name="typecar", type="string", length=100)
+     * @ORM\Column(name="typecar", type="string", length=100, nullable=true)
      */
     protected $typecar;
 
     /**
-     * @ORM\Column(name="marque", type="string", length=100)
+     * @ORM\Column(name="marque", type="string", length=100, nullable=true)
+     * @Assert\NotBlank()
      */
     protected $marque;
 
     /**
      * @ORM\Column(name="locataire", type="string", length=20)
+     * @Assert\NotBlank()
      */
     protected $locataire;
 

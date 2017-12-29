@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.standalone.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+{% endblock %}
 {% block body %}
     <section class="jumbotron text-center">
         <div class="container">
@@ -16,62 +20,130 @@
 
                 <div class="col-md-12 col-sm-10">
 
-                    {# Génération du label. #}
-                    {{ form_label(form.immat, "Immatriculation du Car : ", {'label_attr': {'class': ' control-label'}}) }}
-                    {# Génération de l'input.#}
-                    {{ form_widget(form.immat, {'attr': {'class': 'col-md-6 form-control'}}) }}
-
-                    {# Génération du label. #}
-                    {{ form_label(form.num_parc, "Numéro de parc : ", {'label_attr': {'class': ' control-label'}}) }}
-                    {# Génération de l'input.#}
-                    {{ form_widget(form.num_parc, {'attr': {'class': 'col-md-6 form-control'}}) }}
-
-                    {# Génération du label. #}
-                    {{ form_label(form.site, "Centre de rattachement du Car : ", {'label_attr': {'class': ' control-label'}}) }}
-                    {# Génération de l'input.#}
-                    {{ form_widget(form.site, {'attr': {'class': 'col-md-6 form-control'}}) }}
-
-                    {# Génération du label. #}
-                    {{ form_label(form.num_serie, "Numéro de Série : ", {'label_attr': {'class': ' control-label'}}) }}
-                    {# Génération de l'input.#}
-                    {{ form_widget(form.num_serie, {'attr': {'class': 'col-md-6 form-control'}}) }}
-
-                    {# Génération du label. #}
-                    {{ form_label(form.typecar, "Modèle du Car : ", {'label_attr': {'class': ' control-label'}}) }}
-                    {# Génération de l'input.#}
-                    {{ form_widget(form.typecar, {'attr': {'class': 'col-md-6 form-control'}}) }}
-
-                    {# Génération du label. #}
-                    {{ form_label(form.marque, "Marque : ", {'label_attr': {'class': ' control-label'}}) }}
-                    {# Génération de l'input.#}
-                    {{ form_widget(form.marque, {'attr': {'class': 'col-md-6 form-control'}}) }}
-
-                    {# Génération du label. #}
-                    {{ form_label(form.locataire, "Locataire : ", {'label_attr': {'class': ' control-label'}}) }}
-                    {# Génération de l'input.#}
-                    {{ form_widget(form.locataire, {'attr': {'class': 'col-md-6 form-control'}}) }}
-
-                    {# Génération du label. #}
-                    {{ form_label(form.type_panne, "Détailler le type de panne :", {'label_attr': {'class': ' control-label'}}) }}
-                    {# Génération de l'input.#}
-                    {{ form_widget(form.type_panne, {'attr': {'class': 'col-md-6 form-control'}}) }}
-
-                    {# Génération du label. #}
-                    {{ form_label(form.date_prev, "Date prévisionnelle de remise à la route : ", {'label_attr': {'class': ' control-label'}}) }}
-                    {# Génération de l'input.#}
-                    {{ form_widget(form.date_prev, {'attr': {'class': 'col-md-6 form-control'}}) }}
+                    <div class="form-row">
+                        {# Génération du label. #}
+                        <div class="form-group col-md-6">
+                            {{ form_label(form.immat, "Immatriculation du Car : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.immat, {'attr': {'class': ' form-control'}}) }}
+                        </div>
+                        {# Génération du label. #}
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.num_parc, "Numéro de parc : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.num_parc, {'attr': {'class': ' form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.site, "Centre de rattachement du Car : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.site, {'attr': {'class': ' form-control'}}) }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.num_serie, "Numéro de Série : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.num_serie, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.typecar, "Modèle du Car : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.typecar, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.marque, "Marque : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.marque , {'attr': {'class': 'form-control'}})}}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.locataire, "Locataire du Car : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.locataire, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.type_panne, "Précisez le type de panne : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.type_panne , {'attr': {'class': 'form-control', 'row': '1'}})}}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.date_prev, "Date prévisionnelle de remise en route: ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.date_prev, {'attr': {'class': ' js-datepicker form-control'}}) }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.date_mar, "Date réelle mise à la route : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.date_mar , {'attr': {'class': ' js-datepicker form-control'}})}}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.deb_garantie, "Début de la garantie : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.deb_garantie, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.etat_car, "Précisez l'état du car : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.etat_car , {'attr': {'class': 'form-control'}})}}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {# Génération du label. #}
+                            {{ form_label(form.proprio_pneus, "Propriètaire de pneus : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.proprio_pneus, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.enregistrer , {'attr': {'class': 'col-md-6 btn btn-primary'}})}}
+                        </div>
+                    </div>
                 </div>
-
-                {{ form_row(form.num_parc) }}
-                {{ form_row(form.site) }}
-
-                {{ form_rest(form) }}
-
-                {{ form_end(form) }}
-
             </div>
         </div>
 
     </section>
 
+{% endblock %}
+{% block footer %}
+    <footer class="container-fluid mt-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-center">Flote Aps
+                    </h3>
+                </div>
+                <div class="col-md-12">
+                    <p class="text-center">
+                        Studio is a simple one page them, ideal for personal or agency site, comes with an elegant and minimal design. Uses Font Awesome 4.0.3, parallax effect, off-canvas menu & other handsome features.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+{%  endblock %}
+{% block javascripts %}
+    {#<srcipt src="{{ asset('locales/bootstrap-datepicker.fr.min.js') }}"></srcipt>#}
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 {% endblock %}

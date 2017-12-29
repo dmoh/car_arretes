@@ -9,6 +9,8 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,13 +28,49 @@ class CarType extends AbstractType
             ->add('site', TextType::class)
             ->add('num_serie', TextType::class)
             ->add('typecar', TextType::class)
-            ->add('marque', TextType::class)
-            ->add('locataire', TextType::class)
+            ->add('marque', ChoiceType::class, array(
+                'choices' => array(
+                    'IVECO CROSSWAY' => "iveco crossway",
+                    'IVECO MAGELYS' => "iveco magelys",
+                    'MERCEDES' => 'mercedes',
+                    'IVECO DAILY' => "iveco daily",
+                    'VOLVO 9700HD' => "volvo 9700 hd",
+                    'SCANIA TOURING' => "scania touring",
+                    'IVECO RECREO' => "iveco recreo",
+                    'SOLARIS' => "solaris",
+                    'BOVA' => "bova",
+                ),))
+            ->add('locataire',  ChoiceType::class, array(
+                'choices' => array(
+                    'Aps' => "APS",
+                    'Fle' => "FLE",
+                ),
+                'choice_attr' => function($val, $key, $index) {
+                    // adds a class like attending_yes, attending_no, etc
+                    return ['class' => 'attending_'.strtolower($key)];
+                },))
             ->add('type_panne', TextareaType::class)
-            ->add('date_prev', DateType::class)
-            ->add('date_mar', DateType::class)
+            ->add('date_prev', DateType::class, array(
+                'widget' => 'single_text',
+                'html5' => false,
+                ))
+            ->add('date_mar', DateType::class, array(
+                'widget' => 'single_text',
+                'html5' => false,
+                ))
             ->add('deb_garantie', TextType::class)
             ->add('etat_car', TextType::class)
+            ->add('proprio_pneus', ChoiceType::class, array(
+                'choices' => array(
+                    'Aps' => "APS",
+                    'Michelin' => "MICHELIN",
+                    'Firstop' => "FIRSTOP",
+                ),
+                'choice_attr' => function($val, $key, $index) {
+                    // adds a class like attending_yes, attending_no, etc
+                    return ['class' => 'attending_'.strtolower($key)];
+                },))
+            ->add('enregistrer',    SubmitType::class)
         ;
 
     }

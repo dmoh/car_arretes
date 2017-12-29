@@ -1,3 +1,6 @@
 index:
     path: /
     controller: App\Controller\MainController::index
+consultation:
+    path: /consult
+    controller: App\Controller\MainController::consultation
