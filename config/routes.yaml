@@ -2,5 +2,11 @@ index:
     path: /
     controller: App\Controller\MainController::index
 consultation:
-    path: /consult
+    path: /consultation
     controller: App\Controller\MainController::consultation
+car:
+    path: /car/{id}
+    controller: App\Controller\MainController::car
+    requirements:
+        id: '\d+'
+

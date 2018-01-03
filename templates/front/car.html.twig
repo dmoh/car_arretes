@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading"> Historique du Car {{ car.immat| upper }}</h1>
+            <p class="lead text-muted"></p>
+        </div>
+    </section>
+    <section class="container">
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col-md-2">N° de parc</th>
+                    <th scope="col-md-2">Date d'enregistrement</th>
+                    <th scope="col-md-2">Centre de rattachement</th>
+                    <th scope="col-md-2">Etat du Car</th>
+                    <th scope="col-md-4">Type de panne</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ car.numParc }}</th>
+                        <td>{{ car.date|date("d/m/Y") }}</td>
+                        <td>{{ car.site }}</td>
+                        <td>{{ car.EtatCar }}</td>
+                        <td>{{ car.typePanne }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}

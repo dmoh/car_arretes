@@ -25,7 +25,9 @@
                         <div class="form-group col-md-6">
                             {{ form_label(form.immat, "Immatriculation du Car : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
+
                             {{ form_widget(form.immat, {'attr': {'class': ' form-control'}}) }}
+                            {{ form_errors(form.immat, { 'attr': {'class': 'red' }}) }}
                         </div>
                         {# Génération du label. #}
                         <div class="form-group col-md-6">
@@ -33,6 +35,7 @@
                             {{ form_label(form.num_parc, "Numéro de parc : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.num_parc, {'attr': {'class': ' form-control'}}) }}
+                            {{ form_errors(form.num_parc, { 'attr': {'class': 'red' }}) }}
                         </div>
                     </div>
                     <div class="form-row">
@@ -41,12 +44,14 @@
                             {{ form_label(form.site, "Centre de rattachement du Car : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.site, {'attr': {'class': ' form-control'}}) }}
+                            {{ form_errors(form.site, { 'attr': {'class': 'red' }}) }}
                         </div>
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
                             {{ form_label(form.num_serie, "Numéro de Série : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.num_serie, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.num_serie, { 'attr': {'class': 'red' }}) }}
                         </div>
                     </div>
                     <div class="form-row">
@@ -55,12 +60,14 @@
                             {{ form_label(form.typecar, "Modèle du Car : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.typecar, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.typecar, { 'attr': {'class': 'red' }}) }}
                         </div>
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
                             {{ form_label(form.marque, "Marque : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.marque , {'attr': {'class': 'form-control'}})}}
+                            {{ form_errors(form.marque, { 'attr': {'class': 'red' }}) }}
                         </div>
                     </div>
                     <div class="form-row">
@@ -69,12 +76,14 @@
                             {{ form_label(form.locataire, "Locataire du Car : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.locataire, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.locataire, { 'attr': {'class': 'red' }}) }}
                         </div>
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
                             {{ form_label(form.type_panne, "Précisez le type de panne : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.type_panne , {'attr': {'class': 'form-control', 'row': '1'}})}}
+                            {{ form_errors(form.type_panne, { 'attr': {'class': 'red' }}) }}
                         </div>
                     </div>
                     <div class="form-row">
@@ -83,12 +92,14 @@
                             {{ form_label(form.date_prev, "Date prévisionnelle de remise en route: ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.date_prev, {'attr': {'class': ' js-datepicker form-control'}}) }}
+                            {{ form_errors(form.date_prev, { 'attr': {'class': 'red' }}) }}
                         </div>
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
                             {{ form_label(form.date_mar, "Date réelle mise à la route : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.date_mar , {'attr': {'class': ' js-datepicker form-control'}})}}
+                            {{ form_errors(form.date_mar, { 'attr': {'class': 'red' }}) }}
                         </div>
                     </div>
                     <div class="form-row">
@@ -97,12 +108,14 @@
                             {{ form_label(form.deb_garantie, "Début de la garantie : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.deb_garantie, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.deb_garantie, { 'attr': {'class': 'red' }}) }}
                         </div>
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
                             {{ form_label(form.etat_car, "Précisez l'état du car : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.etat_car , {'attr': {'class': 'form-control'}})}}
+                            {{ form_errors(form.etat_car, { 'attr': {'class': 'red' }}) }}
                         </div>
                     </div>
                     <div class="form-row">
@@ -111,6 +124,7 @@
                             {{ form_label(form.proprio_pneus, "Propriètaire de pneus : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.proprio_pneus, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.proprio_pneus, { 'attr': {'class': 'red' }}) }}
                         </div>
                         <div class="col-md-6">
                             {# Génération de l'input.#}
@@ -140,7 +154,6 @@
             </div>
         </div>
     </footer>
-
 {%  endblock %}
 {% block javascripts %}
     {#<srcipt src="{{ asset('locales/bootstrap-datepicker.fr.min.js') }}"></srcipt>#}

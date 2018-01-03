@@ -1,13 +1,67 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.standalone.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+{% endblock %}
+
 {% block body %}
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading"> Liste Cars</h1>
+            <p class="lead text-muted">Liste des Autocars enregistrer dans la base de donnée</p>
+        </div>
+    </section>
     <section class="container-fluid">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <h1> Page de Consultation des Autocars arrêtés </h1>
+                <div class="col-md-12">
+                    <div class="listing_car">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col-md-2">Immatriculation</th>
+                                    <th scope="col-md-2">Date d'enregistrement</th>
+                                    <th scope="col-md-2">N° de parc</th>
+                                    <th scope="col-md-2">Etat du Car</th>
+                                    <th scope="col-md-4">Type de panne</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for Car in Cars %}
+                                <tr>
+                                    <th scope="row"><a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a></th>
+                                    <td>{{ Car.date|date("d/m/Y") }}</td>
+                                    <td>{{ Car.numParc }}</td>
+                                    <td>{{ Car.EtatCar }}</td>
+                                    <td>{{ Car.typePanne }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+        <footer class="container-fluid mt-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="text-center">Flote Aps
+                        </h3>
+                    </div>
+                    <div class="col-md-12">
+                        <p class="text-center">
+                            Studio is a simple one page them, ideal for personal or agency site, comes with an elegant and minimal design. Uses Font Awesome 4.0.3, parallax effect, off-canvas menu & other handsome features.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+{% endblock %}
+{% block javascripts %}
+    {#<srcipt src="{{ asset('locales/bootstrap-datepicker.fr.min.js') }}"></srcipt>#}
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 {% endblock %}

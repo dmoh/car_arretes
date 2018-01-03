@@ -9,4 +9,13 @@ $(document).ready(function(){
 
     var $car_immat = $('car_immat');
 
+    var $r = $("td:contains('roulant')");
+    var $ra = $("td:contains('roulant ano')");
+    var $pa = $("tr > td:contains('panne')");
+    $r.css("color", "green");
+    $ra.css("color", "orange");
+    $pa.css("color", "red");
+
+
+
 });

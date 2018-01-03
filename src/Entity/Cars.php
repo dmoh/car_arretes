@@ -17,7 +17,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @package App\Entity
  * @ORM\Entity
  * @ORM\Table(name="cars")
- *
+ * @UniqueEntity(fields="immat",
+ *     message="Ce véhicule existe déjà dans la bdd."
+ * )
  */
 
 class Cars
@@ -462,6 +464,10 @@ class Cars
         return $this->proprio_pneus;
     }
 
+    public function __toString()
+    {
+       return  $this->immat;
+    }
 
 
 }

@@ -78,6 +78,33 @@ Class MainController extends Controller
 
     public function consultation(Request $request)
     {
-        return $this->render('front/consultation.html.twig');
+        $repository = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(Cars::class);
+        $car_listing = $repository->findBy(
+            array(), array('date' => "Desc")
+        );
+
+        /*var_dump($car_listing);
+        die();*/
+
+        return $this->render('front/consultation.html.twig',
+            array('Cars' => $car_listing)
+            );
+    }
+
+    public function car($id)
+    {
+        $repo = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(Cars::class);
+        $car_info = $repo->find(
+           $id
+        );
+
+        return $this->render('front/car.html.twig',
+            array('car' => $car_info)
+        );
+
     }
 }

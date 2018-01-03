@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
+
 class CarType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -25,7 +26,14 @@ class CarType extends AbstractType
         $builder
             ->add('immat', TextType::class)
             ->add('num_parc', NumberType::class)
-            ->add('site', TextType::class)
+            ->add('site', ChoiceType::class, array(
+                'choices' => array(
+                    'La Roche sur Foron' => "la Roche sur Foron",
+                    'Viry' => "Viry",
+                    'Rumilly' => "Rumilly",
+                    'Cluses' => "Cluses",
+                ),
+            ))
             ->add('num_serie', TextType::class)
             ->add('typecar', TextType::class)
             ->add('marque', ChoiceType::class, array(
@@ -59,7 +67,15 @@ class CarType extends AbstractType
                 'html5' => false,
                 ))
             ->add('deb_garantie', TextType::class)
-            ->add('etat_car', TextType::class)
+            ->add('etat_car', ChoiceType::class, array(
+                'choices' => array(
+                    'ROULANT' => "roulant",
+                    'ROULANT AVEC ANOMALIE' => "roulant ano",
+                    'PANNE' => 'panne',
+                ),'choice_attr' => function($val, $key, $index) {
+                    // adds a class like attending_yes, attending_no, etc
+                    return ['class' => 'etat_'.strtolower($key)];
+                },))
             ->add('proprio_pneus', ChoiceType::class, array(
                 'choices' => array(
                     'Aps' => "APS",
