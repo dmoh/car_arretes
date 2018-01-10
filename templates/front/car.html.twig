@@ -4,6 +4,7 @@
     <section class="jumbotron text-center">
         <div class="container">
             <h1 class="jumbotron-heading"> Historique du Car {{ car.immat| upper }}</h1>
+            <p><a href="{{ path('ajout_panne', { 'id': car.id }) }}">Ajouter une panne a cet autocar</a></p>
             <p class="lead text-muted"></p>
         </div>
     </section>
@@ -14,7 +15,7 @@
                 <tr>
                     <th scope="col-md-2">N° de parc</th>
                     <th scope="col-md-2">Date d'enregistrement</th>
-                    <th scope="col-md-2">Centre de rattachement</th>
+                    <th scope="col-md-2">Auteur </th>
                     <th scope="col-md-2">Etat du Car</th>
                     <th scope="col-md-4">Type de panne</th>
                 </tr>
@@ -23,12 +24,28 @@
                     <tr>
                         <th scope="row">{{ car.numParc }}</th>
                         <td>{{ car.date|date("d/m/Y") }}</td>
-                        <td>{{ car.site }}</td>
+                        <td>{{ car.auteur }}</td>
                         <td>{{ car.EtatCar }}</td>
                         <td>{{ car.typePanne }}</td>
                     </tr>
+                    {% if pannes is defined %}
+                        {% for panne in pannes %}
+                            <tr>
+                                <th scope="row">{{ car.numParc }}</th>
+                                <td>{{ panne.date|date("d/m/Y") }}</td>
+                                <td>{{ panne.auteur }}</td>
+                                <td>{{ panne.EtatCar }}</td>
+                                <td>{{ panne.DescPanne }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-primary" href="{{ path('ajout_panne', { 'id': car.id }) }}">Ajouter une panne</a>
+            </div>
         </div>
     </section>
 {% endblock %}

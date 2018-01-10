@@ -18,4 +18,34 @@ $(document).ready(function(){
 
 
 
+    /*
+    
+    $('input#form_recherche').click(function(){
+        $("#form_recherche").keyup(function(){
+          
+            var immat = $('#form_recherche').val();
+
+            $.ajax({
+                type:'POST',
+                data:{'immat' : immat},
+                dataType:'json',
+                url:'http://localhost:8000/recherche',
+                success:function(data){
+                    $('#resultat').html(data[0]);
+                },
+                error:function(data){
+                     
+                   console.log(data);
+                }
+            });
+
+        });
+    });*/
+    
+    
+
+    
+
+
+
 });

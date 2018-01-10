@@ -11,9 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use App\Form\CarType;
 use App\Entity\Cars;
-
+use App\Entity\Panne;
+use App\Form\PanneType;
 
 Class MainController extends Controller
 {
@@ -58,9 +63,6 @@ Class MainController extends Controller
                  ));
              }
 
-
-
-
         }
 
         /*recuperation de l'entity manager
@@ -97,14 +99,134 @@ Class MainController extends Controller
     {
         $repo = $this->getDoctrine()
             ->getManager()
-            ->getRepository(Cars::class);
-        $car_info = $repo->find(
+            ;
+        $car_info = $repo->getRepository(Cars::class)->find(
            $id
         );
 
+        $pannes = $repo->getRepository(Panne::class)
+                 ->findBy(array('cars' => $car_info));
+
+
         return $this->render('front/car.html.twig',
-            array('car' => $car_info)
+            array(
+                'car'       => $car_info,
+                'pannes'    => $pannes
+                )
         );
 
+    }
+
+
+    public function panne(Request $req, $id)
+    {
+        //enntity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //repository
+        $repo = $this->getDoctrine()->getManager();
+
+        $panne = new Panne;
+
+
+
+        $form = $this->createForm(PanneType::class, $panne);
+        $car = $repo->getRepository(Cars::class)->find($id);
+
+
+        if($req->isMethod('POST'))
+        {
+            $form->handleRequest($req);
+
+            if($form->isValid()){
+
+               // $this->addFlash('info', 'Oui oui, il est bien enregistré !');
+                $panne->setCars($car);
+                $em -> persist($car);
+                $em -> persist($panne);
+                $em -> flush();
+
+                return $this->redirectToRoute('consultation');
+            }
+
+        }
+        return $this->render('front/edit.html.twig',
+            array('car' => $car,
+                  'form' => $form->createView(),
+                )
+            );
+
+    }
+
+
+
+    public function recherche(Request $req)
+    {
+        //get entity manager
+        $em = $this->getDoctrine()->getManager();
+        $car_trouver = false;
+        $form = $this->createFormBuilder()
+                ->add('recherche', TextType::class)
+                ->add('Rechercher', SubmitType::class)
+                ->getForm()
+        ;
+        //ajax 
+        if ($req->isXmlHttpRequest()) { 
+        }
+
+         if( $req->isMethod('POST') )
+        {
+            $form->handleRequest($req);
+            $immat_car = $form->getData();
+            $imm = implode($immat_car);
+
+            //print_r($imm);
+
+            $car_trouver= $em->getRepository(Cars::class)->findOneByImmat(
+            $imm
+            );
+           if($car_trouver === NULL)
+           {
+                $imm = strtolower($imm);
+                $qb = $em->createQueryBuilder();
+                $car_trouver = $qb->select('c')->from('App\Entity\Cars', 'c')
+                  ->where( $qb->expr()->like('c.immat', $qb->expr()->literal('%' . $imm . '%')) )
+                  ->setMaxResults(5)
+                  ->getQuery()
+                  ->getResult();
+                  
+
+
+                $form = $this->createFormBuilder()
+                        ->add('recherche', TextType::class)
+                        ->add('Rechercher', SubmitType::class)
+                        ->getForm();
+
+                return $this->render('front/recherche.html.twig', array(
+                    'form' => $form->createView(),
+                    'car'  => $car_trouver,
+                    'plusieurs' => 'OK', 
+                ));
+                
+                //$c_immat = strlen(trim($imm));
+
+            }
+
+            $form = $this->createFormBuilder()
+                    ->add('recherche', TextType::class)
+                    ->add('Rechercher', SubmitType::class)
+                    ->getForm()
+            ;
+            return $this->render('front/recherche.html.twig', array(
+                'form' => $form->createView(),
+                'car'  => $car_trouver,  
+            )); 
+        }
+        //$repo = $em->getRepository(Cars::class)->find($id);
+        
+        return $this->render('front/recherche.html.twig', array(
+            'form' => $form->createView(),
+            'car'  => $car_trouver
+        ));
     }
 }

@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<section class="jumbotron text-center">
+	    <div class="container">
+	        <h1 class="jumbotron-heading"> Recherche de car </h1>
+	        <div class="form-row">
+	            {# Génération du label. #}
+	            {{ form_start(form, {'attr': {'class': 'form-horizontal col-md-12'}}) }}
+
+                {{ form_errors(form) }}
+	            <div class=" form-group  col-md-12">
+	                {{ form_label(form.recherche, "Rechercher un autocar: ", {'label_attr': {'class': ' control-label'}}) }}
+	                {# Génération de l'input.#}
+	                {{ form_widget(form.recherche, {'attr': {'class': ' col-md-12 form-control', 'placeholder' : 'Immatriculation du véhicule... ', 'autocomplete': 'off'}}) }}
+
+	                {{ form_errors(form.recherche, { 'attr': {'class': 'red' }}) }}
+	            </div>
+	             {# Génération de l'input.#}
+	             {{ form_widget(form.Rechercher , {'attr': {'class': ' col-md-12 btn btn-primary'}})}}
+	        </div>
+	    </div>
+	</section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="text-center"></h3>	
+			</div>
+
+		</div>
+		
+			{% if car is defined and car is not empty and plusieurs != 'OK' %}
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="text-center">
+							Information sur l'Autocar :
+							 {{ car.immat| upper }}
+						</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="listing_car">
+					        <table class="table table-striped">
+					            <thead>
+					            <tr>
+					                <th scope="col-md-2">Immatriculation</th>
+					                <th scope="col-md-3">Date</th>
+					                <th scope="col-md-2">N° de série</th>
+					                <th scope="col-md-2">Etat du Car</th>
+					                <th scope="col-md-3">Dernière panne</th>
+					            </tr>
+					            </thead>
+					            <tbody>
+					            <tr>
+					                <th scope="row"><a href="{{ path('car', { 'id': car.id }) }}">{{ car.immat|upper }}</a></th>
+					                <td>{{ car.date|date("d/m/Y") }}</td>
+					                <td>{{ car.numSerie }}</td>
+					                <td>{{ car.EtatCar }}</td>
+					                <td>{{ car.typePanne }}</td>
+					            </tr>
+					            </tbody>
+					        </table>
+						</div>
+					</div>
+				</div>
+			{% elseif car != NULL and plusieurs == 'OK' %}
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="text-center">Résultats possibles</h3>
+					</div>
+				</div>
+				{% for car in car %}
+					<div class="list-group">
+						<a class="list-group-item" href="{{ path('car',{'id': car.id }) }}">{{ car.immat |upper }}</a>
+					</div>
+				{% endfor %}
+			{% else %}
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="text-center">Recherche d'un autocar</h3>
+					</div>
+				</div>
+			{% endif %}
+			<div class="row">
+				<div class="col-md-12">
+					<div id="resultat">
+					</div>
+				</div>
+			</div>
+	</div>
+{% endblock %}

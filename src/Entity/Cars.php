@@ -17,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @package App\Entity
  * @ORM\Entity
  * @ORM\Table(name="cars")
+ * @ORM\Entity(repositoryClass="App\Repository\CarsRepository")
  * @UniqueEntity(fields="immat",
  *     message="Ce véhicule existe déjà dans la bdd."
  * )
@@ -67,9 +68,9 @@ class Cars
     protected $num_serie;
 
     /**
-     * @ORM\Column(name="typecar", type="string", length=100, nullable=true)
+     * @ORM\Column(name="auteur", type="string", length=100, nullable=true)
      */
-    protected $typecar;
+    protected $auteur;
 
     /**
      * @ORM\Column(name="marque", type="string", length=100, nullable=true)
@@ -276,17 +277,17 @@ class Cars
     /**
      * @return mixed
      */
-    public function getTypecar()
+    public function getAuteur()
     {
-        return $this->typecar;
+        return $this->auteur;
     }
 
     /**
      * @param mixed $type
      */
-    public function setTypecar($typecar): void
+    public function setAuteur($auteur): void
     {
-        $this->typecar = $typecar;
+        $this->auteur = $auteur;
     }
 
     public function getTypePanne()

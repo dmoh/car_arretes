@@ -10,3 +10,13 @@ car:
     requirements:
         id: '\d+'
 
+ajout_panne:
+    path: /panne/{id}
+    controller: App\Controller\MainController::panne
+    requirements:
+        id: '\d+'
+
+recherche:
+    path: /recherche
+    controller: App\Controller\MainController::recherche
+

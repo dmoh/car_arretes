@@ -35,7 +35,7 @@ class CarType extends AbstractType
                 ),
             ))
             ->add('num_serie', TextType::class)
-            ->add('typecar', TextType::class)
+            ->add('auteur', TextType::class)
             ->add('marque', ChoiceType::class, array(
                 'choices' => array(
                     'IVECO CROSSWAY' => "iveco crossway",

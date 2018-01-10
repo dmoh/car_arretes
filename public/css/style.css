@@ -7,6 +7,7 @@
 .jumbotron > .container {
     background: rgba(0, 0, 0, 0.7);
     color: #fff;
+    border-radius: 6px;
 }
 
 .mt-50{
@@ -57,3 +58,22 @@ li{
 }
 /* Separators
 ---------------------------------- */
+.fa{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    z-index: 10000;
+
+}
+
+button#form_Rechercher{
+    margin: 0 ;
+    margin-bottom: 30px;
+}
+
+.trac .btn{
+
+    margin-top: 31px;
+    cursor: pointer;
+    margin-bottom: 30px;
+}

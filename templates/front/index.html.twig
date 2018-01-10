@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.standalone.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
 {% endblock %}
 {% block body %}
     <section class="jumbotron text-center">
@@ -57,10 +55,10 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
-                            {{ form_label(form.typecar, "Modèle du Car : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {{ form_label(form.auteur, "Auteur : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
-                            {{ form_widget(form.typecar, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.typecar, { 'attr': {'class': 'red' }}) }}
+                            {{ form_widget(form.auteur, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.auteur, { 'attr': {'class': 'red' }}) }}
                         </div>
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
@@ -156,7 +154,5 @@
     </footer>
 {%  endblock %}
 {% block javascripts %}
-    {#<srcipt src="{{ asset('locales/bootstrap-datepicker.fr.min.js') }}"></srcipt>#}
-    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
+
 {% endblock %}
