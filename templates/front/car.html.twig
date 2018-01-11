@@ -22,11 +22,11 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row">{{ car.numParc }}</th>
+                        <th scope="row">{{ car.immat }}</th>
                         <td>{{ car.date|date("d/m/Y") }}</td>
                         <td>{{ car.auteur }}</td>
                         <td>{{ car.EtatCar }}</td>
-                        <td>{{ car.typePanne }}</td>
+                        <td>{{ car.numSerie | upper }}</td>
                     </tr>
                     {% if pannes is defined %}
                         {% for panne in pannes %}

@@ -20,3 +20,7 @@ recherche:
     path: /recherche
     controller: App\Controller\MainController::recherche
 
+liste_panne:
+    path: /liste-panne
+    controller: App\Controller\MainController::listePanne
+

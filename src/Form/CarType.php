@@ -25,7 +25,6 @@ class CarType extends AbstractType
     {
         $builder
             ->add('immat', TextType::class)
-            ->add('num_parc', NumberType::class)
             ->add('site', ChoiceType::class, array(
                 'choices' => array(
                     'La Roche sur Foron' => "la Roche sur Foron",
@@ -40,13 +39,14 @@ class CarType extends AbstractType
                 'choices' => array(
                     'IVECO CROSSWAY' => "iveco crossway",
                     'IVECO MAGELYS' => "iveco magelys",
-                    'MERCEDES' => 'mercedes',
+                    'MERCEDES TOURISMO' => 'mercedes tourismo',
                     'IVECO DAILY' => "iveco daily",
                     'VOLVO 9700HD' => "volvo 9700 hd",
                     'SCANIA TOURING' => "scania touring",
                     'IVECO RECREO' => "iveco recreo",
                     'SOLARIS' => "solaris",
                     'BOVA' => "bova",
+                    'IRIZAR I4' => "irizar i4",
                 ),))
             ->add('locataire',  ChoiceType::class, array(
                 'choices' => array(
@@ -57,16 +57,15 @@ class CarType extends AbstractType
                     // adds a class like attending_yes, attending_no, etc
                     return ['class' => 'attending_'.strtolower($key)];
                 },))
-            ->add('type_panne', TextareaType::class)
             ->add('date_prev', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
                 ))
+            ->add('condition_garantie', TextType::class)
             ->add('date_mar', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
                 ))
-            ->add('deb_garantie', TextType::class)
             ->add('etat_car', ChoiceType::class, array(
                 'choices' => array(
                     'ROULANT' => "roulant",

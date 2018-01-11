@@ -43,18 +43,6 @@ class Cars
      */
     protected $date;
 
-
-    /**
-     * @ORM\Column(name="num_parc", type="integer")
-     * @Assert\Range(
-     *     min = 062,
-     *     max = 999999,
-     *     minMessage = "Le numéro de parc est incorrect (trop petit)",
-     *     maxMessage = "Le numéro de parc est incorrect (trop élevé)"
-     * )
-     */
-    protected $num_parc;
-
     /**
      * @ORM\Column(name="site", type="string", length=100)
      * @Assert\NotBlank
@@ -85,12 +73,7 @@ class Cars
     protected $locataire;
 
     /**
-     * @ORM\Column(name="type_panne", type="text")
-     */
-    protected $type_panne;
-
-    /**
-     * @ORM\Column(name="date_prev", type="date", nullable=true)
+     * @ORM\Column(name="date_debut_garantie", type="date", nullable=true)
      */
     protected $date_prev;
 
@@ -99,10 +82,6 @@ class Cars
      */
     protected $date_mar;
 
-    /**
-     * @ORM\Column(name="deb_garantie", type="string", length=100, nullable=true)
-     */
-    protected $deb_garantie;
 
     /**
      * @ORM\Column(name="fin_garantie", type="date", nullable=true)
@@ -131,10 +110,10 @@ class Cars
 
 
     /**
-     * @ORM\Column(name="duree_garantie", type="string", nullable=true)
+     * @ORM\Column(name="condition_garantie", type="string", nullable=true)
      *
      */
-    protected $duree_garantie;
+    protected $condition_garantie;
 
 
     /**
@@ -142,12 +121,15 @@ class Cars
      */
     protected $proprio_pneus;
 
-
-
+    /**
+     * @ORM\Column(name="p_encours", type="boolean", nullable=true)
+     */
+    protected $p_encours = false;
 
     public function __construct()
     {
         $this->date = new \Datetime();
+        $this->p_encours = false;
     }
 
 
@@ -229,22 +211,6 @@ class Cars
     /**
      * @return mixed
      */
-    public function getNumParc()
-    {
-        return $this->num_parc;
-    }
-
-    /**
-     * @param mixed $num_parc
-     */
-    public function setNumParc($num_parc): void
-    {
-        $this->num_parc = $num_parc;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getNumSerie()
     {
         return $this->num_serie;
@@ -290,18 +256,6 @@ class Cars
         $this->auteur = $auteur;
     }
 
-    public function getTypePanne()
-    {
-        return $this->type_panne;
-    }
-
-    /**
-     * @param mixed $type_panne
-     */
-    public function setTypePanne($type_panne): void
-    {
-        $this->type_panne = $type_panne;
-    }
 
     /**
      * @return mixed
@@ -335,22 +289,6 @@ class Cars
         $this->date_mar = $date_mar;
     }
 
-
-    /**
-     * @param mixed $deb_garantie
-     */
-    public function setDebGarantie($deb_garantie): void
-    {
-        $this->deb_garantie = $deb_garantie;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDebGarantie()
-    {
-        return $this->deb_garantie;
-    }
 
     /**
      * @return mixed
@@ -436,17 +374,17 @@ class Cars
     /**
      * @param mixed $duree_garantie
      */
-    public function setDureeGarantie($duree_garantie): void
+    public function setConditionGarantie($duree_garantie): void
     {
-        $this->duree_garantie = $duree_garantie;
+        $this->condition_garantie = $duree_garantie;
     }
 
     /**
      * @return mixed
      */
-    public function getDureeGarantie()
+    public function getConditionGarantie()
     {
-        return $this->duree_garantie;
+        return $this->condition_garantie;
     }
 
     /**
@@ -464,6 +402,23 @@ class Cars
     {
         return $this->proprio_pneus;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPEncours()
+    {
+        return $this->p_encours;
+    }
+
+    /**
+     * @param mixed $p_encours
+     */
+    public function setPEncours($p_encours): void
+    {
+        $this->p_encours = $p_encours;
+    }
+
 
     public function __toString()
     {

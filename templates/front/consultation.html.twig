@@ -22,9 +22,9 @@
                                 <tr>
                                     <th scope="col-md-2">Immatriculation</th>
                                     <th scope="col-md-2">Date d'enregistrement</th>
-                                    <th scope="col-md-2">N° de parc</th>
-                                    <th scope="col-md-2">Etat du Car</th>
-                                    <th scope="col-md-4">Type de panne</th>
+                                    <th scope="col-md-2">N° de série</th>
+                                    <th scope="col-md-2">Marque</th>
+                                    <th scope="col-md-4">Site</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -32,9 +32,9 @@
                                 <tr>
                                     <th scope="row"><a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a></th>
                                     <td>{{ Car.date|date("d/m/Y") }}</td>
-                                    <td>{{ Car.numParc }}</td>
-                                    <td>{{ Car.EtatCar }}</td>
-                                    <td>{{ Car.typePanne }}</td>
+                                    <td>{{ Car.numSerie }}</td>
+                                    <td>{{ Car.marque }}</td>
+                                    <td>{{ Car.site }}</td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>

@@ -43,7 +43,7 @@ Class MainController extends Controller
                  if($form->isValid()){
                      $em -> persist($car);
                      $em -> flush();
-                     $this->addFlash('info', 'Oui oui, il est bien enregistré !');
+                     //$this->addFlash('info', 'Oui oui, il est bien enregistré !');
                     return $this->redirectToRoute('consultation');
                  }
 
@@ -120,9 +120,6 @@ Class MainController extends Controller
         $repo = $this->getDoctrine()->getManager();
 
         $panne = new Panne;
-
-
-
         $form = $this->createForm(PanneType::class, $panne);
         $car = $repo->getRepository(Cars::class)->find($id);
 
@@ -214,5 +211,10 @@ Class MainController extends Controller
         'form' => $form->createView(),
         'car'  => $car_trouver
     ));
+    }
+
+    public function listePanne(Request $request)
+    {
+        return $this->render('front/listep.html.twig');
     }
 }
