@@ -13,6 +13,14 @@
         {% endblock %}
     </head>
     <body>
+        <nav class="navbar sticky-top navbar-dark bg-dark justify-content-between">
+            <a class="navbar-brand" href="{{ path('consultation') }}">Autocars APS | FLE</a>
+            <ul class="nav">
+              <a class="nav-link active" href="{{ path('consultation') }}">Consultation</a>
+              <a class="nav-link" href="{{ path('recherche') }}">Recherche</a>
+              <a class="nav-link" href="#">Se connecter</a>
+            </ul>
+        </nav>
         {% block body %}{% endblock %}
         {% block footer %}{% endblock %}
             <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

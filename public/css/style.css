@@ -77,3 +77,8 @@ button#form_Rechercher{
     cursor: pointer;
     margin-bottom: 30px;
 }
+
+ul.nav a
+{
+    color: #fff;
+}

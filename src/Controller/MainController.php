@@ -35,22 +35,15 @@ Class MainController extends Controller
 
             $form->handleRequest($req);
             $data = $form->getData();
-
-
-
             $repository = $this->getDoctrine()->getRepository(Cars::class);
             $car_R = $repository->findOneBy(['immat' => $data->getImmat()]);
             //$test = $data->getImmat();
              if($car_R == NULL)
              {
                  if($form->isValid()){
-
-
                      $em -> persist($car);
                      $em -> flush();
                      $this->addFlash('info', 'Oui oui, il est bien enregistré !');
-
-
                     return $this->redirectToRoute('consultation');
                  }
 
@@ -179,13 +172,10 @@ Class MainController extends Controller
             $form->handleRequest($req);
             $immat_car = $form->getData();
             $imm = implode($immat_car);
-
-            //print_r($imm);
-
             $car_trouver= $em->getRepository(Cars::class)->findOneByImmat(
             $imm
             );
-           if($car_trouver === NULL)
+           if(!$car_trouver)
            {
                 $imm = strtolower($imm);
                 $qb = $em->createQueryBuilder();
@@ -207,11 +197,7 @@ Class MainController extends Controller
                     'car'  => $car_trouver,
                     'plusieurs' => 'OK', 
                 ));
-                
-                //$c_immat = strlen(trim($imm));
-
             }
-
             $form = $this->createFormBuilder()
                     ->add('recherche', TextType::class)
                     ->add('Rechercher', SubmitType::class)
@@ -221,12 +207,12 @@ Class MainController extends Controller
                 'form' => $form->createView(),
                 'car'  => $car_trouver,  
             )); 
-        }
+        }//end if post
+
         //$repo = $em->getRepository(Cars::class)->find($id);
-        
-        return $this->render('front/recherche.html.twig', array(
-            'form' => $form->createView(),
-            'car'  => $car_trouver
-        ));
+    return $this->render('front/recherche.html.twig', array(
+        'form' => $form->createView(),
+        'car'  => $car_trouver
+    ));
     }
 }
