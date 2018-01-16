@@ -86,10 +86,10 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
-                            {{ form_label(form.condition_garantie, "Condition de garantie : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {{ form_label(form.fin_garantie, "Date de fin de garantie  : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
-                            {{ form_widget(form.condition_garantie , {'attr': {'class': 'form-control'}})}}
-                            {{ form_errors(form.condition_garantie, { 'attr': {'class': 'red' }}) }}
+                            {{ form_widget(form.fin_garantie , {'attr': {'class': 'js-datepicker form-control'}})}}
+                            {{ form_errors(form.fin_garantie, { 'attr': {'class': 'red' }}) }}
                         </div>
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
@@ -102,12 +102,28 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
+                            {{ form_label(form.condition_garantie, "Condition de garantie : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.condition_garantie , {'attr': {'class': ' form-control'}})}}
+                            {{ form_errors(form.condition_garantie, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {# Génération du label. #}
                             {{ form_label(form.etat_car, "Précisez l'état du car : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.etat_car , {'attr': {'class': 'form-control'}})}}
                             {{ form_errors(form.etat_car, { 'attr': {'class': 'red' }}) }}
                         </div>
-                        <div class="col-md-6">
+                        <div class="form-group col-md-2">
+                            {# Génération du label. #}
+                            {{ form_label(form.garantie, "Sous Garantie: ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.garantie , {'attr': {'class': 'form-control'}})}}
+                            {{ form_errors(form.garantie, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
                             {# Génération de l'input.#}
                             {{ form_widget(form.enregistrer , {'attr': {'class': 'col-md-6 btn btn-primary'}})}}
                         </div>

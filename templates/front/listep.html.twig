@@ -8,4 +8,69 @@
             </div>
         </div>
     </div>
+    {% if liste_panne is defined %}
+        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+        {{ form_errors(form) }}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table pt-30 table-responsive table-bordered">
+                        <thead class="text-uppercase">
+                            <tr>
+                                <th colspan="2">
+                                    Immatriculation
+                                </th>
+                                <th>
+                                    Num Série
+                                </th>
+                                <th>Marque</th>
+                                <th>
+                                    Date derniére panne
+                                </th>
+                                <th>En panne depuis le</th>
+                                <th>
+                                    Garantie
+                                </th>
+                                <th>Modifier état du car</th>
+                            </tr>
+                        </thead>
+                    {% for panne in liste_panne  %}
+                        <tr>
+                            <td><i class="fa fa-ambulance"></i></td>
+                            <td ><a href="{{ path('car', {'id': panne.id}) }}">{{ panne.immat|upper }}</a></td>
+                            <td>{{ panne.numSerie | upper }}</td>
+                            <td>{{ panne.marque | upper }}</td>
+                            {# variable date de garantie #}
+                            <td>{{ panne.datePrev | date("d/m/Y") }}</td>
+                            <td>{{ panne.datePanneDeb | date("d/m/y") }}</td>
+                            <td>{{ panne.conditionGarantie }}</td>
+                            <td>
+                                <a href="{{ path('edit_car', {'id':  panne.id }) }}"> Modifier </a>
+                                {#<div class="slideThree">
+                                    <input type="checkbox" value="" id="slideThree{{ panne.id }}"  name="check" />
+                                    <label for="slideThree{{ panne.id }}"></label>
+                                </div>
+                                {{ form_widget(form.etat_car , {'attr': {'class': 'form-control ger"{{ panne.id }}"'}})}}
+                                {{ form_errors(form.etat_car, { 'attr': {'class': 'red' }}) }}#}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>
+              <div class="form-row">
+                        <div class="col-md-12">
+                           {# {{ form_widget(form.enregistrer , {'attr': {'class': 'col-md-12 btn btn-primary'}})}}#}
+                        </div>
+                    </div>
+        </div>
+    {% else %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Il n'y a actuellement pas d'autocars en panne.</h2>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

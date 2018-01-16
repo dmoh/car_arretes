@@ -1,5 +1,5 @@
 index:
-    path: /
+    path: /ajouter-car
     controller: App\Controller\MainController::index
 consultation:
     path: /consultation
@@ -12,7 +12,7 @@ car:
 
 ajout_panne:
     path: /panne/{id}
-    controller: App\Controller\MainController::panne
+    controller: App\Controller\MainController::addPanne
     requirements:
         id: '\d+'
 
@@ -23,4 +23,15 @@ recherche:
 liste_panne:
     path: /liste-panne
     controller: App\Controller\MainController::listePanne
+
+edit_car:
+    path: /editcar/{id}
+    controller: App\Controller\MainController::editCar
+    requirements:
+        id: '\d+'
+effacer_car:
+    path: /effacer-car/{id}
+    controller: App\Controller\MainController::deleteCar
+    requirements:
+        id: '\d+'
 

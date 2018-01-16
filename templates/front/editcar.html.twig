@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+            {% if car is defined and car is not null and form is defined %}
+                <h2 class="text-center">Edition d'une fiche de l'autocar : {{ car.immat|upper }}</h2>
+                <section>
+                    <div class="container">
+                        <h3 class="text-center">Edition un Autocar </h3>
+                        <div class="well">
+                            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+                            {{ form_errors(form) }}
+
+                            <div class="col-md-12 col-sm-10">
+
+                                <div class="form-row">
+                                    {# Génération du label. #}
+                                    <div class="form-group col-md-6">
+                                        {{ form_label(form.immat, "Immatriculation du Car : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+
+                                        {{ form_widget(form.immat, {'attr': {'class': ' form-control'}}) }}
+                                        {{ form_errors(form.immat, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.site, "Centre de rattachement du Car : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.site, {'attr': {'class': ' form-control'}}) }}
+                                        {{ form_errors(form.site, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.num_serie, "Numéro de Série : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.num_serie, {'attr': {'class': 'form-control'}}) }}
+                                        {{ form_errors(form.num_serie, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.auteur, "Auteur de l'enregistrement : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.auteur, {'attr': {'class': 'form-control'}}) }}
+                                        {{ form_errors(form.auteur, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.locataire, "Locataire du Car : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.locataire, {'attr': {'class': 'form-control'}}) }}
+                                        {{ form_errors(form.locataire, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.marque, "Marque : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.marque , {'attr': {'class': 'form-control'}})}}
+                                        {{ form_errors(form.marque, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.date_prev, "Date de début de garantie: ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.date_prev, {'attr': {'class': ' js-datepicker form-control'}}) }}
+                                        {{ form_errors(form.date_prev, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.date_mar, "Date 1èr mise en circulation : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.date_mar , {'attr': {'class': ' js-datepicker form-control'}})}}
+                                        {{ form_errors(form.date_mar, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.condition_garantie, "Condition de garantie : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.condition_garantie , {'attr': {'class': 'form-control'}})}}
+                                        {{ form_errors(form.condition_garantie, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.proprio_pneus, "Propriètaire de pneus : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.proprio_pneus, {'attr': {'class': 'form-control'}}) }}
+                                        {{ form_errors(form.proprio_pneus, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.etat_car, "Précisez l'état du car : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.etat_car , {'attr': {'class': 'form-control'}})}}
+                                        {{ form_errors(form.etat_car, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.enregistrer , {'attr': {'class': 'col-md-6 btn btn-primary'}})}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {% else %}
+                <h2 class="text-center">
+                    Par de Car à éditer!
+                </h2>
+            {% endif %}
+{% endblock %}

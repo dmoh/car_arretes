@@ -22,7 +22,44 @@
 	    </div>
 	</section>
 	<div class="container">
-		{% if car is defined and car is not empty and plusieurs is not defined or plusieurs != 'OK'  %}
+        {% if car is not empty %}
+					<div class="row">
+						<div class="col-md-12">
+							<div class="listing_car">
+								<table class="table table-striped">
+									<thead>
+									<tr class="text-uppercase">
+										<th scope="col-md-2">Immatriculation</th>
+										<th scope="col-md-2">Date d'enregistrement</th>
+										<th scope="col-md-2">N° de série</th>
+										<th scope="col-md-2">Marque</th>
+										<th scope="col-md-2">Site</th>
+										<th scope="col-md-2">Etat Autocar</th>
+									</tr>
+									</thead>
+									<tbody>
+                                    {% for Car in car_listing %}
+										<tr>
+											<th scope="row"><a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a></th>
+											<td>{{ Car.date|date("d/m/Y") }}</td>
+											<td>{{ Car.numSerie }}</td>
+											<td>{{ Car.marque| upper }}</td>
+											<td>{{ Car.site }}</td>
+											<td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>
+                                                {% elseif Car.etatCar == "roulant ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
+                                                {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
+                                                {% else %}
+                                                    {{ Car.etatCar }}
+                                                {% endif %}
+											</td>
+										</tr>
+                                    {% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+		{% elseif car is defined and car != 'rien' and plusieurs is not defined or plusieurs != 'OK'  %}
 			<div class="row">
 				<div class="col-md-12">
 					<h3 class="text-center">
@@ -57,7 +94,7 @@
 					</div>
 				</div>
 			</div>
-		{% elseif car != NULL and plusieurs is defined and plusieurs == 'OK' %}
+		{% elseif car is defined and car != null and plusieurs is defined and plusieurs == 'OK' %}
 			<div class="row">
 				<div class="col-md-12">
 					<h3 class="text-center">Résultats possibles</h3>

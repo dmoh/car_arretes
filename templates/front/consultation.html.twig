@@ -19,22 +19,34 @@
                     <div class="listing_car">
                             <table class="table table-striped">
                                 <thead>
-                                <tr>
+                                <tr class="text-uppercase">
                                     <th scope="col-md-2">Immatriculation</th>
-                                    <th scope="col-md-2">Date d'enregistrement</th>
+                                    <th scope="col-md-1">Date mise à jour</th>
+                                    <th scope="col-md-1">Date d'enregistrement</th>
                                     <th scope="col-md-2">N° de série</th>
                                     <th scope="col-md-2">Marque</th>
-                                    <th scope="col-md-4">Site</th>
+                                    <th scope="col-md-2">Site</th>
+                                    <th scope="col-md-2">Etat Autocar</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for Car in Cars %}
                                 <tr>
                                     <th scope="row"><a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a></th>
+                                    <td>{{ Car.dateMaj |date("d/m/Y") }}</td>
                                     <td>{{ Car.date|date("d/m/Y") }}</td>
                                     <td>{{ Car.numSerie }}</td>
-                                    <td>{{ Car.marque }}</td>
+                                    <td>{{ Car.marque| upper }}</td>
                                     <td>{{ Car.site }}</td>
+                                    <td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>
+                                        {% elseif Car.etatCar == "roulant ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
+                                        {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
+                                            depuis le
+                                            {{ Car.datePanneDeb| date("d/m/Y")  }}
+                                        {% else %}
+                                            {{ Car.etatCar }}
+                                        {% endif %}
+                                    </td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>

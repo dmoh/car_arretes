@@ -66,6 +66,10 @@ class CarType extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 ))
+            ->add('fin_garantie', DateType::class, array(
+                'widget' => 'single_text',
+                'html5' => false,
+            ))
             ->add('etat_car', ChoiceType::class, array(
                 'choices' => array(
                     'ROULANT' => "roulant",
@@ -75,6 +79,12 @@ class CarType extends AbstractType
                     // adds a class like attending_yes, attending_no, etc
                     return ['class' => 'etat_'.strtolower($key)];
                 },))
+            ->add('garantie', ChoiceType::class,array(
+                'choices' =>array(
+                    'OUI'   => 'oui',
+                    'NON'   => 'non'
+                )
+            ))
             ->add('proprio_pneus', ChoiceType::class, array(
                 'choices' => array(
                     'Aps' => "APS",

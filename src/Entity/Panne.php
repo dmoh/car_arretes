@@ -39,9 +39,29 @@ class Panne
      */
     protected $desc_panne;
 
+
+    /**
+     * @ORM\Column(name="suites_donnes", type="text", length=100)
+     */
+    protected $suites_donnes;
+
+    /**
+     * @ORM\Column(name="date_deb_panne", type="datetime", nullable=true)
+     */
+    protected $date_deb_panne;
+
+    /**
+     * @ORM\Column(name="date_fin_panne", type="datetime", nullable=true)
+     */
+    protected $date_fin_panne;
+
+    /**
+     * @ORM\Column(name="duree_panne", type="string", nullable=true)
+     */
+    protected $duree_panne;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cars")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $cars;
 
@@ -148,7 +168,69 @@ class Panne
         $this->desc_panne = $desc_panne;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getSuitesDonnes()
+    {
+        return $this->suites_donnes;
+    }
 
+    /**
+     * @param mixed $suites_donnes
+     */
+    public function setSuitesDonnes($suites_donnes): void
+    {
+        $this->suites_donnes = $suites_donnes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateDebPanne()
+    {
+        return $this->date_deb_panne;
+    }
+
+    /**
+     * @param mixed $date_deb_panne
+     */
+    public function setDateDebPanne($date_deb_panne): void
+    {
+        $this->date_deb_panne = $date_deb_panne;
+    }
+
+    /**
+     * @param mixed $duree_panne
+     */
+    public function setDureePanne($duree_panne): void
+    {
+        $this->duree_panne = $duree_panne;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDureePanne()
+    {
+        return $this->duree_panne;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateFinPanne()
+    {
+        return $this->date_fin_panne;
+    }
+
+    /**
+     * @param mixed $date_fin_panne
+     */
+    public function setDateFinPanne($date_fin_panne): void
+    {
+        $this->date_fin_panne = $date_fin_panne;
+    }
 
 
 }

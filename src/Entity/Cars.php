@@ -8,6 +8,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -39,7 +41,7 @@ class Cars
     protected $immat;
 
     /**
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="date", type="datetime")
      */
     protected $date;
 
@@ -104,10 +106,15 @@ class Cars
     protected $date_ev;
 
     /**
-     * @ORM\Column(name="date_mec", type="date", nullable=true)
+     * @ORM\Column(name="date_panne_deb", type="datetime", nullable=true)
      */
-    protected $date_mec;
+    protected $date_panne_deb;
 
+
+    /**
+     * @ORM\Column(name="date_panne_fin", type="datetime", nullable=true)
+     */
+    protected $date_panne_fin;
 
     /**
      * @ORM\Column(name="condition_garantie", type="string", nullable=true)
@@ -126,11 +133,30 @@ class Cars
      */
     protected $p_encours = false;
 
+    /**
+     * @ORM\Column(name="date_maj", type="datetime", nullable=true)
+     */
+    protected $date_maj;
+
+    /**
+     * @ORM\Column(name="duree_panne", type="string", nullable=true)
+     */
+    protected $duree_panne;
+
+
+    /**
+     * @ORM\Column(name="garantie", type="text", nullable=true)
+     */
+    protected $garantie;
+
+
     public function __construct()
     {
         $this->date = new \Datetime();
         $this->p_encours = false;
     }
+
+
 
 
     public function setId($id)
@@ -356,27 +382,28 @@ class Cars
     }
 
     /**
-     * @param mixed $date_mec
-     */
-    public function setDateMec($date_mec): void
-    {
-        $this->date_mec = $date_mec;
-    }
-
-    /**
      * @return mixed
      */
-    public function getDateMec()
+    public function getDatePanneDeb()
     {
-        return $this->date_mec;
+        return $this->date_panne_deb;
     }
 
     /**
-     * @param mixed $duree_garantie
+     * @param mixed $date_panne_deb
      */
-    public function setConditionGarantie($duree_garantie): void
+    public function setDatePanneDeb($date_panne_deb): void
     {
-        $this->condition_garantie = $duree_garantie;
+        $this->date_panne_deb = $date_panne_deb;
+    }
+
+
+    /**
+     * @param mixed $condition_garantie
+     */
+    public function setConditionGarantie($condition_garantie): void
+    {
+        $this->condition_garantie = $condition_garantie;
     }
 
     /**
@@ -425,5 +452,94 @@ class Cars
        return  $this->immat;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDateMaj()
+    {
+        return $this->date_maj;
+    }
+
+    /**
+     * @param mixed $date_maj
+     */
+    public function setDateMaj($date_maj): void
+    {
+        $this->date_maj = $date_maj;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getGarantie()
+    {
+        return $this->garantie;
+    }
+
+    /**
+     * @param mixed $garantie
+     */
+    public function setGarantie($garantie): void
+    {
+        $this->garantie = $garantie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDatePanneFin()
+    {
+        return $this->date_panne_fin;
+    }
+
+    /**
+     * @param mixed $date_panne_fin
+     */
+    public function setDatePanneFin($date_panne_fin): void
+    {
+        $this->date_panne_fin = $date_panne_fin;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getDureePanne()
+    {
+        return $this->duree_panne;
+    }
+
+    /**
+     * @param mixed $duree_panne
+     */
+    public function setDureePanne($duree_panne): void
+    {
+        $this->duree_panne = $duree_panne;
+    }
+
+    /*
+     *@return Collection|Panne[]
+
+    public function getPannes()
+    {
+        return $this->pannes;
+    }
+
+
+    public function removePanne(Panne $panne)
+    {
+        $this->pannes->removeElement($panne);
+        $panne->setCars(null);
+    }
+
+    public function addPanne(Panne $panne)
+    {
+       $this->pannes[] = $panne;
+
+       $panne->setCars($this);
+
+       return $this;
+    }*/
 
 }

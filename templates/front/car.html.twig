@@ -9,43 +9,62 @@
         </div>
     </section>
     <section class="container">
+        <div class="row pb-40">
+            <div class="col-md-12">
+                <a class="btn btn-primary ml-40" href="{{ path('ajout_panne', { 'id': car.id }) }}">Ajouter une panne</a>
+                <a class="btn btn-primary " href="{{ path('edit_car', { 'id': car.id }) }}">Editer fiche du car</a>
+                <a class="btn btn-danger " href="{{ path('effacer_car', { 'id': car.id }) }}">Supprimer fiche du car</a>
+            </div>
+        </div>
         <div class="row">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col-md-2">N° de parc</th>
-                    <th scope="col-md-2">Date d'enregistrement</th>
+                    <th scope="col-md-2">Immatriculation</th>
+                    <th scope="col-md-1">Date de la dernière Mise à jour</th>
+                    <th scope="col-md-1">Date d'enregistrement</th>
                     <th scope="col-md-2">Auteur </th>
                     <th scope="col-md-2">Etat du Car</th>
-                    <th scope="col-md-4">Type de panne</th>
+                    <th scope="col-md-2">Num Série</th>
                 </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row">{{ car.immat }}</th>
+                        <th scope="row">{{ car.immat| upper }}</th>
+                        <td>{{ car.dateMaj| date("d/m/Y") }}</td>
                         <td>{{ car.date|date("d/m/Y") }}</td>
                         <td>{{ car.auteur }}</td>
                         <td>{{ car.EtatCar }}</td>
                         <td>{{ car.numSerie | upper }}</td>
                     </tr>
-                    {% if pannes is defined %}
-                        {% for panne in pannes %}
-                            <tr>
-                                <th scope="row">{{ car.numParc }}</th>
-                                <td>{{ panne.date|date("d/m/Y") }}</td>
-                                <td>{{ panne.auteur }}</td>
-                                <td>{{ panne.EtatCar }}</td>
-                                <td>{{ panne.DescPanne }}</td>
-                            </tr>
-                        {% endfor %}
-                    {% endif %}
                 </tbody>
             </table>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <a class="btn btn-primary" href="{{ path('ajout_panne', { 'id': car.id }) }}">Ajouter une panne</a>
-            </div>
+            {% if pannes is defined %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col-md-2">Immatriculation</th>
+                        <th scope="col-md-1">Date de la dernière Mise à jour</th>
+                        <th scope="col-md-1">Auteur</th>
+                        <th scope="col-md-2">état du Car </th>
+                        <th scope="col-md-2">Desc. Panne</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for panne in pannes %}
+                        <tr>
+                            <td scope="row">{{ car.immat| upper }}</td>
+                            <td>{{ panne.date|date("d/m/Y") }}</td>
+                            <td>{{ panne.auteur }}</td>
+                            <td>{{ panne.EtatCar }}</td>
+                            <td>{{ panne.DescPanne }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
     </section>
 {% endblock %}

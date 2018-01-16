@@ -18,6 +18,34 @@ $(document).ready(function(){
 
 
 
+
+    var inp = $('input[id*="slideThree"]');
+
+    var valeurs = [];
+    var y = 0;
+    var o = 0;
+    $("input[id*=\"slideThree\"]").on('click',function() {
+        valeurs.push($(this).attr('id'));
+
+
+
+            console.log(valeurs[o]);
+            o++;
+
+
+    });
+
+
+
+    $('#form_enregistrer').on('click', function(e){
+        e.preventDefault();
+
+        var r = valeurs.length;
+        for (i = 0; i < r ; i++)
+        {
+
+        }
+        });
     /*
     
     $('input#form_recherche').click(function(){

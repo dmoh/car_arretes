@@ -7,6 +7,13 @@
             <p class="lead text-muted"></p>
         </div>
     </section>
+    {% if liste_panne is defined %}
+        <ul>
+            {% for panne in liste_panne  %}
+                <li>{{ panne.etat_car }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <section>
         <div class="container">
             <h3 class="text-center"></h3>
@@ -42,6 +49,15 @@
                             {# Génération de l'input.#}
                             {{ form_widget(form.desc_panne, {'attr': {'class': ' form-control'}}) }}
                             {{ form_errors(form.desc_panne, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                    </div>
+                    <div class="form-row trac">
+                        <div class="form-group col-md-12">
+                            {# Génération du label. #}
+                            {{ form_label(form.suites_donnes, "Suite à donné : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.suites_donnes, {'attr': {'class': ' form-control'}}) }}
+                            {{ form_errors(form.suites_donnes, { 'attr': {'class': 'red' }}) }}
                         </div>
                     </div>
                     <div class="form-row">
