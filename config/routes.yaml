@@ -35,3 +35,9 @@ effacer_car:
     requirements:
         id: '\d+'
 
+edit_panne:
+    path: /edit-panne/{id}
+    controller: App\Controller\MainController::editPanne
+    requirements:
+        id: '\d+'
+

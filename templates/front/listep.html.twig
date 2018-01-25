@@ -2,9 +2,10 @@
 
 {% block body %}
     <div class="container">
-        <div class="row">
+        <div class="row pt-30">
             <div class="col-md-12">
-                <h1 class="text-center">Liste des Autocars en panne actuellement</h1>
+                <h1 class="text-center">Autocars actuellement</h1>
+                <h2 class="text-center upper">Immobilisés</h2>
             </div>
         </div>
     </div>
@@ -14,7 +15,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table pt-30 table-responsive table-bordered">
+                    <table class="table pt-30  table-bordered">
                         <thead class="text-uppercase">
                             <tr>
                                 <th colspan="2">
@@ -28,6 +29,7 @@
                                     Date derniére panne
                                 </th>
                                 <th>En panne depuis le</th>
+                                <th>Desc Panne</th>
                                 <th>
                                     Garantie
                                 </th>
@@ -43,6 +45,7 @@
                             {# variable date de garantie #}
                             <td>{{ panne.datePrev | date("d/m/Y") }}</td>
                             <td>{{ panne.datePanneDeb | date("d/m/y") }}</td>
+                            <td>{{ panne.descPanneCar }}</td>
                             <td>{{ panne.conditionGarantie }}</td>
                             <td>
                                 <a href="{{ path('edit_car', {'id':  panne.id }) }}"> Modifier </a>
@@ -58,12 +61,96 @@
                     </table>
                 </div>
             </div>
+            {#<div class="row">
+                <div class="col-lg-6">
+                    <article class="g-pa-25 u-shadow-v11 rounded">
+                        <h3 class="">
+                            <i class="fa fa-ambulance"></i><a href=""> Immatriculation</a>
+                        </h3><p class="upper-right">Marque : <b>MERCEDES</b></p>
+                        <p class="title-p">Description Panne : </p>
+                        <p>Nullam elementum tincidunt massa, a pulvinar leo ultricies ut. Ut fringilla lectus tellusimp imperdiet molestie est volutpat at, sed viverra cursus nibh. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.</p>
+                        <p class="mini">Panne depuis le : XX/XX/XX</p><p class="right"><button class="btn btn-primary">Modifier</button></p>
+                    </article>
+                </div>
+            </div>#}
               <div class="form-row">
                         <div class="col-md-12">
                            {# {{ form_widget(form.enregistrer , {'attr': {'class': 'col-md-12 btn btn-primary'}})}}#}
                         </div>
-                    </div>
+              </div>
         </div>
+        {% if liste_panne_ano is defined and liste_panne_ano is not empty %}
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="text-center pt-30 pb-40">Autocars avec anomalie  </h4>
+                        <table class="table pt-30  table-bordered">
+                            <thead class="text-uppercase">
+                            <tr>
+                                <th colspan="2">
+                                    Immatriculation
+                                </th>
+                                <th>
+                                    Num Série
+                                </th>
+                                <th>Marque</th>
+                                <th>
+                                    Date derniére panne
+                                </th>
+                                <th>En panne depuis le</th>
+                                <th>Desc Panne</th>
+                                <th>
+                                    Garantie
+                                </th>
+                                <th>Modifier état du car</th>
+                            </tr>
+                            </thead>
+                            {% for panne in liste_panne_ano  %}
+                                <tr>
+                                    <td><i style="color: orange;" class="fa fa-ambulance"></i></td>
+                                    <td ><a href="{{ path('car', {'id': panne.id}) }}">{{ panne.immat|upper }}</a></td>
+                                    <td>{{ panne.numSerie | upper }}</td>
+                                    <td>{{ panne.marque | upper }}</td>
+                                    {# variable date de garantie #}
+                                    <td>{{ panne.datePrev | date("d/m/Y") }}</td>
+                                    <td>{{ panne.datePanneDeb | date("d/m/y") }}</td>
+                                    <td>{{ panne.descPanneCar }}</td>
+                                    <td>{{ panne.conditionGarantie }}</td>
+                                    <td>
+                                        <a href="{{ path('edit_car', {'id':  panne.id }) }}"> Modifier </a>
+                                        {#<div class="slideThree">
+                                            <input type="checkbox" value="" id="slideThree{{ panne.id }}"  name="check" />
+                                            <label for="slideThree{{ panne.id }}"></label>
+                                        </div>
+                                        {{ form_widget(form.etat_car , {'attr': {'class': 'form-control ger"{{ panne.id }}"'}})}}
+                                        {{ form_errors(form.etat_car, { 'attr': {'class': 'red' }}) }}#}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                {#<div class="row">
+                    <div class="col-lg-6">
+                        <article class="g-pa-25 u-shadow-v11 rounded">
+                            <h3 class="">
+                                <i class="fa fa-ambulance"></i><a href=""> Immatriculation</a>
+                            </h3><p class="upper-right">Marque : <b>MERCEDES</b></p>
+                            <p class="title-p">Description Panne : </p>
+                            <p>Nullam elementum tincidunt massa, a pulvinar leo ultricies ut. Ut fringilla lectus tellusimp imperdiet molestie est volutpat at, sed viverra cursus nibh. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.</p>
+                            <p class="mini">Panne depuis le : XX/XX/XX</p><p class="right"><button class="btn btn-primary">Modifier</button></p>
+                        </article>
+                    </div>
+                </div>#}
+                <div class="form-row">
+                    <div class="col-md-12">
+                        {# {{ form_widget(form.enregistrer , {'attr': {'class': 'col-md-12 btn btn-primary'}})}}#}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
     {% else %}
         <div class="container">
             <div class="row">

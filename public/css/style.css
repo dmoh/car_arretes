@@ -101,7 +101,7 @@ ul.nav a
 }
 .ml-40
 {
-    margin-left: 13%;
+    margin-left: 25%;
 }
 .table-bordered thead th{
     font-weight: 500;
@@ -112,7 +112,9 @@ ul.nav a
     font-size: 13px;
     text-align: center;
 }
-
+.upper{
+    text-transform: uppercase;
+}
 .table
 {
     text-align: center;
@@ -213,4 +215,70 @@ input[type="checkbox" i] {
     vertical-align: bottom;
     border-bottom: 2px solid #e9ecef;
     font-size: 12px;
+}
+
+.g-pa-25{
+    padding: 1.7rem !important;
+}
+
+.u-shadow-v11 {
+    box-shadow: 0 0 2px #ccc;
+}
+
+.rounded {
+    border-radius: .25rem!important;
+}
+article h3{
+    font-size: 1.75rem;
+}
+article p {
+    text-align: justify;
+}
+
+.title-p{
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding-bottom: 0px;
+    padding-top: 10px;
+}
+p.mini{
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #8c8c8c;
+}
+
+article .g-pa-25{
+    border-left: 2px solid red;
+
+}
+
+.upper-right{
+    text-align: left;
+}
+p.right{
+    text-align: right;
+}
+
+article.g-pa-25{
+    margin-bottom: 15px;
+}
+form.form-horizontal{
+    margin-bottom: 55px;
+}
+/***************************************MEDIA QUERIES*************************************************/
+
+@media screen and (max-width: 990px) {
+
+    .ml-40{
+        margin-left: 13%;
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+
+    .ml-40{
+        margin-left: 5%;
+    }
+
 }

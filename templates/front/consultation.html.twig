@@ -39,7 +39,9 @@
                                     <td>{{ Car.marque| upper }}</td>
                                     <td>{{ Car.site }}</td>
                                     <td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>
-                                        {% elseif Car.etatCar == "roulant ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
+                                        {% elseif Car.etatCar == "roulant ano" or Car.etatCar == "roulant_ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
+                                            depuis le
+                                            {{ Car.datePanneDeb| date("d/m/Y") }}
                                         {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
                                             depuis le
                                             {{ Car.datePanneDeb| date("d/m/Y")  }}

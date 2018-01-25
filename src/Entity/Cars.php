@@ -101,9 +101,9 @@ class Cars
     protected $etat_car;
 
     /**
-     * @ORM\Column(name="date_ev", type="date", nullable=true)
+     * @ORM\Column(name="date_fin_panne", type="date", nullable=true)
      */
-    protected $date_ev;
+    protected $date_fin_panne;
 
     /**
      * @ORM\Column(name="date_panne_deb", type="datetime", nullable=true)
@@ -145,17 +145,49 @@ class Cars
 
 
     /**
+     * @ORM\Column(name="desc_panne_car", type="text", nullable=true)
+     */
+    protected $desc_panne_car;
+
+    /**
      * @ORM\Column(name="garantie", type="text", nullable=true)
      */
     protected $garantie;
+
+    /**
+     * @ORM\Column(name="desc_panne_ano", type="text", nullable=true)
+     */
+    protected $desc_panne_ano;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Panne", mappedBy="cars")
+     */
+    protected $pannes;
+
 
 
     public function __construct()
     {
         $this->date = new \Datetime();
-        $this->p_encours = false;
+        $this->pannes = new ArrayCollection();
     }
 
+
+    public function addPanne(Panne $panne)
+    {
+        $this->pannes[] = $panne;
+
+        $panne->setCars($this);
+
+        return $this;
+    }
+
+    public function removePanne(Panne $panne)
+    {
+        $this->pannes->removeElement($panne);
+
+        $panne->setCars(null);
+    }
 
 
 
@@ -368,17 +400,17 @@ class Cars
     /**
      * @return mixed
      */
-    public function getDateEv()
+    public function getDateFinPanne()
     {
-        return $this->date_ev;
+        return $this->date_fin_panne;
     }
 
     /**
-     * @param mixed $date_ev
+     * @param mixed $date_fin_panne
      */
-    public function setDateEv($date_ev): void
+    public function setDateFinPanne($date_fin_panne): void
     {
-        $this->date_ev = $date_ev;
+        $this->date_fin_panne = $date_fin_panne;
     }
 
     /**
@@ -518,6 +550,24 @@ class Cars
         $this->duree_panne = $duree_panne;
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function getDescPanneCar()
+    {
+        return $this->desc_panne_car;
+    }
+
+    /**
+     * @param mixed $desc_panne_car
+     */
+    public function setDescPanneCar($desc_panne_car): void
+    {
+        $this->desc_panne_car = $desc_panne_car;
+    }
+
+
     /*
      *@return Collection|Panne[]
 
@@ -541,5 +591,40 @@ class Cars
 
        return $this;
     }*/
+
+    /**
+     * @param mixed $pannes
+     */
+    public function setPannes($pannes): void
+    {
+        $this->pannes = $pannes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPannes()
+    {
+        return $this->pannes;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getDescPanneAno()
+    {
+        return $this->desc_panne_ano;
+    }
+
+    /**
+     * @param mixed $desc_panne_ano
+     */
+    public function setDescPanneAno($desc_panne_ano): void
+    {
+        $this->desc_panne_ano = $desc_panne_ano;
+    }
+
 
 }

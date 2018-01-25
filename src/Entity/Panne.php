@@ -25,7 +25,7 @@ class Panne
     protected $date;
 
     /**
-     * @ORM\Column(name="auteur", type="string", length=100)
+     * @ORM\Column(name="auteur", type="string", length=100, nullable=true)
      */
     protected $auteur;
 
@@ -56,14 +56,54 @@ class Panne
     protected $date_fin_panne;
 
     /**
+     * @ORM\Column(name="date_deb_panne_manuel", type="datetime", nullable=true)
+     */
+    protected $date_deb_panne_manuel;
+
+
+    /**
+     * @ORM\Column(name="date_fin_panne_manuel", type="datetime", nullable=true)
+     */
+    protected $date_fin_panne_manuel;
+
+
+    /**
      * @ORM\Column(name="duree_panne", type="string", nullable=true)
      */
     protected $duree_panne;
+
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cars")
+     * @ORM\Column(name="date_prev", type="datetime", nullable=true)
+     */
+    protected $date_prev;
+
+
+    /**
+     * @ORM\Column(name="date_effective", type="datetime", nullable=true)
+     */
+    protected $date_effective;
+
+    /**
+     * @ORM\Column(name="duree_panne_prev", type="string", nullable=true)
+     */
+    protected $duree_panne_prev;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cars", inversedBy="pannes")
      * @ORM\JoinColumn(nullable=true)
      */
     private $cars;
+
+    /**
+     * @ORM\Column(name="desc_panne_ano_p", type="text", nullable=true)
+     */
+    protected $desc_panne_ano_p;
+
+    /**
+     * @ORM\Column(name="nature_panne", type="text", nullable=true)
+     */
+    protected $nature_panne;
+
+
 
     /**
      * @return mixed
@@ -231,6 +271,120 @@ class Panne
     {
         $this->date_fin_panne = $date_fin_panne;
     }
+
+    /**
+     * @param mixed $date_prev
+     */
+    public function setDatePrev($date_prev): void
+    {
+        $this->date_prev = $date_prev;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDatePrev()
+    {
+        return $this->date_prev;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getDateEffective()
+    {
+        return $this->date_effective;
+    }
+
+    /**
+     * @param mixed $date_effective
+     */
+    public function setDateEffective($date_effective): void
+    {
+        $this->date_effective = $date_effective;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDureePannePrev()
+    {
+        return $this->duree_panne_prev;
+    }
+
+    /**
+     * @param mixed $duree_panne_prev
+     */
+    public function setDureePannePrev($duree_panne_prev): void
+    {
+        $this->duree_panne_prev = $duree_panne_prev;
+    }
+
+    /**
+     * @param mixed $desc_panne_ano
+     */
+    public function setDescPanneAnoP($desc_panne_ano): void
+    {
+        $this->desc_panne_ano = $desc_panne_ano;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescPanneAnoP()
+    {
+        return $this->desc_panne_ano_p;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNaturePanne()
+    {
+        return $this->nature_panne;
+    }
+
+    /**
+     * @param mixed $nature_panne
+     */
+    public function setNaturePanne($nature_panne): void
+    {
+        $this->nature_panne = $nature_panne;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateDebPanneManuel()
+    {
+        return $this->date_deb_panne_manuel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateFinPanneManuel()
+    {
+        return $this->date_fin_panne_manuel;
+    }
+
+    /**
+     * @param mixed $date_deb_panne_manuel
+     */
+    public function setDateDebPanneManuel($date_deb_panne_manuel): void
+    {
+        $this->date_deb_panne_manuel = $date_deb_panne_manuel;
+    }
+
+    /**
+     * @param mixed $date_fin_panne_manuel
+     */
+    public function setDateFinPanneManuel($date_fin_panne_manuel): void
+    {
+        $this->date_fin_panne_manuel = $date_fin_panne_manuel;
+    }
+
 
 
 }

@@ -45,7 +45,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
-                            {{ form_label(form.auteur, "Auteur de l'enregistrement : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {{ form_label(form.auteur, "Déclarant : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.auteur, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.auteur, { 'attr': {'class': 'red' }}) }}
@@ -68,14 +68,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            {# Génération du label. #}
-                            {{ form_label(form.date_prev, "Date de début de garantie: ", {'label_attr': {'class': ' control-label'}}) }}
-                            {# Génération de l'input.#}
-                            {{ form_widget(form.date_prev, {'attr': {'class': ' js-datepicker form-control'}}) }}
-                            {{ form_errors(form.date_prev, { 'attr': {'class': 'red' }}) }}
-                        </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             {# Génération du label. #}
                             {{ form_label(form.date_mar, "Date 1èr mise en circulation : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
@@ -153,5 +146,12 @@
     </footer>
 {%  endblock %}
 {% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#car_num_serie').focus(function () {
+                //$(this).
+            });
 
+        });
+    </script>
 {% endblock %}

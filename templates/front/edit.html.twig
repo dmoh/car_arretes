@@ -26,20 +26,43 @@
 
                     <div class="form-row">
                         {# Génération du label. #}
-                        <div class="form-group col-md-6">
-                            {{ form_label(form.auteur, "Auteur de la panne: ", {'label_attr': {'class': ' control-label'}}) }}
+                        <div class="form-group col-md-3">
+                            {{ form_label(form.auteur, "Déclarant : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
 
                             {{ form_widget(form.auteur, {'attr': {'class': ' form-control'}}) }}
                             {{ form_errors(form.auteur, { 'attr': {'class': 'red' }}) }}
                         </div>
+                        <div class="form-group col-md-3">
+                            {{ form_label(form.date_prev, "Date déb. de panne : ", {'label_attr': {'class': '  control-label'}}) }}
+                            {# Génération de l'input.#}
+
+                            {{ form_widget(form.date_prev, {'attr': {'class': 'js-datepicker form-control'}}) }}
+                            {{ form_errors(form.date_prev, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                        <div class="form-group col-md-3">
+                            {{ form_label(form.date_effective, "Date fin de panne : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+
+                            {{ form_widget(form.date_effective, {'attr': {'class': 'js-datepicker form-control'}}) }}
+                            {{ form_errors(form.date_effective, { 'attr': {'class': 'red' }}) }}
+                        </div>
                         {# Génération du label. #}
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             {# Génération du label. #}
                             {{ form_label(form.etat_car, "L' autocar est : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.etat_car, {'attr': {'class': ' form-control'}}) }}
                             {{ form_errors(form.etat_car, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                    </div>
+                    <div class="form-row trac">
+                        <div class="form-group col-md-12">
+                            {# Génération du label. #}
+                            {{ form_label(form.nature_panne, "Nature de la panne : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.nature_panne, {'attr': {'class': ' form-control'}}) }}
+                            {{ form_errors(form.nature_panne, { 'attr': {'class': 'red' }}) }}
                         </div>
                     </div>
                     <div class="form-row trac">
@@ -54,7 +77,7 @@
                     <div class="form-row trac">
                         <div class="form-group col-md-12">
                             {# Génération du label. #}
-                            {{ form_label(form.suites_donnes, "Suite à donné : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {{ form_label(form.suites_donnes, "Suite donné : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.suites_donnes, {'attr': {'class': ' form-control'}}) }}
                             {{ form_errors(form.suites_donnes, { 'attr': {'class': 'red' }}) }}
@@ -66,8 +89,20 @@
                             {{ form_widget(form.enregistrer , {'attr': {'class': 'col-md-12 btn btn-primary'}})}}
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("option.etat_roulant").prop("disabled", true);
+            $('.anomalie').prop("disabled", false);
+        });
+    </script>
 {% endblock %}

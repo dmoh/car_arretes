@@ -7,6 +7,7 @@
  */
 namespace App\Controller;
 
+use App\Repository\PanneRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -25,6 +26,7 @@ use App\Entity\Cars;
 use App\Entity\Panne;
 use App\Form\PanneType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Repository\CarsRepository;
 
 
 Class MainController extends Controller
@@ -159,13 +161,41 @@ Class MainController extends Controller
                // $this->addFlash('info', 'Oui oui, il est bien enregistré !');
 
                 $test = $form->getData();
+
+
+                $etat_car=$test->getEtatCar();
+
+                if($etat_car == 'roulant ano')
+                {
+                    $car->setDescPanneAno($test->getDescPanne());
+                    $car->setDescPanne($test->detDescPanne());
+                    $panne->setDescPanneAnoP($test->getDescPanne());
+
+                }
                 $panne->setCars($car);
                 // recup la date de début
-                if(!$car->getDatePanneDeb())
+
+
+                $car->setDatePanneDeb(new \DateTime());
+                $car->setAuteur($test->getAuteur());
+
+                $date_prev = $test->getDatePrev();
+                $date_effective = $test->getDateEffective();
+
+                if( $date_effective != null  && $date_prev != null)
                 {
-                    $car->setDatePanneDeb(new \DateTime());
+                    // Durée de panne
+                    $duree_panne_prev = date_diff($date_prev, $date_effective);
+                    $duree_panne_prev = $duree_panne_prev->format('%d');
+
+
+                    $panne->setDureePannePrev($duree_panne_prev);
+
+
                 }
 
+                $desc_panne_car= $test->getDescPanne();
+                $car->setDescPanneCar($desc_panne_car);
                 //Mettre à jour l'etat du car
                 $car->setEtatCar($test->getEtatCar());
                 //mettre à jour date de modif
@@ -270,15 +300,30 @@ Class MainController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+
         $list_panne = $em->getRepository(Cars::class)->findBy(
           ['etat_car'  => 'panne' ],
           ['date'       => 'ASC']
         );
 
+        $list_panne_ano = $em->getRepository(Cars::class)->findBy(
+          ['etat_car'   =>  'roulant ano'],
+          ['date_maj'   =>  'ASC']
+        );
+
+
+
+
         if(!$list_panne)
         {
             $list_panne = array();
         }
+
+        if(!$list_panne_ano)
+        {
+            $list_panne_ano = array();
+        }
+
 
         if ($request->isMethod('POST'))
         {
@@ -313,8 +358,12 @@ Class MainController extends Controller
         /*$options = $form->get('id')->getConfig()->getOptions();
         $choices = $options['choice_list']->getChoices();*/
 
+
+
+
         return $this->render('front/listep.html.twig', array(
             'liste_panne' =>    $list_panne,
+            'liste_panne_ano' => $list_panne_ano,
             'form'        =>    $form->createView(),
         ));
     }
@@ -343,6 +392,8 @@ Class MainController extends Controller
         {
             $rep = $form->getData();
 
+
+
             if ($rep->getEtatCar() == "panne" || $rep->getEtatCar() == "PANNE" && $etat_car != "PANNE" || $etat_car != "panne")
             {
                 $car->setDatePanneDeb(new \DateTime());
@@ -365,18 +416,25 @@ Class MainController extends Controller
 
                     $date2 = new \DateTime();
 
-                    $car->setDatePanneFin($date2);
 
-                    $duree_panne = date_diff($date2, $date1);
+                    if(!$rep->getDateFinGarantie())
+                    {
+                        /*$car->setDatePanneFin($date2);
 
-                    $duree_panne = $duree_panne->format('%h:%i');
+                        $duree_panne = date_diff($date2, $date1);
+
+                        $duree_panne = $duree_panne->format('%h:%i');
+
+                        $car->setDureePanne($duree_panne);*/
+                    }
 
 
-                    $car->setDureePanne($duree_panne);
+
+
                 }
 
             }
-
+            $car->setAuteur($rep->getAuteur());
             //$rep->setDate(new \DateTime());
             $car->setEtatCar($rep->getEtatCar());
             $em->persist($car);
@@ -410,6 +468,142 @@ Class MainController extends Controller
         $em->remove($car);
         $em->flush();
         return $this->redirectToRoute('consultation');
+    }
+
+    public function editPanne(Request $req, $id)
+    {
+        $em= $this->getDoctrine()->getManager();
+
+        $car = $em->getRepository(Cars::class)->findOneBy(array('id' => $id));
+        $panne = new Panne($car);
+
+        //$list= $em->getRepository(Panne::class)->getCarWithLastPanne($car->getId());
+        $liste_panne = $em->getRepository(Panne::class)->findOneBy(
+            ['cars'  => $car ],
+            ['date'       => 'DESC']
+        );
+
+        $liste_panne_anterieur = $em->getRepository(Panne::class)->findBy(
+          ['cars'   =>  $car],
+          ['date'   => 'DESC']
+        );
+       // $liste_panne= $em->getRepository(Panne::class)->findBy(array('cars' => $car));
+        //$test =$liste_panne->getPannes();
+
+        //Edition d'un autocar
+        $form = $this->get('form.factory')->create(PanneType::class, $liste_panne);
+
+        if ($req->isMethod('POST'))
+        {
+            $form->handleRequest($req);
+            if($form->isValid())
+            {
+                $test = $form->getData();
+
+                $etat_car = $test->getEtatCar();
+
+                if( $etat_car == 'panne')
+                {
+                    $car->setEtatCar($etat_car);
+                    $car->setDateMaj(new \DateTime());
+                    $car->setAuteur($test->getAuteur());
+                    $panne->setEtatCar($etat_car);
+                    $panne->setAuteur($test->getAuteur());
+                    $panne->setDatePrev($test->getDatePrev());
+                    $car->setDatePanneDeb($test->getDatePrev());
+
+                    if($test->getDateEffective())
+                    {
+                        //Date_ <-> DateFin de panne
+                        $car->setDateFinPanne($test->getDateEffective());
+                        $panne->setDateEffective($test->getDateEffective());
+                    }
+
+                    $em->persist($car);
+                    $em->persist($panne);
+                    $em->flush();
+
+                    return $this->redirectToRoute('consultation');
+
+
+
+                }
+                elseif ($etat_car == 'roulant ano')
+                {
+                    //Roulant avec anomalie écrase panne
+
+                    $car->setEtatCar($etat_car);
+                    $car->setDateMaj(new \DateTime());
+                    $panne->setEtatCar($etat_car);
+                    $panne->setAuteur($test->getAuteur());
+                    $panne->setDatePrev($test->getDatePrev());
+                    $car->setAuteur($test->getAuteur());
+                    $car->setDatePanneDeb($test->getDatePrev());
+
+
+                    //Desc panne ano dans l'entitè Car
+                    $car->setDescPanneAno($test->getDescPanne());
+
+                    $panne->setDescPanneAnoP($test->getDescPanne());
+                    $car->setDescPanneAno($test->getDescPanne());
+
+
+                    if($test->getDateEffective())
+                    {
+                        //Date_ <-> DateFin de panne
+                        $car->setDateFinPanne($test->getDateEffective());
+                        $panne->setDateEffective($test->getDateEffective());
+                    }
+
+                    $em->persist($car);
+                    $em->persist($panne);
+                    $em->flush();
+
+                    return $this->redirectToRoute('consultation');
+                }
+                elseif ($etat_car == 'roulant')
+                {
+
+
+                    $car->setEtatCar($etat_car);
+                    $panne->setEtatCar($etat_car);
+                    $panne->setDateEffective($test->getDateEffective());
+                    $panne->setDescPanne($test->getDescPanne());
+                    $car->setDescPanneCar($test->getDescPanne());
+                    $panne->setSuitesDonnes($test->getSuitesDonnes());
+
+
+                    $car->setDateMaj(new \DateTime());
+
+
+                    $car->setAuteur($test->getAuteur());
+                    $car->setDateFinPanne($test->getDateEffective());
+
+
+                    if(!$test->getDateEffective())
+                    {
+                        //Date_effective <-> DateFin de panne
+
+                    }
+
+                    $em->persist($car);
+                    $em->persist($panne);
+                    $em->flush();
+
+                    return $this->redirectToRoute('consultation');
+
+                }
+            }
+        }
+
+
+        return $this->render('front/edit-panne.html.twig',
+            array(
+            'car_panne'             => $car,
+            'liste_panne'           => $liste_panne,
+            'liste_panne_anterieur' => $liste_panne_anterieur,
+            'form'                  => $form->createView()
+            ));
     }
 
 

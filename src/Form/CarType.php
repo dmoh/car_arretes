@@ -65,10 +65,12 @@ class CarType extends AbstractType
             ->add('date_mar', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
+                'required'  => false,
                 ))
             ->add('fin_garantie', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
+                'required'  => false,
             ))
             ->add('etat_car', ChoiceType::class, array(
                 'choices' => array(

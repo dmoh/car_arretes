@@ -27,14 +27,26 @@ class PanneType extends AbstractType
             ->add('etat_car' , ChoiceType::class, array(
                 'choices' => array(
                     'PANNE' => 'panne',
-                    'ROULANT AVEC ANOMALIE' => "roulant ano",
+                    'ROULANT AVEC ANOMALIE' => "roulant_ano",
                     'ROULANT' => "roulant",
                 ),'choice_attr' => function($val, $key, $index) {
                     // adds a class like attending_yes, attending_no, etc
                     return ['class' => 'etat_'.strtolower($key)];
                 },))
-            ->add('desc_panne', TextareaType::class)
-            ->add('suites_donnes', TextType::class)
+            ->add('date_prev', DateType::class, array(
+                'widget'    => 'single_text',
+                'html5'     => false,
+            ))
+            ->add('date_effective',DateType::class, array(
+                'widget'    => 'single_text',
+                'html5'     => false,
+                'required'  => false,
+            ))
+            ->add('nature_panne',   TextType::class, array(
+                'required'  => false,
+            ))
+            ->add('desc_panne',     TextareaType::class)
+            ->add('suites_donnes',  TextareaType::class)
             ->add('enregistrer',    SubmitType::class)
         ;
 
