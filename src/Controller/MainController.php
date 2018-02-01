@@ -91,7 +91,7 @@ Class MainController extends Controller
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator-> paginate(
           $query,
-          $request->query->getInt('page', 1),5
+          $request->query->getInt('page', 1),20
         );
 
         $repository = $this->getDoctrine()
@@ -117,14 +117,12 @@ Class MainController extends Controller
     //Historique du Car
     public function car($id)
     {
-        $repo = $this   ->getDoctrine()
-                        ->getManager()
-            ;
+        $repo = $this->getDoctrine()->getManager();
 
         $car_info = $repo->getRepository(Cars::class)->find(
            $id
         );
-
+        $em = $this->getDoctrine()->getManager();
 
         $pannes = $repo->getRepository(Panne::class)
                  ->findBy(array(
@@ -132,6 +130,28 @@ Class MainController extends Controller
                      array('id' => 'DESC',
                  ));
         $nombrep = count($pannes);
+
+        if($nombrep <= 0)
+        {
+            if($car_info->getEtatCar() != 'roulant') {
+                $car_info->setEtatCar('roulant');
+                $car_info->setDatePanneFin(new \DateTime());
+                $fin_panne = $car_info->getDatePannefin();
+                $deb_panne = $car_info->getDatePanneDeb();
+
+                if (!$deb_panne || $deb_panne != null) {
+                    # code...
+                    $duree_panne = date_diff($deb_panne, $fin_panne);
+                    $duree_panne_prev = $duree_panne->format('%d');
+                    $car_info->setDureePanne($duree_panne_prev);
+                }
+
+                $em->flush();
+
+
+            }
+        }
+
         $car_info->setCompteurPanne($nombrep);
 
         return $this->render('front/car.html.twig',
