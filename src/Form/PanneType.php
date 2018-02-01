@@ -46,7 +46,9 @@ class PanneType extends AbstractType
                 'required'  => false,
             ))
             ->add('desc_panne',     TextareaType::class)
-            ->add('suites_donnes',  TextareaType::class)
+            ->add('suites_donnes',  TextareaType::class, array(
+                'required' => false,
+            ))
             ->add('enregistrer',    SubmitType::class)
         ;
 

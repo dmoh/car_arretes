@@ -86,7 +86,7 @@ Class MainController extends Controller
             ->getManager()
             ->getRepository(Cars::class);
         $car_listing = $repository->findBy(array(),
-             array('date_maj' => 'DESC')
+             array('date' => 'DESC')
         );
 
         /*var_dump($car_listing);
@@ -97,21 +97,31 @@ Class MainController extends Controller
             );
     }
 
+
+    //Historique du Car
     public function car($id)
     {
-        $repo = $this->getDoctrine()
-            ->getManager()
+        $repo = $this   ->getDoctrine()
+                        ->getManager()
             ;
+
         $car_info = $repo->getRepository(Cars::class)->find(
            $id
         );
 
+
         $pannes = $repo->getRepository(Panne::class)
-                 ->findBy(array('cars' => $car_info));
+                 ->findBy(array(
+                     'cars' => $car_info),
+                     array('id' => 'DESC',
+                 ));
+        $nombrep = count($pannes);
+        $car_info->setCompteurPanne($nombrep);
 
         return $this->render('front/car.html.twig',
             array(
                 'car'       => $car_info,
+                'nombrep'   =>  $nombrep,
                 'pannes'    => $pannes
                 )
         );
@@ -165,17 +175,22 @@ Class MainController extends Controller
 
                 $etat_car=$test->getEtatCar();
 
-                if($etat_car == 'roulant ano')
+                if($etat_car == 'roulant_ano' || $etat_car == 'roulant ano')
                 {
-                    $car->setDescPanneAno($test->getDescPanne());
-                    $car->setDescPanne($test->detDescPanne());
+                    $panne->setNaturePanne($test->getNaturePanne());
                     $panne->setDescPanneAnoP($test->getDescPanne());
+                    $panne->setAuteur($test->getAuteur());
+
+                    $car->setAuteur($test->getAuteur());
+                    $car->setNaturePanneCar($test->getNaturePanne());
+                    $car->setDescPanneAno($test->getDescPanne());
+                    $car->setDescPanneCar($test->getDescPanne());
 
                 }
+
                 $panne->setCars($car);
+
                 // recup la date de début
-
-
                 $car->setDatePanneDeb(new \DateTime());
                 $car->setAuteur($test->getAuteur());
 
@@ -188,18 +203,27 @@ Class MainController extends Controller
                     $duree_panne_prev = date_diff($date_prev, $date_effective);
                     $duree_panne_prev = $duree_panne_prev->format('%d');
 
-
                     $panne->setDureePannePrev($duree_panne_prev);
-
 
                 }
 
+
+                //On ajoute une panne au compteur
+                $c = (int) $car->getCompteurPanne();
+                $car->setCompteurPanne($c++);
+
+                //Met à jour la desc de la panne actuelle
                 $desc_panne_car= $test->getDescPanne();
                 $car->setDescPanneCar($desc_panne_car);
+                $car->setNaturePanneCar($test->getNaturePanne());
+
                 //Mettre à jour l'etat du car
                 $car->setEtatCar($test->getEtatCar());
+
                 //mettre à jour date de modif
                 $car->setDateMaj(new \DateTime());
+
+
                 $em -> persist($car);
                 $em -> persist($panne);
                 $em -> flush();
@@ -307,7 +331,7 @@ Class MainController extends Controller
         );
 
         $list_panne_ano = $em->getRepository(Cars::class)->findBy(
-          ['etat_car'   =>  'roulant ano'],
+          ['etat_car'   =>  'roulant_ano'],
           ['date_maj'   =>  'ASC']
         );
 
@@ -460,35 +484,58 @@ Class MainController extends Controller
         $car = $em->getRepository(Cars::class)->find($id);
 
 
-        if(!$car)
+        if(null === $car)
         {
             throw new NotFoundHttpException("Cet autocar n'existe pas !");
         }
 
-        $em->remove($car);
+
+        // On récupère le car avec ses pannes
+        foreach ($car->getPannes()as $panne){
+            $car->removePanne($panne);
+        }
+       $em->remove($car);
         $em->flush();
         return $this->redirectToRoute('consultation');
     }
+
+
+
+
 
     public function editPanne(Request $req, $id)
     {
         $em= $this->getDoctrine()->getManager();
 
         $car = $em->getRepository(Cars::class)->findOneBy(array('id' => $id));
+
+        $etat_actu = $car->getEtatCar();
+
+
         $panne = new Panne($car);
 
         //$list= $em->getRepository(Panne::class)->getCarWithLastPanne($car->getId());
         $liste_panne = $em->getRepository(Panne::class)->findOneBy(
-            ['cars'  => $car ],
-            ['date'       => 'DESC']
+            ['cars'     => $car ],
+            ['id'       => 'DESC']
         );
+
+        $etat_panne = $liste_panne->getEtatCar();
+
+
+
+
+
 
         $liste_panne_anterieur = $em->getRepository(Panne::class)->findBy(
           ['cars'   =>  $car],
-          ['date'   => 'DESC']
+          ['id'   => 'ASC']
         );
        // $liste_panne= $em->getRepository(Panne::class)->findBy(array('cars' => $car));
         //$test =$liste_panne->getPannes();
+
+
+
 
         //Edition d'un autocar
         $form = $this->get('form.factory')->create(PanneType::class, $liste_panne);
@@ -507,10 +554,27 @@ Class MainController extends Controller
                     $car->setEtatCar($etat_car);
                     $car->setDateMaj(new \DateTime());
                     $car->setAuteur($test->getAuteur());
+
+
                     $panne->setEtatCar($etat_car);
                     $panne->setAuteur($test->getAuteur());
                     $panne->setDatePrev($test->getDatePrev());
+                    $panne->setDescPanne($test->getDescPanne());
+                    $panne->setSuitesDonnes($test->getSuitesDonnes());
+
+
+
+                    $car->setNaturePanneCar($test->getNaturePanne());
                     $car->setDatePanneDeb($test->getDatePrev());
+                    $car->setDescPanneCar($test->getDescPanne());
+                    $car->setDescPanneCar($test->getDescPanne());
+                    $idcar = $car->getId();
+
+
+
+
+
+                    $panne->setCars($car);
 
                     if($test->getDateEffective())
                     {
@@ -519,33 +583,41 @@ Class MainController extends Controller
                         $panne->setDateEffective($test->getDateEffective());
                     }
 
-                    $em->persist($car);
-                    $em->persist($panne);
+                    /*$em->persist($car);
+                    $em->persist($panne);*/
                     $em->flush();
 
-                    return $this->redirectToRoute('consultation');
+                    return $this->redirectToRoute('car', array('id'=>$idcar));
 
 
 
                 }
-                elseif ($etat_car == 'roulant ano')
+                elseif ($etat_car == 'roulant ano' || $etat_car  == 'roulant_ano' && $etat_actu == 'roulant_ano')
                 {
                     //Roulant avec anomalie écrase panne
 
-                    $car->setEtatCar($etat_car);
+                    $car->setEtatCar($etat_actu);
                     $car->setDateMaj(new \DateTime());
+
+
                     $panne->setEtatCar($etat_car);
                     $panne->setAuteur($test->getAuteur());
                     $panne->setDatePrev($test->getDatePrev());
+
+                    $car->setNaturePanneCar($test->getNaturePanne());
+                    $panne->setNaturePanne($test->getNaturePanne());
                     $car->setAuteur($test->getAuteur());
                     $car->setDatePanneDeb($test->getDatePrev());
+
+                   // $car->setPannes($panne);
+                    $panne->setCars($car);
 
 
                     //Desc panne ano dans l'entitè Car
                     $car->setDescPanneAno($test->getDescPanne());
 
                     $panne->setDescPanneAnoP($test->getDescPanne());
-                    $car->setDescPanneAno($test->getDescPanne());
+                    //$car->setDescPanneAno($test->getDescPanne());
 
 
                     if($test->getDateEffective())
@@ -553,44 +625,87 @@ Class MainController extends Controller
                         //Date_ <-> DateFin de panne
                         $car->setDateFinPanne($test->getDateEffective());
                         $panne->setDateEffective($test->getDateEffective());
+
+                        if ($test->getDatePrev() && $test->getDateEffective())
+                        {
+                            $deb_panne = $test->getDatePrev();
+                            $fin_panne = $test->getDateEffective();
+                            $duree_panne = date_diff($deb_panne, $fin_panne);
+
+                            $duree_panne = $duree_panne->format('%d');
+
+                            $panne->setDureePannePrev($duree_panne);
+                        }
+
                     }
 
-                    $em->persist($car);
-                    $em->persist($panne);
+                    $id_car = $car->getId();
+
+                    /*$em->persist($car);
+                    $em->persist($panne);*/
                     $em->flush();
 
-                    return $this->redirectToRoute('consultation');
+
+                    return $this->redirectToRoute('car',array(
+                        'id' => $id_car
+                    ));
+                }
+                elseif ($etat_car == 'panne' && $etat_actu == 'panne')
+                {
+                    $panne->setCars($car);
+                    $p = $em->getRepository(Panne::class)->find($test->getId());
+                    $car->setNaturePanneCar($test->getNaturePanne());
+
+                    $em->persist($p);
+                    $em->flush();
+
+                   return $this->redirectToRoute('consultation');
+                    //modifie la panne en cour
+
                 }
                 elseif ($etat_car == 'roulant')
                 {
 
 
-                    $car->setEtatCar($etat_car);
-                    $panne->setEtatCar($etat_car);
+
+                    $liste_panne->setEtatCar($etat_actu);
+                    /*$panne->setAuteur($test->getAuteur());
+
+                    $panne->setDatePrev($test->getDatePrev());
                     $panne->setDateEffective($test->getDateEffective());
                     $panne->setDescPanne($test->getDescPanne());
-                    $car->setDescPanneCar($test->getDescPanne());
                     $panne->setSuitesDonnes($test->getSuitesDonnes());
+                    //$car->setPannes($panne);
+                    $panne->setCars($car);*/
 
 
+                    $car->setEtatCar($etat_car);
+                    $car->setDescPanneCar($test->getDescPanne());
                     $car->setDateMaj(new \DateTime());
-
-
                     $car->setAuteur($test->getAuteur());
                     $car->setDateFinPanne($test->getDateEffective());
 
+                    $date_prev = $test->getDatePrev();
+                    $date_effective = $test->getDateEffective();
 
-                    if(!$test->getDateEffective())
+
+
+                    if( $date_effective != null  && $date_prev != null)
                     {
-                        //Date_effective <-> DateFin de panne
-
+                        // Durée de panne
+                        $duree_panne_prev = date_diff($date_prev, $date_effective);
+                        $duree_panne_prev = $duree_panne_prev->format('%d');
+                        $liste_panne->setDureePannePrev($duree_panne_prev);
+                        $car->setDureePanne($duree_panne_prev);
                     }
 
-                    $em->persist($car);
-                    $em->persist($panne);
+                    /*$em->persist($car);*/
+
+
+
                     $em->flush();
 
-                    return $this->redirectToRoute('consultation');
+                    return $this->redirectToRoute('car', array('id' => $id));
 
                 }
             }
@@ -606,6 +721,94 @@ Class MainController extends Controller
             ));
     }
 
+    public function EditpanneAnt(Request $req, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $panne = $em->getRepository(Panne::class)->find($id);
+
+         $car_id =$panne->getCars();
+         $id_car = $car_id->getId();
+
+
+
+        //Edition d'un autocar
+        $form = $this->get('form.factory')->create(PanneType::class, $panne);
+
+
+        if ($req->isMethod('POST') && $form->handleRequest($req)->isValid())
+        {
+
+            $res = $form->getData();
+           // $panne->setCars()
+            //var_dump($res->getEtatCar());
+            //die();
+            $panne->setEtatCar($res->getEtatCar());
+            $panne->setDescPanne($res->getDescPanne());
+            $panne->setSuitesDonnes($res->getSuitesDonnes());
+            $panne->setnaturePanne($res->getNaturePanne());
+            //var_dump($res->getDatePrev());
+            //die();
+
+            if ($res->getDatePrev() && $res->getDateEffective())
+            {
+                 $deb_panne = $res->getDatePrev();
+                 $fin_panne = $res->getDateEffective();
+                $duree_panne = date_diff($deb_panne, $fin_panne);
+
+                $duree_panne = $duree_panne->format('%d');
+
+                $panne->setDureePannePrev($duree_panne);
+            }
+
+            $em->flush();
+            return $this->redirectToRoute('car',
+                array(
+                 'id' => $id_car
+                ));
+        }
+
+        return $this->render('front/edit-panne-ant.html.twig',
+            array(
+              'panne'       => $panne,
+              'form'        => $form->createView(),
+            )
+            );
+    }
+
+    public function deletePanne($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $panne = $em->getRepository(Panne::class)->findOneBy(array(
+            'id'=> $id
+        ));
+
+        //recupere le car associe
+        $car = $panne->getCars()->getId();
+
+
+        $em->remove($panne);
+        $em->flush();
+
+        return $this->redirectToRoute('car', array('id' =>$car));
+
+
+    }
+
+    public function changeEtatCar($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $car = $em->getRepository(Cars::class)->findOneBy(array('id' => $id));
+
+        $last_panne = $em->getRepository(Panne::class)->findOneBy(
+            ['cars'  => $car ],
+            ['id'   => 'DESC']
+        );
+
+        var_dump($last_panne->getId());
+        die();
+
+    }
 
 
 }

@@ -46,6 +46,11 @@ class Cars
     protected $date;
 
     /**
+     * @ORM\Column(name="compteur_panne", type="integer")
+     */
+    protected $compteur_panne = 0;
+
+    /**
      * @ORM\Column(name="site", type="string", length=100)
      * @Assert\NotBlank
      * @Assert\Regex("/^\w+/")
@@ -160,9 +165,16 @@ class Cars
     protected $desc_panne_ano;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Panne", mappedBy="cars")
+     *
+     * @ORM\Column(name="nature_panne_car", type="text", nullable=true)
+     */
+    protected $nature_panne_car;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Panne", mappedBy="cars", orphanRemoval=true, cascade={"persist", "remove", "merge"})
      */
     protected $pannes;
+
+
 
 
 
@@ -188,6 +200,7 @@ class Cars
 
         $panne->setCars(null);
     }
+
 
 
 
@@ -626,5 +639,36 @@ class Cars
         $this->desc_panne_ano = $desc_panne_ano;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCompteurPanne()
+    {
+        return $this->compteur_panne;
+    }
+
+    /**
+     * @param mixed $compteur_panne
+     */
+    public function setCompteurPanne($compteur_panne): void
+    {
+        $this->compteur_panne = $compteur_panne;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNaturePanneCar()
+    {
+        return $this->nature_panne_car;
+    }
+
+    /**
+     * @param mixed $nature_panne_car
+     */
+    public function setNaturePanneCar($nature_panne_car): void
+    {
+        $this->nature_panne_car = $nature_panne_car;
+    }
 
 }

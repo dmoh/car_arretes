@@ -104,6 +104,22 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.date_prev, "Date fin de garantie : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.date_prev , {'attr': {'class': ' js-datepicker form-control'}})}}
+                                        {{ form_errors(form.date_prev, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.garantie, "Date fin de garantie : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.garantie , {'attr': {'class': ' js-datepicker form-control'}})}}
+                                        {{ form_errors(form.garantie, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
                                     <div class="col-md-12">
                                         {# Génération de l'input.#}
                                         {{ form_widget(form.enregistrer , {'attr': {'class': 'col-md-6 btn btn-primary'}})}}
@@ -119,4 +135,13 @@
                     Par de Car à éditer!
                 </h2>
             {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+           /* $('input#car_date_prev').hide();
+            $('select#car_garantie').hide();*/
+        });
+    </script>
 {% endblock %}

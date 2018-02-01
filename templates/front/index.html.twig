@@ -148,9 +148,55 @@
 {% block javascripts %}
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#car_num_serie').focus(function () {
-                //$(this).
+
+            var s = $('#car_num_serie').val().length;
+
+            $('#car_num_serie').on('keyup',function () {
+                var x = document.getElementById('car_num_serie');
+                x.value = x.value.toUpperCase();
+                var t = $('#car_num_serie').val().length;
+                //$('#car_num_serie').val().toUpperCase();
+                    console.log($('#car_num_serie').length);
+
+                    if( t > 15 && t < 22 )
+                    {
+                        $('input#car_num_serie').css('border','2px solid green');
+                    }
+                    else
+                    {
+                        $('input#car_num_serie').css('border','2px solid red');
+                    }
+
             });
+
+            $('#car_immat').on('keyup',function () {
+                var x = document.getElementById('car_immat');
+                x.value = x.value.toUpperCase();
+                var t = $('#car_immat').val().length;
+                //$('#car_num_serie').val().toUpperCase();
+                console.log($('#car_immat').length);
+
+                if( t > 6 && t < 10 )
+                {
+                    $('input#car_immat').css('border','2px solid green');
+                }
+                else
+                {
+                    $('input#car_immat').css('border','2px solid red');
+                }
+
+            });
+
+            $('#car_enregistrer').on('click', function(){
+                if(s < 15 && s > 24)
+                {
+                    alert('Numéro de série invalide');
+                    return false;
+                }
+
+            });
+
+
 
         });
     </script>

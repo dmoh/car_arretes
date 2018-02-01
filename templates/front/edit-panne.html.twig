@@ -26,7 +26,7 @@
                         {{ form_errors(form.etat_car, { 'attr': {'class': 'red' }}) }}
                     </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row ccc">
                     <div class="form-group col-md-4">
                         {# Génération du label. #}
                         {{ form_label(form.nature_panne, "Nature de la panne : ", {'label_attr': {'class': ' control-label'}}) }}
@@ -103,6 +103,17 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
+            if($('option.etat_roulant.avec.anomalie').is(':selected'))
+            {
+                $('select option.etat_panne').prop('disabled', true);
+            }
+            else if($('option.etat_panne').is(':selected'))
+            {
+                $('option.etat_roulant.avec.anomalie').prop('disabled', true);
+            }
+
+
+
             $('.listing_panne div.col-md-6:first-child article').css({"background-color": "#c1ffc1",
                 '-webkit-box-shadow': '3px 3px 5px 0px rgba(0,0,0,0.48)',
                 '-moz-box-shadow': '3px 3px 5px 0px rgba(0,0,0,0.48)',
@@ -112,7 +123,48 @@
             var s =  $('.listing_panne div.col-md-6:first-child article');
             s.prepend("<h6 class='text-center'> Dernière panne Enregistrée </h6>");
 
+            $("select").change(function () {
+               $("select option.etat_roulant:selected").each(function () {
+               });
 
+            });
+
+
+
+            $('#panne_enregistrer').on('click', function () {
+                //e.preventDefault();
+
+              var c = $('select#panne_etat_car').val();
+              var g = $('#panne_nature_panne').val();
+              var h = $('#panne_nature_panne');
+
+                $('#panne_nature_panne').keyup(function(){
+                     // alert("OK");
+                  $('#panne_nature_panne').css("border", "2px solid green");
+              });
+
+              if( !g || g == '' )
+              {
+                  alert("Renseignez la nature de la panne!");
+                 h.css("border", "2px solid red");
+                  return false;
+              }
+
+
+
+
+              var t = $('input#panne_date_effective').val();
+
+              if( c == 'roulant' )
+              {
+                  if( !t || t.length < 4)
+                  {
+                    alert('La date de fin de panne doit être remplie. ');
+                    return false;
+
+                  }
+              }
+            });
 
 
         });

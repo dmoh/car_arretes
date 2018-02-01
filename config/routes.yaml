@@ -41,3 +41,22 @@ edit_panne:
     requirements:
         id: '\d+'
 
+edit_panne_ant:
+    path: /edit-panne-ant/{id}
+    controller: App\Controller\MainController::editPanneAnt
+    requirements:
+        id: '\d+'
+
+delete_panne:
+    path: /delete_panne/{id}
+    controller: App\Controller\MainController::deletePanne
+    requirements:
+        id: '\d+'
+
+change_etat_car:
+    path: /change_etat/{id}
+    controller: App\Controller\MainController::changeEtatCar
+    requirements:
+        id: '\d+'
+
+

@@ -60,8 +60,11 @@ class CarType extends AbstractType
             ->add('date_prev', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
+                'required' => false
                 ))
-            ->add('condition_garantie', TextType::class)
+            ->add('condition_garantie', TextType::class, array(
+                'required' => false
+            ))
             ->add('date_mar', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,

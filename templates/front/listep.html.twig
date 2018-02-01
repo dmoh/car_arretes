@@ -99,7 +99,7 @@
                                     Date derniére panne
                                 </th>
                                 <th>En panne depuis le</th>
-                                <th>Desc Panne</th>
+                                <th>Nature Panne</th>
                                 <th>
                                     Garantie
                                 </th>
@@ -109,16 +109,16 @@
                             {% for panne in liste_panne_ano  %}
                                 <tr>
                                     <td><i style="color: orange;" class="fa fa-ambulance"></i></td>
-                                    <td ><a href="{{ path('car', {'id': panne.id}) }}">{{ panne.immat|upper }}</a></td>
+                                    <td ><a href="{{ path('edit_panne', {'id': panne.id}) }}">{{ panne.immat|upper }}</a></td>
                                     <td>{{ panne.numSerie | upper }}</td>
                                     <td>{{ panne.marque | upper }}</td>
                                     {# variable date de garantie #}
                                     <td>{{ panne.datePrev | date("d/m/Y") }}</td>
                                     <td>{{ panne.datePanneDeb | date("d/m/y") }}</td>
-                                    <td>{{ panne.descPanneCar }}</td>
+                                    <td>{{ panne.naturePanneCar }}</td>
                                     <td>{{ panne.conditionGarantie }}</td>
                                     <td>
-                                        <a href="{{ path('edit_car', {'id':  panne.id }) }}"> Modifier </a>
+                                        <a href="{{ path('edit_panne', {'id':  panne.id }) }}"> Modifier </a>
                                         {#<div class="slideThree">
                                             <input type="checkbox" value="" id="slideThree{{ panne.id }}"  name="check" />
                                             <label for="slideThree{{ panne.id }}"></label>

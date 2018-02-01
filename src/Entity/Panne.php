@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -35,13 +36,13 @@ class Panne
     protected $etat_car;
 
     /**
-     * @ORM\Column(name="desc_panne", type="text")
+     * @ORM\Column(name="desc_panne", type="text", nullable=true)
      */
     protected $desc_panne;
 
 
     /**
-     * @ORM\Column(name="suites_donnes", type="text", length=100)
+     * @ORM\Column(name="suites_donnes", type="text", nullable=true)
      */
     protected $suites_donnes;
 
@@ -87,6 +88,8 @@ class Panne
      * @ORM\Column(name="duree_panne_prev", type="string", nullable=true)
      */
     protected $duree_panne_prev;
+
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cars", inversedBy="pannes")
      * @ORM\JoinColumn(nullable=true)
@@ -116,7 +119,7 @@ class Panne
     /**
      * @param mixed $cars
      */
-    public function setCars(Cars $cars): void
+    public function setCars(Cars $cars = null): void
     {
         $this->cars = $cars;
     }
@@ -126,6 +129,7 @@ class Panne
     public function __construct()
     {
         $this->date = new  \DateTime();
+        $this->cars = new ArrayCollection();
     }
 
     /**
