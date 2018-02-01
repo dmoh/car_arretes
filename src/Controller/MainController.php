@@ -27,6 +27,8 @@ use App\Entity\Panne;
 use App\Form\PanneType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repository\CarsRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 
 Class MainController extends Controller
@@ -82,6 +84,16 @@ Class MainController extends Controller
 
     public function consultation(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        $dql = "SELECT c FROM App\Entity\Cars c";
+        $query = $em->createQuery($dql);
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator-> paginate(
+          $query,
+          $request->query->getInt('page', 1),5
+        );
+
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository(Cars::class);
@@ -93,7 +105,11 @@ Class MainController extends Controller
         die();*/
 
         return $this->render('front/consultation.html.twig',
-            array('Cars' => $car_listing)
+            //array('Cars' => $car_listing)
+            array(
+                'pagination'=> $pagination,
+                'Cars' => $car_listing
+            )
             );
     }
 
