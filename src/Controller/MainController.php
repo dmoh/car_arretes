@@ -131,17 +131,23 @@ Class MainController extends Controller
                  ));
         $nombrep = count($pannes);
 
-        if($nombrep <= 0)
+        if($nombrep == 0)
         {
-            if($car_info->getEtatCar() != 'roulant') {
-                $car_info->setEtatCar('roulant');
-                $car_info->setDatePanneFin(new \DateTime());
-                $fin_panne = $car_info->getDatePannefin();
-                $deb_panne = $car_info->getDatePanneDeb();
+            if($car_info->getEtatCar() != 'roulant' && $car_info->getDatePanneDeb() != null && $car_info->getDatePanneDeb() != '' ) {
 
-                if (!$deb_panne || $deb_panne != null) {
+
+                $car_info->setDatePanneFin(new \DateTime());
+                $v = $car_info->getDatePannefin();
+                $car_info->setEtatCar('roulant');
+                /*$car_info->setDatePanneFin(new \DateTime());
+                $fin_panne = $car_info->getDatePannefin();*/
+                $s = $car_info->getDatePanneDeb();
+                
+
+
+                if (!$v || $v!= null && !$s || $s != null) {
                     # code...
-                    $duree_panne = date_diff($deb_panne, $fin_panne);
+                    $duree_panne = date_diff($s, $v);
                     $duree_panne_prev = $duree_panne->format('%d');
                     $car_info->setDureePanne($duree_panne_prev);
                 }
