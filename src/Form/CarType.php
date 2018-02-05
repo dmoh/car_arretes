@@ -100,6 +100,9 @@ class CarType extends AbstractType
                     // adds a class like attending_yes, attending_no, etc
                     return ['class' => 'attending_'.strtolower($key)];
                 },))
+            ->add('memo_car', TextareaType::class, array(
+                'required' => false,
+            ))
             ->add('enregistrer',    SubmitType::class)
         ;
 

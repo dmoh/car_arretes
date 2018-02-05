@@ -74,10 +74,10 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         {# Génération du label. #}
-                                        {{ form_label(form.condition_garantie, "Condition de garantie : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {{ form_label(form.fin_garantie, "Date fin de garantie : ", {'label_attr': {'class': ' control-label'}}) }}
                                         {# Génération de l'input.#}
-                                        {{ form_widget(form.condition_garantie , {'attr': {'class': 'form-control'}})}}
-                                        {{ form_errors(form.condition_garantie, { 'attr': {'class': 'red' }}) }}
+                                        {{ form_widget(form.fin_garantie , {'attr': {'class': ' js-datepicker form-control'}})}}
+                                        {{ form_errors(form.fin_garantie, { 'attr': {'class': 'red' }}) }}
                                     </div>
                                     <div class="form-group col-md-6">
                                         {# Génération du label. #}
@@ -88,7 +88,7 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-6 etat_hide">
                                         {# Génération du label. #}
                                         {{ form_label(form.etat_car, "Précisez l'état du car : ", {'label_attr': {'class': ' control-label'}}) }}
                                         {# Génération de l'input.#}
@@ -97,26 +97,33 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         {# Génération du label. #}
-                                        {{ form_label(form.fin_garantie, "Date fin de garantie : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {{ form_label(form.condition_garantie, "Condition de garantie : ", {'label_attr': {'class': ' control-label'}}) }}
                                         {# Génération de l'input.#}
-                                        {{ form_widget(form.fin_garantie , {'attr': {'class': ' js-datepicker form-control'}})}}
-                                        {{ form_errors(form.fin_garantie, { 'attr': {'class': 'red' }}) }}
+                                        {{ form_widget(form.condition_garantie , {'attr': {'class': 'form-control'}})}}
+                                        {{ form_errors(form.condition_garantie, { 'attr': {'class': 'red' }}) }}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        {# Génération du label. #}
+                                        {{ form_label(form.garantie, "Sous garantie : ", {'label_attr': {'class': ' control-label'}}) }}
+                                        {# Génération de l'input.#}
+                                        {{ form_widget(form.garantie , {'attr': {'class': ' js-datepicker form-control'}})}}
+                                        {{ form_errors(form.garantie, { 'attr': {'class': 'red' }}) }}
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-6 etat_hide">
                                         {# Génération du label. #}
                                         {{ form_label(form.date_prev, "Date fin de garantie : ", {'label_attr': {'class': ' control-label'}}) }}
                                         {# Génération de l'input.#}
                                         {{ form_widget(form.date_prev , {'attr': {'class': ' js-datepicker form-control'}})}}
                                         {{ form_errors(form.date_prev, { 'attr': {'class': 'red' }}) }}
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        {# Génération du label. #}
-                                        {{ form_label(form.garantie, "Date fin de garantie : ", {'label_attr': {'class': ' control-label'}}) }}
-                                        {# Génération de l'input.#}
-                                        {{ form_widget(form.garantie , {'attr': {'class': ' js-datepicker form-control'}})}}
-                                        {{ form_errors(form.garantie, { 'attr': {'class': 'red' }}) }}
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        {{ form_label(form.memo_car, "Mémo car : ", {'label_attr': {'class': 'control-label'}}) }}
+                                        {{ form_widget(form.memo_car, {'attr': {'class': 'form-control'}}) }}
+                                        {{ form_errors(form.memo_car, {'attr': {'class': 'form-control'}}) }}
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -140,6 +147,25 @@
 {% block javascripts %}
     <script type="text/javascript">
         $(document).ready(function(){
+            $('.etat_hide').css('display', 'none');
+
+           if($('option.etat_roulant').is(':selected'))
+           {
+               $('option.etat_roulant.avec.anomalie').prop('disabled', true);
+               $('option.etat_panne').prop('disabled', true);
+           }
+           else if($('option.etat_panne').is(':selected'))
+           {
+               $('option.etat_roulant').prop('disabled', true);
+
+           }
+           else
+           {
+               $('option.etat_roulant').prop('disabled', true);
+               $('option.etat_panne').prop('disabled', true);
+               $('option.etat_roulant.avec.anomalie').prop('disabled', false);
+           }
+
            /* $('input#car_date_prev').hide();
             $('select#car_garantie').hide();*/
         });

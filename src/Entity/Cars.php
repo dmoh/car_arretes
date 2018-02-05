@@ -46,7 +46,7 @@ class Cars
     protected $date;
 
     /**
-     * @ORM\Column(name="compteur_panne", type="integer")
+     * @ORM\Column(name="compteur_panne", type="integer", nullable=true)
      */
     protected $compteur_panne = 0;
 
@@ -74,8 +74,8 @@ class Cars
     protected $marque;
 
     /**
-     * @ORM\Column(name="locataire", type="string", length=20)
-     * @Assert\NotBlank()
+     * @ORM\Column(name="locataire", type="string", nullable=true)
+     *
      */
     protected $locataire;
 
@@ -101,7 +101,7 @@ class Cars
     protected $action_engages;
 
     /**
-     * @ORM\Column(name="etat_car", type="string", length=100)
+     * @ORM\Column(name="etat_car", type="string", nullable=true)
      */
     protected $etat_car;
 
@@ -164,6 +164,7 @@ class Cars
      */
     protected $desc_panne_ano;
 
+
     /**
      *
      * @ORM\Column(name="nature_panne_car", type="text", nullable=true)
@@ -173,6 +174,12 @@ class Cars
      * @ORM\OneToMany(targetEntity="App\Entity\Panne", mappedBy="cars", orphanRemoval=true, cascade={"persist", "remove", "merge"})
      */
     protected $pannes;
+
+    /**
+     * @ORM\Column(name="memo_car", type="text", nullable=true)
+     */
+    protected $memo_car;
+
 
 
 
@@ -669,6 +676,22 @@ class Cars
     public function setNaturePanneCar($nature_panne_car): void
     {
         $this->nature_panne_car = $nature_panne_car;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMemoCar()
+    {
+        return $this->memo_car;
+    }
+
+    /**
+     * @param mixed $memo_car
+     */
+    public function setMemoCar($memo_car): void
+    {
+        $this->memo_car = $memo_car;
     }
 
 }

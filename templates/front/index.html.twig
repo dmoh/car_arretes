@@ -117,6 +117,13 @@
                     </div>
                     <div class="form-row">
                         <div class="col-md-12">
+                            {{ form_label(form.memo_car, "Mémo car : ", {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(form.memo_car, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.memo_car, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
                             {# Génération de l'input.#}
                             {{ form_widget(form.enregistrer , {'attr': {'class': 'col-md-6 btn btn-primary'}})}}
                         </div>
@@ -148,6 +155,30 @@
 {% block javascripts %}
     <script type="text/javascript">
         $(document).ready(function () {
+
+
+
+
+           if($('option.etat_roulant').is(':selected'))
+           {
+               $('option.etat_roulant.avec.anomalie').prop('disabled', true);
+               $('option.etat_panne').prop('disabled', true);
+           }
+           else if($('option.etat_panne').is(':selected'))
+           {
+               $('option.etat_roulant').prop('disabled', true);
+
+           }
+           else
+           {
+               $('option.etat_roulant').prop('disabled', true);
+               $('option.etat_panne').prop('disabled', true);
+               $('option.etat_roulant.avec.anomalie').prop('disabled', false);
+           }
+
+           /* $('input#car_date_prev').hide();
+            $('select#car_garantie').hide();*/
+
 
             var s = $('#car_num_serie').val().length;
 
