@@ -7,6 +7,8 @@
  */
 namespace App\Controller;
 
+use App\Entity\Rubrique;
+use App\Form\RubriqueType;
 use App\Form\UserType;
 use App\Repository\PanneRepository;
 use Doctrine\ORM\Mapping\Entity;
@@ -20,8 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Doctrine\ORM\Tools\Pagination\Paginator;
+
 use App\Form\CarType;
 use App\Entity\Cars;
 use App\Entity\Panne;
@@ -89,7 +90,7 @@ Class MainController extends Controller
 
 
 
-    public function consultation(Request $request)
+    public function consultation(Request $request, AuthenticationUtils $authUtils)
     {
         $em = $this->getDoctrine()->getManager();
         $dql = "SELECT c FROM App\Entity\Cars c";
@@ -108,6 +109,13 @@ Class MainController extends Controller
              array('date' => 'DESC')
         );
 
+        // get the login error if there is one
+        $error = $authUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authUtils->getLastUsername();
+
+
         /*var_dump($car_listing);
         die();*/
 
@@ -115,7 +123,9 @@ Class MainController extends Controller
             //array('Cars' => $car_listing)
             array(
                 'pagination'=> $pagination,
-                'Cars' => $car_listing
+                'Cars' => $car_listing,
+                'last_username' => $lastUsername,
+                'error'         => $error,
             )
             );
     }
@@ -848,8 +858,6 @@ Class MainController extends Controller
         // last username entered by the user
         $lastUsername = $authUtils->getLastUsername();
 
-
-
         return $this->render('front/login.html.twig', array(
             'last_username' => $lastUsername,
             'error'         => $error,
@@ -861,6 +869,54 @@ Class MainController extends Controller
      */
     public function logout()
     {
+    }
+
+
+    public function addRubrique(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $rub_rec = $em->getRepository(Rubrique::class)->findAll();
+        $rub = new Rubrique();
+
+        $form = $this->createForm(RubriqueType::class, $rub);
+
+
+        if ($request->isMethod('POST'))
+        {
+                $form->handleRequest($request);
+                $em->persist($rub);
+                $em->flush();
+                return $this->redirectToRoute('consultation');
+        }
+
+        return $this->render('front/rubrique.html.twig', array(
+                'form'  => $form->createView(),
+                'rub'   => $rub_rec,
+            ));
+
+
+    }
+
+    public function editRubrique(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rub = $em->getRepository(Rubrique::class)->find($id);
+
+        $form = $this->get('form.factory')->create(RubriqueType::class, $rub);
+
+        return $this->render('front/edit-rubrique.html.twig',array(
+           'form'   => $form->createView()
+        ));
+    }
+
+    public function deleteRubrique(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rub = $em->getRepository(Rubrique::class)->find($id);
+        $em->remove($rub);
+        $em->flush();
+        return $this->redirectToRoute('add_rubrique');
 
     }
 }

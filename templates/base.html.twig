@@ -17,6 +17,9 @@
         <nav class="navbar sticky-top navbar-dark bg-dark justify-content-between">
             <a class="navbar-brand" href="{{ path('consultation') }}">Autocars APS | FLE</a>
             <ul class="nav">
+                {% if app.user %}
+                    <a class="nav-link active" href="{{ path('add_rubrique') }}">Rubrique</a>
+                {% endif %}
               <a class="nav-link active" href="{{ path('index') }}">Ajouter un Autocar</a>
               <a class="nav-link active" href="{{ path('consultation') }}">Etat Parc</a>
               <a class="nav-link active" href="{{ path('liste_panne') }}">Car en panne</a>
@@ -58,6 +61,36 @@
 
                       <button type="submit">login</button>
                   </form>#}
+                  {% if is_granted('ROLE_USER') %}
+                  {% else %}
+                  <div class="container">
+                      <div class="row">
+
+                          {% if error %}
+                              <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                          {% endif %}
+                          <form class="form-horizontal" action="{{ path('login') }}" method="post">
+
+                              <label class="control-label" for="username">Nom d'utilisateur:</label>
+                              <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" />
+
+                              <label class="control-label" for="password">Mot de passe:</label>
+                              <input type="password" class="form-control" id="password" name="_password" />
+
+                              {# <input type="checkbox" id="remember_me" name="_remember_me" checked />
+                               <label for="remember_me">Se souvenir de moi</label>
+
+                             {#
+                                   If you want to control the URL the user
+                                   is redirected to on success (more details below)
+                                   <input type="hidden" name="_target_path" value="/account" />
+                               #}
+
+                              <button class="btn btn-primary" type="submit">Se connecter</button>
+                          </form>
+                      </div>
+                  </div>
+                  {% endif %}
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

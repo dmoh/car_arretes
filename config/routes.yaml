@@ -58,8 +58,15 @@ change_etat_car:
     controller: App\Controller\MainController::changeEtatCar
     requirements:
         id: '\d+'
-
-
+add_rubrique:
+    path: /admin/addRubrique
+    controller: App\Controller\MainController::addRubrique
+edit_rubrique:
+    path: /admin/edit-rubrique/{id}
+    controller: App\Controller\MainController::editRubrique
+delete_rubrique:
+    path: /admin/delete-rubrique/{id}
+    controller: App\Controller\MainController::deleteRubrique
 login:
     path: /login
     controller: App\Controller\MainController::login

@@ -24,14 +24,16 @@ security:
                 login_path: login
                 check_path: login
                 default_target_path: /consultation
+            remember_me:
+                secret:       "%kernel.secret%"
+                lifetime:     3600
+                path:         /
+                domain:       ~
+
             logout:
                 path:       logout
-                target:     consultation
-                invalidate_session: true
-            remember_me:
-                secret:     '%kernel.secret%'
-                lifetime:   604800
-                path:       /
+                target:     /consultation
+
 
     access_control:
         - { path: ^/admin , roles: ROLE_USER}
