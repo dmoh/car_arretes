@@ -1,12 +1,37 @@
 security:
     # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
     providers:
-        in_memory: { memory: ~ }
+        main_provider:
+            entity:
+                class: App\Entity\User
+
+    role_hierarchy:
+        ROLE_CONSULTATION: ROLE_USER
+        ROLE_ADMIN:        ROLE_ADMIN
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: ~
+            pattern:        ^/
+            anonymous:      true
+            provider:       main_provider
+            form_login:
+                login_path: login
+                check_path: login
+                default_target_path: /consultation
+            logout:
+                path:       logout
+                target:     consultation
+                invalidate_session: true
+            remember_me:
+                secret:     '%kernel.secret%'
+                lifetime:   604800
+                path:       /
 
-
+    access_control:
+        - { path: ^/admin , roles: ROLE_USER}

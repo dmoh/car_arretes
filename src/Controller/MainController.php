@@ -7,6 +7,7 @@
  */
 namespace App\Controller;
 
+use App\Form\UserType;
 use App\Repository\PanneRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -29,7 +30,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repository\CarsRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use App\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 Class MainController extends Controller
 {
@@ -80,6 +86,7 @@ Class MainController extends Controller
         ));
 
     }
+
 
 
     public function consultation(Request $request)
@@ -811,6 +818,49 @@ Class MainController extends Controller
         die();
 
     }
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('consultation');
+        }
+        return $this->render(
+          'front/register.html.twig',
+          array('form'=> $form->createView())
+        );
+    }
+
+    public function login(Request $request, AuthenticationUtils $authUtils)
+    {
+        // get the login error if there is one
+        $error = $authUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authUtils->getLastUsername();
 
 
+
+        return $this->render('front/login.html.twig', array(
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ));
+    }
+
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logout()
+    {
+
+    }
 }

@@ -1,5 +1,5 @@
 index:
-    path: /ajouter-car
+    path: /admin/ajouter-car
     controller: App\Controller\MainController::index
 consultation:
     path: /consultation
@@ -11,7 +11,7 @@ car:
         id: '\d+'
 
 ajout_panne:
-    path: /panne/{id}
+    path: /admin/panne/{id}
     controller: App\Controller\MainController::addPanne
     requirements:
         id: '\d+'
@@ -25,24 +25,24 @@ liste_panne:
     controller: App\Controller\MainController::listePanne
 
 edit_car:
-    path: /editcar/{id}
+    path: /admin/editcar/{id}
     controller: App\Controller\MainController::editCar
     requirements:
         id: '\d+'
 effacer_car:
-    path: /effacer-car/{id}
+    path: /admin/effacer-car/{id}
     controller: App\Controller\MainController::deleteCar
     requirements:
         id: '\d+'
 
 edit_panne:
-    path: /edit-panne/{id}
+    path: /admin/edit-panne/{id}
     controller: App\Controller\MainController::editPanne
     requirements:
         id: '\d+'
 
 edit_panne_ant:
-    path: /edit-panne-ant/{id}
+    path: /admin/edit-panne-ant/{id}
     controller: App\Controller\MainController::editPanneAnt
     requirements:
         id: '\d+'
@@ -59,4 +59,19 @@ change_etat_car:
     requirements:
         id: '\d+'
 
+
+login:
+    path: /login
+    controller: App\Controller\MainController::login
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+
+register:
+    path: /register
+    defaults:
+    controller: App\Controller\MainController::register
 
