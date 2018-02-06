@@ -37,6 +37,7 @@ use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Cookie;
 
 Class MainController extends Controller
 {
@@ -864,11 +865,14 @@ Class MainController extends Controller
         ));
     }
 
-    /**
-     * @Route("/logout", name="logout")
-     */
+
     public function logout()
     {
+        $response = new Response();
+        //$response->headers->setCookie(new Cookie('REMEMBERME', 'true', 0, '/', null, false, false));
+        $response->headers->clearCookie('REMEMBERME');
+        $response->send();
+        return $this->redirectToRoute('consultation');
     }
 
 
@@ -887,7 +891,7 @@ Class MainController extends Controller
                 $form->handleRequest($request);
                 $em->persist($rub);
                 $em->flush();
-                return $this->redirectToRoute('consultation');
+                return $this->redirectToRoute('add_rubrique');
         }
 
         return $this->render('front/rubrique.html.twig', array(
@@ -904,6 +908,14 @@ Class MainController extends Controller
         $rub = $em->getRepository(Rubrique::class)->find($id);
 
         $form = $this->get('form.factory')->create(RubriqueType::class, $rub);
+
+        if ($request->isMethod('POST'))
+        {
+            $form->handleRequest($request);
+            $em->flush();
+            return $this->redirectToRoute('add_rubrique');
+
+        }
 
         return $this->render('front/edit-rubrique.html.twig',array(
            'form'   => $form->createView()

@@ -40,7 +40,13 @@
 									<tbody>
                                     {% for Car in car_listing %}
 										<tr>
-											<th scope="row"><a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a></th>
+											<th scope="row">
+                                                {% if app.user %}
+													<a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a>
+                                                {% else %}
+                                                    {{ Car.immat|upper }}
+                                                {% endif %}
+											</th>
 											<td>{{ Car.date|date("d/m/Y") }}</td>
 											<td>{{ Car.numSerie }}</td>
 											<td>{{ Car.marque| upper }}</td>
