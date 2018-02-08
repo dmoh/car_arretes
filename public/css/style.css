@@ -276,6 +276,18 @@ form.form-horizontal{
 .navbar > ul {
     font-size: 13px;
 }
+
+.equipements
+{
+    font-size: 0.7rem;
+
+}
+.equipements .fa
+{
+    width: 25px;
+}
+
+
 /***************************************MEDIA QUERIES*************************************************/
 
 @media screen and (max-width: 990px) {

@@ -2,20 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4aea78bf-d786-447e-a7ee-8d982dc11f4e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" afterPath="$PROJECT_DIR$/config/packages/security.yaml" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/MainController.php" afterPath="$PROJECT_DIR$/src/Controller/MainController.php" />
+      <change beforePath="$PROJECT_DIR$/public/css/style.css" afterPath="$PROJECT_DIR$/public/css/style.css" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Cars.php" afterPath="$PROJECT_DIR$/src/Entity/Cars.php" />
-      <change beforePath="$PROJECT_DIR$/src/Form/PanneType.php" afterPath="$PROJECT_DIR$/src/Form/PanneType.php" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" afterPath="$PROJECT_DIR$/templates/base.html.twig" />
       <change beforePath="$PROJECT_DIR$/templates/front/car.html.twig" afterPath="$PROJECT_DIR$/templates/front/car.html.twig" />
       <change beforePath="$PROJECT_DIR$/templates/front/consultation.html.twig" afterPath="$PROJECT_DIR$/templates/front/consultation.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/front/edit-panne-ant.html.twig" afterPath="$PROJECT_DIR$/templates/front/edit-panne-ant.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/front/edit-panne.html.twig" afterPath="$PROJECT_DIR$/templates/front/edit-panne.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/front/edit.html.twig" afterPath="$PROJECT_DIR$/templates/front/edit.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/front/index.html.twig" afterPath="$PROJECT_DIR$/templates/front/index.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/front/listep.html.twig" afterPath="$PROJECT_DIR$/templates/front/listep.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/front/login.html.twig" afterPath="$PROJECT_DIR$/templates/front/login.html.twig" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,77 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="750">
-      <file leaf-file-name="MainController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/MainController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="467">
-              <caret line="392" column="9" lean-forward="false" selection-start-line="392" selection-start-column="9" selection-end-line="392" selection-end-column="9" />
-              <folding>
-                <element signature="e#122#146#0#PHP" expanded="true" />
-                <marker date="1518087131113" expanded="true" signature="3147:3178" ph="SELECT c FRO... App" />
-                <marker date="1518087131113" expanded="true" signature="26739:26827" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="listep.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/front/listep.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="640">
-              <caret line="28" column="42" lean-forward="false" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
-              <folding>
-                <element signature="e#5393#5460#0#HTML" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Cars.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Cars.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5597">
-              <caret line="968" column="4" lean-forward="true" selection-start-line="968" selection-start-column="4" selection-end-line="968" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="edit-panne.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/front/edit-panne.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1400">
-              <caret line="95" column="72" lean-forward="false" selection-start-line="95" selection-start-column="72" selection-end-line="95" selection-end-column="72" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="car.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/front/car.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1040">
-              <caret line="86" column="46" lean-forward="false" selection-start-line="86" selection-start-column="46" selection-end-line="86" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/front/index.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1122">
-              <caret line="120" column="103" lean-forward="false" selection-start-line="120" selection-start-column="103" selection-end-line="120" selection-end-column="103" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="edit-panne-ant.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/front/edit-panne-ant.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2117">
-              <caret line="107" column="89" lean-forward="false" selection-start-line="107" selection-start-column="89" selection-end-line="107" selection-end-column="89" />
+            <state relative-caret-position="920">
+              <caret line="23" column="37" lean-forward="false" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -108,28 +32,18 @@
       <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1360">
-              <caret line="34" column="20" lean-forward="false" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="20" />
+            <state relative-caret-position="877">
+              <caret line="279" column="12" lean-forward="false" selection-start-line="279" selection-start-column="12" selection-end-line="279" selection-end-column="12" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="security.yaml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/packages/security.yaml">
+      <file leaf-file-name="Rubrique.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Rubrique.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1160">
-              <caret line="29" column="35" lean-forward="false" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="edit.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/front/edit.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="857">
-              <caret line="81" column="109" lean-forward="false" selection-start-line="81" selection-start-column="109" selection-end-line="81" selection-end-column="109" />
+            <state relative-caret-position="1017">
+              <caret line="42" column="67" lean-forward="false" selection-start-line="42" selection-start-column="67" selection-end-line="42" selection-end-column="67" />
               <folding />
             </state>
           </provider>
@@ -206,28 +120,28 @@
         <option value="$PROJECT_DIR$/src/Entity/User.php" />
         <option value="$PROJECT_DIR$/src/Repository/UserRepository.php" />
         <option value="$PROJECT_DIR$/templates/front/register.html.twig" />
-        <option value="$PROJECT_DIR$/src/Entity/Rubrique.php" />
         <option value="$PROJECT_DIR$/src/Repository/RubriqueRepository.php" />
         <option value="$PROJECT_DIR$/src/Form/UserType.php" />
         <option value="$PROJECT_DIR$/src/Form/RubriqueType.php" />
         <option value="$PROJECT_DIR$/templates/front/edit-rubrique.html.twig" />
         <option value="$PROJECT_DIR$/templates/front/rubrique.html.twig" />
-        <option value="$PROJECT_DIR$/public/css/style.css" />
         <option value="$PROJECT_DIR$/config/routes.yaml" />
         <option value="$PROJECT_DIR$/templates/front/recherche.html.twig" />
         <option value="$PROJECT_DIR$/templates/front/login.html.twig" />
         <option value="$PROJECT_DIR$/templates/base.html.twig" />
         <option value="$PROJECT_DIR$/src/Form/PanneType.php" />
-        <option value="$PROJECT_DIR$/templates/front/consultation.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/MainController.php" />
         <option value="$PROJECT_DIR$/templates/front/edit-panne.html.twig" />
-        <option value="$PROJECT_DIR$/templates/front/car.html.twig" />
         <option value="$PROJECT_DIR$/templates/front/index.html.twig" />
         <option value="$PROJECT_DIR$/templates/front/edit.html.twig" />
         <option value="$PROJECT_DIR$/templates/front/edit-panne-ant.html.twig" />
         <option value="$PROJECT_DIR$/config/packages/security.yaml" />
         <option value="$PROJECT_DIR$/templates/front/listep.html.twig" />
         <option value="$PROJECT_DIR$/src/Entity/Cars.php" />
+        <option value="$PROJECT_DIR$/templates/front/consultation.html.twig" />
+        <option value="$PROJECT_DIR$/templates/front/car.html.twig" />
+        <option value="$PROJECT_DIR$/public/css/style.css" />
+        <option value="$PROJECT_DIR$/src/Entity/Rubrique.php" />
       </list>
     </option>
   </component>
@@ -313,8 +227,8 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="697" />
-    <option name="y" value="13" />
+    <option name="x" value="-505" />
+    <option name="y" value="-58" />
     <option name="width" value="3156" />
     <option name="height" value="2060" />
   </component>
@@ -474,12 +388,12 @@
       <workItem from="1517822634788" duration="19251000" />
       <workItem from="1517902128941" duration="22014000" />
       <workItem from="1517988500829" duration="3855000" />
-      <workItem from="1517997370056" duration="14542000" />
+      <workItem from="1517997370056" duration="19621000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="410160000" />
+    <option name="totallyTimeSpent" value="415239000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-16" y="-16" width="3872" height="2092" extended-state="6" />
@@ -683,24 +597,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/CarType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1640">
-          <caret line="103" column="36" lean-forward="false" selection-start-line="103" selection-start-column="36" selection-end-line="103" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Repository/CarsRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="600">
           <caret line="15" column="0" lean-forward="false" selection-start-line="9" selection-start-column="21" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/UserType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="18" column="60" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="41" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -734,13 +634,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/RubriqueType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="9" column="10" lean-forward="false" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/front/edit-rubrique.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -752,14 +645,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="17" column="1" lean-forward="false" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Rubrique.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2000">
-          <caret line="59" column="5" lean-forward="false" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -813,39 +698,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/front/consultation.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="760">
-          <caret line="58" column="101" lean-forward="false" selection-start-line="58" selection-start-column="101" selection-end-line="58" selection-end-column="101" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/MainController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="467">
           <caret line="392" column="9" lean-forward="false" selection-start-line="392" selection-start-column="9" selection-end-line="392" selection-end-column="9" />
           <folding>
-            <element signature="e#122#146#0#PHP" expanded="true" />
+            <element signature="e#122#146#0#PHP" expanded="false" />
             <marker date="1518087131113" expanded="true" signature="3147:3178" ph="SELECT c FRO... App" />
             <marker date="1518087131113" expanded="true" signature="26739:26827" ph="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1360">
-          <caret line="34" column="20" lean-forward="false" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/front/car.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1040">
-          <caret line="86" column="46" lean-forward="false" selection-start-line="86" selection-start-column="46" selection-end-line="86" selection-end-column="46" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -889,20 +750,78 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Cars.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1686">
+          <caret line="183" column="50" lean-forward="false" selection-start-line="183" selection-start-column="50" selection-end-line="183" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/front/listep.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="640">
-          <caret line="28" column="42" lean-forward="false" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
+        <state relative-caret-position="1120">
+          <caret line="40" column="12" lean-forward="false" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
           <folding>
-            <element signature="e#5393#5460#0#HTML" expanded="true" />
+            <element signature="e#5393#5460#0#HTML" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Cars.php">
+    <entry file="file://$PROJECT_DIR$/templates/front/consultation.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5597">
-          <caret line="968" column="4" lean-forward="true" selection-start-line="968" selection-start-column="4" selection-end-line="968" selection-end-column="4" />
+        <state relative-caret-position="1600">
+          <caret line="40" column="115" lean-forward="false" selection-start-line="40" selection-start-column="115" selection-end-line="40" selection-end-column="115" />
+          <folding>
+            <element signature="e#3355#3409#0#HTML" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/RubriqueType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="9" column="10" lean-forward="false" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/UserType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1160">
+          <caret line="41" column="1" lean-forward="false" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/CarType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2040">
+          <caret line="103" column="36" lean-forward="false" selection-start-line="103" selection-start-column="36" selection-end-line="103" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/front/car.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="920">
+          <caret line="23" column="37" lean-forward="false" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="877">
+          <caret line="279" column="12" lean-forward="false" selection-start-line="279" selection-start-column="12" selection-end-line="279" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Rubrique.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1017">
+          <caret line="42" column="67" lean-forward="false" selection-start-line="42" selection-start-column="67" selection-end-line="42" selection-end-column="67" />
           <folding />
         </state>
       </provider>

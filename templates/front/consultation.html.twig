@@ -39,7 +39,6 @@
                                     <th scope="row">
                                         {% if app.user %}
                                             <a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a>
-
                                             {% else %}
                                             {{ Car.immat|upper }}
                                         {% endif %}
@@ -56,7 +55,7 @@
                                             depuis le
                                             {{ Car.datePanneDeb| date("d/m/Y")  }}
                                             {% elseif Car.etatCar == "atelier" %}
-                                            <i class="fa fa-wrench" style="color: red;  font-size: 16px" aria-hidden="true"></i>
+                                            <i class="fa fa-wrench" style="color: red;  font-size: 16px; padding-top: 1px" aria-hidden="true"></i>
                                             depuis le
                                             {{ Car.datePanneDeb| date("d/m/Y")  }}
                                         {% else %}

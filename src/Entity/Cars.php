@@ -181,7 +181,7 @@ class Cars
     protected $memo_car;
 
     /**
-     * @ORM\Column(name="nb_places", type="int", nullable= true)
+     * @ORM\Column(name="nb_places", type="integer", nullable= true)
      */
     protected $nb_places;
 
@@ -966,5 +966,5 @@ class Cars
     }
 
 
-    
+
 }

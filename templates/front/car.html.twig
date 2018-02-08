@@ -16,12 +16,28 @@
                 <a class="btn btn-danger " href="{{ path('effacer_car', { 'id': car.id }) }}">Supprimer fiche du car</a>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12"><h5>Equipements</h5></div>
+        </div>
+        <div class="row">
+            <div class="equipements">
+                <div class="col-md-12">
+                    <b> <i class="fa fa-users"></i> Nombres de places : </b>
+                    <span>
+                        {% if car.nbPlaces is defined and car.nbPlaces != 0 %}
+                            {{ car.nbPlaces }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
         <div class="row pb-40">
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th scope="col-md-2">Immatriculation</th>
-                    <th scope="col-md-1">Mise à jour</th>
                     <th scope="col-md-1">Date d'enregistrement</th>
                     <th scope="col-md-2">Déclarant</th>
                     <th scope="col-md-2" >Etat du Car (ACTUEL)</th>
@@ -45,7 +61,6 @@
                             {{ car.immat|upper }}
                         {% endif %}
                         </th>
-                        <td>{{ car.dateMaj| date("d/m/Y") }}</td>
                         <td>{{ car.date | date("d/m/Y") }}</td>
                         <td>{{ car.auteur }}</td>
                         <td >{% if car.EtatCar == 'roulant_ano' %}
@@ -79,7 +94,6 @@
                     <thead>
                     <tr>
                         <th scope="col-md-2">Immatriculation</th>
-                        <th scope="col-md-1">Mise à jour le</th>
                         <th scope="col-md-1">Déclarant</th>
                         <th scope="col-md-1">état du Car (Antérieur)</th>
                         <th scope="col-md-1">Durée Panne</th>
@@ -92,7 +106,6 @@
                     {% for panne in pannes %}
                         <tr>
                             <td scope="row">{{ car.immat| upper }} <br> <a href="{{ path('edit_panne_ant', { 'id': panne.id }) }}"><i style="color: #00a7d0; margin-right: 5px; font-size: 15px;" class="fa fa-pencil-square"> </i></a> <a href="{{ path('delete_panne', { 'id': panne.id }) }}"><i  style="font-size: 15px;" class="fa fa-trash"></i></a></td>
-                            <td>{{ panne.date|date("d/m/Y") }}</td>
                             <td>{{ panne.auteur }}</td>
                             <td>{% if panne.EtatCar == 'roulant_ano' %}
                                     <i class="fa fa-ambulance" style="color:orange; padding-top: 0 !important; font-size: 15px"></i>
