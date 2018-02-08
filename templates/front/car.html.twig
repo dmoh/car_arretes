@@ -83,7 +83,9 @@
                         <th scope="col-md-1">Déclarant</th>
                         <th scope="col-md-1">état du Car (Antérieur)</th>
                         <th scope="col-md-1">Durée Panne</th>
-                        <th scope="col-md-2">Nature Panne</th>
+                        <th scope="col-md-2">
+                            Panne ou Entretien
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -96,6 +98,8 @@
                                     <i class="fa fa-ambulance" style="color:orange; padding-top: 0 !important; font-size: 15px"></i>
                             {% elseif panne.EtatCar == 'panne' %}
                                     <i class="fa fa-ambulance" style="font-size: 15px; padding-top: 0 !important; color: red;"></i>
+                                {% elseif panne.EtatCar == 'atelier' %}
+                                    <i class="fa fa-wrench" style="font-size: 15px; padding-top: 0 !important; color: red;"></i>
                                     {% else %}
                                     {#<i class="fa fa-bus" style="font-size: 15px; padding-top: 0 !important; color: greenyellow;"></i>#}
                                 {% endif %}</td>

@@ -180,8 +180,71 @@ class Cars
      */
     protected $memo_car;
 
+    /**
+     * @ORM\Column(name="nb_places", type="int", nullable= true)
+     */
+    protected $nb_places;
+
+    /**
+     * @ORM\Column(name="siege_guide", type="string", nullable= true)
+     */
+    protected $siege_guide;
+
+    /**
+     * @ORM\Column(name="euro", type="string", nullable= true)
+     */
+    protected $euro;
+
+    /**
+     * @ORM\Column(name="ct", type="date", nullable= true)
+     */
+    protected $ct;
+
+    /**
+     * @ORM\Column(name="date_extincteur", type="date", nullable= true)
+     */
+    protected $date_extincteur;
 
 
+    /**
+     * @ORM\Column(name="date_limiteur", type="date", nullable= true)
+     */
+    protected $date_limiteur;
+
+    /**
+     * @ORM\Column(name="date_tachy", type="date", nullable= true)
+     */
+    protected $date_tachy;
+
+    /**
+     * @ORM\Column(name="date_ethylo", type="date", nullable= true)
+     */
+    protected $date_ethylo;
+
+    /**
+     * @ORM\Column(name="wc", type="string", nullable= true)
+     */
+    protected $wc;
+
+    /**
+     * @ORM\Column(name="ufr", type="string", nullable= true)
+     */
+    protected $ufr;
+
+    /**
+     * @ORM\Column(name="usb", type="string", nullable= true)
+     */
+    protected $usb;
+
+    /**
+     * @ORM\Column(name="prises_elec", type="string", nullable= true)
+     */
+    protected $prises_elec;
+
+    /**
+     * @ORM\Column(name="porte_ski", type="string", nullable= true)
+     */
+    protected $porte_ski;
 
 
 
@@ -694,4 +757,214 @@ class Cars
         $this->memo_car = $memo_car;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getNbPlaces()
+    {
+        return $this->nb_places;
+    }
+
+    /**
+     * @param mixed $nb_places
+     */
+    public function setNbPlaces($nb_places): void
+    {
+        $this->nb_places = $nb_places;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSiegeGuide()
+    {
+        return $this->siege_guide;
+    }
+
+    /**
+     * @param mixed $siege_guide
+     */
+    public function setSiegeGuide($siege_guide): void
+    {
+        $this->siege_guide = $siege_guide;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEuro()
+    {
+        return $this->euro;
+    }
+
+    /**
+     * @param mixed $euro
+     */
+    public function setEuro($euro): void
+    {
+        $this->euro = $euro;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCt()
+    {
+        return $this->ct;
+    }
+
+    /**
+     * @param mixed $ct
+     */
+    public function setCt($ct): void
+    {
+        $this->ct = $ct;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateExtincteur()
+    {
+        return $this->date_extincteur;
+    }
+
+    /**
+     * @param mixed $date_extincteur
+     */
+    public function setDateExtincteur($date_extincteur): void
+    {
+        $this->date_extincteur = $date_extincteur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateLimiteur()
+    {
+        return $this->date_limiteur;
+    }
+
+    /**
+     * @param mixed $date_limiteur
+     */
+    public function setDateLimiteur($date_limiteur): void
+    {
+        $this->date_limiteur = $date_limiteur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateTachy()
+    {
+        return $this->date_tachy;
+    }
+
+    /**
+     * @param mixed $date_tachy
+     */
+    public function setDateTachy($date_tachy): void
+    {
+        $this->date_tachy = $date_tachy;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateEthylo()
+    {
+        return $this->date_ethylo;
+    }
+
+    /**
+     * @param mixed $date_ethylo
+     */
+    public function setDateEthylo($date_ethylo): void
+    {
+        $this->date_ethylo = $date_ethylo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWc()
+    {
+        return $this->wc;
+    }
+
+    /**
+     * @param mixed $wc
+     */
+    public function setWc($wc): void
+    {
+        $this->wc = $wc;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUfr()
+    {
+        return $this->ufr;
+    }
+
+    /**
+     * @param mixed $ufr
+     */
+    public function setUfr($ufr): void
+    {
+        $this->ufr = $ufr;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsb()
+    {
+        return $this->usb;
+    }
+
+    /**
+     * @param mixed $usb
+     */
+    public function setUsb($usb): void
+    {
+        $this->usb = $usb;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrisesElec()
+    {
+        return $this->prises_elec;
+    }
+
+    /**
+     * @param mixed $prises_elec
+     */
+    public function setPrisesElec($prises_elec): void
+    {
+        $this->prises_elec = $prises_elec;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPorteSki()
+    {
+        return $this->porte_ski;
+    }
+
+    /**
+     * @param mixed $porte_ski
+     */
+    public function setPorteSki($porte_ski): void
+    {
+        $this->porte_ski = $porte_ski;
+    }
+
+
+    
 }

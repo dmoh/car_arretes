@@ -25,8 +25,7 @@
                                 <thead>
                                 <tr class="text-uppercase">
                                     <th scope="col-md-2">Immatriculation</th>
-                                    <th scope="col-md-1">Date mise à jour</th>
-                                    <th scope="col-md-1">Date d'enregistrement</th>
+                                    <th scope="col-md-2">Date d'enregistrement</th>
                                     <th scope="col-md-2">N° de série</th>
                                     <th scope="col-md-2">Marque</th>
                                     <th scope="col-md-2">Site</th>
@@ -40,11 +39,11 @@
                                     <th scope="row">
                                         {% if app.user %}
                                             <a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a>
+
                                             {% else %}
                                             {{ Car.immat|upper }}
                                         {% endif %}
                                     </th>
-                                    <td>{{ Car.dateMaj |date("d/m/Y") }}</td>
                                     <td>{{ Car.date|date("d/m/Y") }}</td>
                                     <td>{{ Car.numSerie }}</td>
                                     <td>{{ Car.marque| upper }}</td>
@@ -54,6 +53,10 @@
                                             depuis le
                                             {{ Car.datePanneDeb| date("d/m/Y") }}
                                         {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
+                                            depuis le
+                                            {{ Car.datePanneDeb| date("d/m/Y")  }}
+                                            {% elseif Car.etatCar == "atelier" %}
+                                            <i class="fa fa-wrench" style="color: red;  font-size: 16px" aria-hidden="true"></i>
                                             depuis le
                                             {{ Car.datePanneDeb| date("d/m/Y")  }}
                                         {% else %}

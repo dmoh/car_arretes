@@ -19,10 +19,10 @@
             <ul class="nav">
                 {% if app.user %}
                     <a class="nav-link active" href="{{ path('add_rubrique') }}">Rubrique</a>
+                    <a class="nav-link active" href="{{ path('index') }}">Ajouter un Autocar</a>
+                    <a class="nav-link active" href="{{ path('liste_panne') }}">Car en panne</a>
                 {% endif %}
-              <a class="nav-link active" href="{{ path('index') }}">Ajouter un Autocar</a>
               <a class="nav-link active" href="{{ path('consultation') }}">Etat Parc</a>
-              <a class="nav-link active" href="{{ path('liste_panne') }}">Car en panne</a>
               <a class="nav-link" href="{{ path('recherche') }}">Recherche</a>
                 {% if app.user %}
                     <a class="nav-link" href="{{ path('logout') }}">Se déconnecter</a>
@@ -31,6 +31,7 @@
                 {% endif %}
             </ul>
         </nav>
+        <!-- Toggle get grouped for better mobile display -->
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -43,24 +44,6 @@
                 </button>
               </div>
               <div class="modal-body">
-                  {#{% if error is defined %}
-                      <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                  {% endif %}
-
-                  <form action="{{ path('login') }}" method="post">
-                      <label for="username">Username:</label>
-                      <input type="text" id="username" name="_username" value="{{ last_username }}" />
-
-                      <label for="password">Password:</label>
-                      <input type="password" id="password" name="_password" />
-
-                    {#
-                        If you want to control the URL the user
-                          is redirected to on success (more details below)
-                          <input type="hidden" name="_target_path" value="/account" />
-
-                      <button type="submit">login</button>
-                  </form>#}
                   {% if is_granted('ROLE_USER') %}
                   {% else %}
                   <div class="container">
@@ -75,7 +58,7 @@
                           <form class="form-horizontal" action="{{ path('login') }}" method="post">
 
                               <label class="control-label" for="username">Nom d'utilisateur:</label>
-                              <input type="text" class="form-control" id="username" name="_username" value="" />
+                              <input type="text" class="form-control" id="username" name="_username" value="" autocomplete="off" />
 
                               <label class="control-label" for="password">Mot de passe:</label>
                               <input type="password" class="form-control" id="password" name="_password" />
@@ -89,15 +72,11 @@
                                    <input type="hidden" name="_target_path" value="/account" />
                                #}
 
-                              <button class="btn btn-primary" type="submit">Se connecter</button>
+                              <button class="btn btn-primary" id="valid" type="submit">Se connecter</button>
                           </form>
                       </div>
                   </div>
                   {% endif %}
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
               </div>
             </div>
           </div>
@@ -112,7 +91,36 @@
             <script src="{{ asset('js/main.js') }}"></script>
         <script type="text/javascript">
             $(document).ready(function () {
+                var s = $('#valid');
+
                $('#remember_me').css('visibility', 'visible');
+               $('#username').on('change', function(){
+                  if($(this).val().length < 4)
+                  {
+                      $(this).css('border', '2px solid #ff0000');
+                      s.prop('disabled', true);
+                  }
+                  else
+                  {
+                      $(this).css('border', '2px solid #5494ff');
+                      s.prop('disabled', false);
+                  }
+               });
+
+                $('#password').on('change', function(){
+                    if($(this).val().length < 4)
+                    {
+                        $(this).css('border', '2px solid #ff0000');
+                        s.prop('disabled', true);
+                    }
+                    else
+                    {
+                        $(this).css('border', '2px solid #5494ff');
+                        s.prop('disabled', false);
+                    }
+                });
+
+
             });
         </script>
         {% block javascripts %}

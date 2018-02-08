@@ -27,7 +27,7 @@ security:
 
             remember_me:
                 secret:       '%kernel.secret%'
-                lifetime:     3600
+                lifetime:     86400
                 path:         /
 
 

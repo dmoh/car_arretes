@@ -28,6 +28,7 @@ class PanneType extends AbstractType
                     'PANNE' => 'panne',
                     'ROULANT AVEC ANOMALIE' => "roulant_ano",
                     'ROULANT' => "roulant",
+                    'ATELIER'   => "atelier"
                 ),'choice_attr' => function($val, $key, $index) {
                     // adds a class like attending_yes, attending_no, etc
                     return ['class' => 'etat_'.strtolower($key)];

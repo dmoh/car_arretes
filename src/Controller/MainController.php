@@ -22,7 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use App\Form\CarType;
 use App\Entity\Cars;
 use App\Entity\Panne;
@@ -387,10 +387,16 @@ Class MainController extends Controller
           ['date'       => 'ASC']
         );
 
+        $list_atelier = $em->getRepository(Cars::class)->findBy(
+           ['etat_car'  => 'atelier'],
+           ['date'      => 'ASC']
+        );
+
         $list_panne_ano = $em->getRepository(Cars::class)->findBy(
           ['etat_car'   =>  'roulant_ano'],
           ['date_maj'   =>  'ASC']
         );
+
 
 
 
@@ -403,6 +409,11 @@ Class MainController extends Controller
         if(!$list_panne_ano)
         {
             $list_panne_ano = array();
+        }
+
+        if(!$list_atelier)
+        {
+            $list_atelier = array();
         }
 
 
@@ -443,9 +454,10 @@ Class MainController extends Controller
 
 
         return $this->render('front/listep.html.twig', array(
-            'liste_panne' =>    $list_panne,
-            'liste_panne_ano' => $list_panne_ano,
-            'form'        =>    $form->createView(),
+            'liste_panne'       =>      $list_panne,
+            'liste_panne_ano'   =>      $list_panne_ano,
+            'liste_atelier'     =>      $list_atelier,
+            'form'              =>      $form->createView(),
         ));
     }
 
@@ -829,6 +841,7 @@ Class MainController extends Controller
         die();
 
     }
+
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
@@ -868,9 +881,11 @@ Class MainController extends Controller
 
     public function logout()
     {
+        $this->get('security.token_storage')->setToken(NULL);
         $response = new Response();
         //$response->headers->setCookie(new Cookie('REMEMBERME', 'true', 0, '/', null, false, false));
         $response->headers->clearCookie('REMEMBERME');
+
         $response->send();
         return $this->redirectToRoute('consultation');
     }

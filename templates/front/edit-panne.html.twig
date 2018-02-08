@@ -54,14 +54,14 @@
                         {# Génération du label. #}
                         {{ form_label(form.suites_donnes, "Suites donnés : ", {'label_attr': {'class': ' control-label'}}) }}
                         {# Génération de l'input.#}
-                        {{ form_widget(form.suites_donnes, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(form.suites_donnes, {'attr': {'class': 'form-control', 'rows': '6'}}) }}
                         {{ form_errors(form.suites_donnes, { 'attr': {'class': 'red' }}) }}
                     </div>
                     <div class="form-group col-md-6">
                         {# Génération du label. #}
                         {{ form_label(form.desc_panne, "Description de la panne: ", {'label_attr': {'class': ' control-label'}}) }}
                         {# Génération de l'input.#}
-                        {{ form_widget(form.desc_panne, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(form.desc_panne, {'attr': {'class': 'form-control', 'rows': '6'}}) }}
                         {{ form_errors(form.desc_panne, { 'attr': {'class': 'red' }}) }}
                     </div>
                 </div>
@@ -82,10 +82,19 @@
                     <div class="col-md-6 ">
                         <article class="g-pa-25 u-shadow-v11 rounded">
                             <h3 class="">
-                                <i class="fa fa-ambulance"></i>  {{ panne_ant.cars.immat| upper }}
+                                {% if panne_ant.etatCar  == "atelier"%}
+                                    <i class="fa fa-wrench"></i>
+                                    {% else %}
+                                        <i class="fa fa-ambulance"></i>
+                                {% endif %}
+                                 {{ panne_ant.cars.immat| upper }}
                                 </h3><p class="upper-right">Marque : <b>{{ panne_ant.cars.marque | upper }}</b></p>
-                                <p> Déclarant : <b>{{ panne_ant.auteur }}</b></p>
-                                <p><p class="title-p">Description Panne : </p>{{ panne_ant.descPanne }}</p>
+                                <p> Déclarant : <b>{{ panne_ant.auteur }} {{ panne_ant.cars.garantie }}</b></p>
+                            {% if panne_ant.etatCar  == "atelier"%}
+                                <p class="title-p">Description atelier : </p>{{ panne_ant.descPanne }}</p>
+                                {% else %}
+                                    <p class="title-p">Description panne : </p>{{ panne_ant.descPanne }}</p>
+                            {% endif %}
                                 <p class="title-p">Suites donnés : </p>{{ panne_ant.suitesDonnes }}</p>
                                 <p class="mini">Date début de la panne : {% if panne_ant.dateDebPanne is defined %}
                                         {{ panne_ant.cars.dateMaj | date('d/m/Y') }}{% else %}
