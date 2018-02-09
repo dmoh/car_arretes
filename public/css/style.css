@@ -279,13 +279,20 @@ form.form-horizontal{
 
 .equipements
 {
-    font-size: 0.7rem;
-
+    font-size: 0.6rem;
 }
 .equipements .fa
 {
-    width: 25px;
+    width: 10px;
+    font-size: 0.75rem;
 }
+i.fa.fa-male{
+    width: 8px !important;
+}
+.p_right{
+    padding-right: 10px;
+}
+
 
 
 /***************************************MEDIA QUERIES*************************************************/

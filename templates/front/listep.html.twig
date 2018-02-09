@@ -42,7 +42,7 @@
                             <td>{{ panne.marque | upper }}</td>
                             <td>{{ panne.datePanneDeb | date("d/m/y") }}</td>
                             <td>{{ panne.naturePanneCar }}</td>
-                            <td>{{ panne.conditionGarantie }}</td>
+                            <td>{{ panne.garantie }}</td>
                             <td>
                                 <a href="{{ path('edit_car', {'id':  panne.id }) }}"> Modifier </a>
                                 {#<div class="slideThree">
@@ -113,7 +113,7 @@
                                     <td>{{ panne.datePrev | date("d/m/Y") }}</td>
                                     <td>{{ panne.datePanneDeb | date("d/m/y") }}</td>
                                     <td>{{ panne.naturePanneCar }}</td>
-                                    <td>{{ panne.conditionGarantie }}</td>
+                                    <td>{{ panne.garantie }}</td>
                                     <td>
                                         <a href="{{ path('edit_panne', {'id':  panne.id }) }}"> Modifier </a>
                                         {#<div class="slideThree">

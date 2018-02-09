@@ -106,6 +106,10 @@ class Panne
      */
     protected $nature_panne;
 
+    /**
+     * @ORM\Column(name="garantie", type="string", nullable=true)
+     */
+    protected $garantie;
 
 
     /**
@@ -389,6 +393,22 @@ class Panne
         $this->date_fin_panne_manuel = $date_fin_panne_manuel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getGarantie()
+    {
+        return $this->garantie;
+    }
+
+    /**
+     * @param mixed $garantie
+     */
+    public function setGarantie($garantie): void
+    {
+        $this->garantie = $garantie;
+    }
+    
 
 
 }

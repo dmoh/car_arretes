@@ -33,6 +33,12 @@ class PanneType extends AbstractType
                     // adds a class like attending_yes, attending_no, etc
                     return ['class' => 'etat_'.strtolower($key)];
                 },))
+            ->add('garantie', ChoiceType::class, array(
+                'choices' => array(
+                    'OUI' => 'oui',
+                    'NON' => 'non'
+                )
+            ))
             ->add('date_prev', DateType::class, array(
                 'widget'    => 'single_text',
                 'html5'     => false,

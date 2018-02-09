@@ -23,9 +23,112 @@
             <div class="equipements">
                 <div class="col-md-12">
                     <b> <i class="fa fa-users"></i> Nombres de places : </b>
-                    <span>
+                    <span class="p_right">
                         {% if car.nbPlaces is defined and car.nbPlaces != 0 %}
                             {{ car.nbPlaces }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                    <span class="p_right">
+                    <b><i class="fa fa-user"></i> Siège guide : </b>
+                        {% if car.siegeGuide is defined and car.siegeGuide != 0 %}
+                            {{ car.siegeGuide }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                    <span class="p_right">
+                    <b><i class="fa fa-euro"></i> Norme EURO : </b>
+                        {% if car.euro is defined and car.euro != 0 %}
+                            {{ car.euro }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                    <span>
+                    <b><i class="fa fa-male "></i>|<i class="fa fa-female "></i> Toilettes : </b>
+                        {% if car.wc is defined and car.wc != 0 %}
+                            {{ car.wc }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="equipements">
+                <div class="col-md-12">
+                    <b> <i class="fa fa-wheelchair"></i> Rampe H : </b>
+                    <span class="p_right">
+                        {% if car.ufr is defined and car.ufr != 0 %}
+                            {{ car.ufr }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                    <span class="p_right">
+                         <b><i class="fa fa-usb"></i> Prises USB : </b>
+                        {% if car.usb is defined and car.usb != 0 %}
+                            {{ car.usb }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                    <span class="p_right">
+                    <b><i class="fa fa-plug"></i> Prises èlec. : </b>
+                        {% if car.plug is defined and car.plug != 0 %}
+                            {{ car.plug }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                    <span>
+                    <b><i class="fa fa-square"></i> Porte Ski : </b>
+                        {% if car.porteSki is defined and car.porteSki != 0 %}
+                            {{ car.porteSki }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-30 ">
+            <div class="col-md-12"><h5>Date fin équipements</h5></div>
+        </div>
+        <div class="row pb-40">
+            <div class="equipements">
+                <div class="col-md-12">
+                    <b> <i class="fa fa-wheelchair"></i> Extincteur : </b>
+                    <span class="p_right">
+                        {% if car.ufr is defined and car.ufr != 0 %}
+                            {{ car.ufr }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                    <span class="p_right">
+                    <b><i class="fa fa-usb"></i> Prises USB : </b>
+                        {% if car.usb is defined and car.usb != 0 %}
+                            {{ car.usb }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                    <span class="p_right">
+                    <b><i class="fa fa-plug"></i> Prises èlec. : </b>
+                        {% if car.plug is defined and car.plug != 0 %}
+                            {{ car.plug }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                    <span>
+                    <b><i class="fa fa-square"></i> Porte Ski : </b>
+                        {% if car.porteSki is defined and car.porteSki != 0 %}
+                            {{ car.porteSki }}
                         {% else %}
                             Non renseigné
                         {% endif %}
@@ -41,8 +144,11 @@
                     <th scope="col-md-1">Date d'enregistrement</th>
                     <th scope="col-md-2">Déclarant</th>
                     <th scope="col-md-2" >Etat du Car (ACTUEL)</th>
-                    <th scope="col-md-2" > {% if car.EtatCar == 'panne'  %}
+                    <th scope="col-md-2" >
+                        {% if car.EtatCar == 'panne'  %}
                             Nature panne
+                            {% elseif car.EtatCar == 'atelier' %}
+                            Entretien
                             {% elseif car.EtatCar == 'roulant ano' or car.EtatCar == 'roulant_ano' %}
                             Nature du problème
                             {% elseif car.EtatCar == 'roulant' %}
@@ -53,7 +159,7 @@
                 <tbody>
                     <tr>
                         <th scope="row">
-                        {% if car.EtatCar == 'panne' %}
+                        {% if car.EtatCar == 'panne' or car.EtatCar == 'atelier'%}
                             <a href="{{ path('edit_panne', {'id': car.id}) }}">{{ car.immat| upper }}</a>
                         {% elseif car.EtatCar == 'roulant ano' or car.EtatCar == 'roulant_ano' %}
                             <a href="{{ path('edit_panne', {'id': car.id }) }}">{{ car.immat| upper }}</a>
@@ -65,13 +171,15 @@
                         <td>{{ car.auteur }}</td>
                         <td >{% if car.EtatCar == 'roulant_ano' %}
                                 <i class="fa fa-ambulance" style="color:orange; padding-top: 0 !important; font-size: 15px" id="etat_ra"></i>
+                                {% elseif car.EtatCar == 'atelier' %}
+                                <i class="fa fa-wrench" style="color:red; padding-top: 0 !important; font-size: 15px"></i>
                             {% elseif car.EtatCar == 'panne' %}
                                 <i class="fa fa-ambulance" style="font-size: 15px; padding-top: 0 !important; color: red;" id="etat_panne"></i>
                                 {% else %}
                                 <i class="fa fa-bus" style="color: #00e765; font-size: 15px; padding-top: 0 !important;" id="etat_ok"></i>
                             {% endif %}</td>
                         <td>
-                            {% if car.EtatCar == 'panne' %}
+                            {% if car.EtatCar == 'panne' or car.EtatCar == 'atelier' %}
                                {{ car.naturePanneCar| upper }}
                             {% elseif car.EtatCar == 'roulant ano' or car.EtatCar == 'roulant_ano' %}
                                 {{ car.naturePanneCar | upper }}

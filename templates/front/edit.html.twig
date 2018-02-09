@@ -57,12 +57,19 @@
                         </div>
                     </div>
                     <div class="form-row trac">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-8">
                             {# Génération du label. #}
                             {{ form_label(form.nature_panne, "Nature de la panne : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.nature_panne, {'attr': {'class': ' form-control'}}) }}
                             {{ form_errors(form.nature_panne, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {# Génération du label. #}
+                            {{ form_label(form.garantie, "En garantie : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.garantie, {'attr': {'class': ' form-control'}}) }}
+                            {{ form_errors(form.garantie, { 'attr': {'class': 'red' }}) }}
                         </div>
                     </div>
                     <div class="form-row trac">
