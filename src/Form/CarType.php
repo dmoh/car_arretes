@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 
 class CarType extends AbstractType
@@ -48,6 +49,12 @@ class CarType extends AbstractType
                     'BOVA' => "bova",
                     'IRIZAR I4' => "irizar i4",
                 ),))
+            ->add('nb_places', NumberType::class, array(
+                'required' => false
+            ))
+            ->add('euro', NumberType::class, array(
+                'required' => false
+            ))
             ->add('locataire',  ChoiceType::class, array(
                 'choices' => array(
                     'Aps' => "APS",
@@ -70,6 +77,31 @@ class CarType extends AbstractType
                 'html5' => false,
                 'required'  => false,
                 ))
+            ->add('ct', DateType::class, array(
+                'widget' => 'single_text',
+                'html5' => false,
+                'required'  => false,
+            ))
+            ->add('date_extincteur', DateType::class, array(
+                'widget' => 'single_text',
+                'html5' => false,
+                'required'  => false,
+            ))
+            ->add('date_limiteur', DateType::class, array(
+                'widget' => 'single_text',
+                'html5' => false,
+                'required'  => false,
+            ))
+            ->add('date_tachy', DateType::class, array(
+                'widget' => 'single_text',
+                'html5' => false,
+                'required'  => false,
+            ))
+            ->add('date_ethylo', DateType::class, array(
+                'widget' => 'single_text',
+                'html5' => false,
+                'required'  => false,
+            ))
             ->add('fin_garantie', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
@@ -103,6 +135,12 @@ class CarType extends AbstractType
             ->add('memo_car', TextareaType::class, array(
                 'required' => false,
             ))
+
+            // Equipements
+            ->add('siege_guide', CheckboxType::class, array(
+                'required' => false,
+            ))
+
             ->add('enregistrer',    SubmitType::class)
         ;
 

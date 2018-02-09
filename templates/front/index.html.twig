@@ -20,12 +20,19 @@
 
                     <div class="form-row">
                         {# Génération du label. #}
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             {{ form_label(form.immat, "Immatriculation du Car : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
 
                             {{ form_widget(form.immat, {'attr': {'class': ' form-control'}}) }}
                             {{ form_errors(form.immat, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            {{ form_label(form.euro, "Norme Euro : ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+
+                            {{ form_widget(form.euro, {'attr': {'class': ' form-control'}}) }}
+                            {{ form_errors(form.euro, { 'attr': {'class': 'red' }}) }}
                         </div>
                         <div class="form-group col-md-6">
                             {# Génération du label. #}
@@ -36,14 +43,21 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             {# Génération du label. #}
                             {{ form_label(form.num_serie, "Numéro de Série : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.num_serie, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.num_serie, { 'attr': {'class': 'red' }}) }}
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
+                            {# Génération du label. #}
+                            {{ form_label(form.nb_places, "Nb places: ", {'label_attr': {'class': ' control-label'}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.nb_places, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.nb_places, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                        <div class="form-group col-md-4">
                             {# Génération du label. #}
                             {{ form_label(form.auteur, "Déclarant : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
@@ -68,12 +82,47 @@
                         </div>
                     </div>
                     <div class="form-row ">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-2">
                             {# Génération du label. #}
-                            {{ form_label(form.date_mar, "Date 1èr mise en circulation : ", {'label_attr': {'class': ' control-label '}}) }}
+                            {{ form_label(form.date_mar, "Mise en circu.: ", {'label_attr': {'class': ' control-label '}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.date_mar , {'attr': {'class': ' js-datepicker form-control'}})}}
                             {{ form_errors(form.date_mar, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            {# Génération du label. #}
+                            {{ form_label(form.ct, "C. tech. : ", {'label_attr': {'class': ' control-label '}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.ct , {'attr': {'class': ' js-datepicker form-control'}})}}
+                            {{ form_errors(form.ct, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            {# Génération du label. #}
+                            {{ form_label(form.date_extincteur, "Extincteur : ", {'label_attr': {'class': ' control-label '}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.date_extincteur , {'attr': {'class': ' js-datepicker form-control'}})}}
+                            {{ form_errors(form.date_extincteur, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            {# Génération du label. #}
+                            {{ form_label(form.date_limiteur, "Limiteur: ", {'label_attr': {'class': ' control-label '}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.date_limiteur , {'attr': {'class': ' js-datepicker form-control'}})}}
+                            {{ form_errors(form.date_limiteur, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            {# Génération du label. #}
+                            {{ form_label(form.date_tachy, "Tachy : ", {'label_attr': {'class': ' control-label '}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.date_tachy , {'attr': {'class': ' js-datepicker form-control'}})}}
+                            {{ form_errors(form.date_tachy, { 'attr': {'class': 'red' }}) }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            {# Génération du label. #}
+                            {{ form_label(form.date_ethylo, "Ethylo : ", {'label_attr': {'class': ' control-label '}}) }}
+                            {# Génération de l'input.#}
+                            {{ form_widget(form.date_ethylo , {'attr': {'class': ' js-datepicker form-control'}})}}
+                            {{ form_errors(form.date_ethylo, { 'attr': {'class': 'red' }}) }}
                         </div>
                     </div>
                     <div class="form-row inp_hide">
@@ -123,6 +172,14 @@
                         </div>
                     </div>
                     <div class="form-row">
+                        <div class="col-md-3">
+
+                            {{ form_widget(form.siege_guide, {'attr': {'class': 'form-control'}}) }}<b>Siege guide :</b>
+
+                            {{ form_errors(form.siege_guide, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-row">
                         <div class="col-md-12">
                             {# Génération de l'input.#}
                             {{ form_widget(form.enregistrer , {'attr': {'class': 'col-md-6 btn btn-primary'}})}}
@@ -157,6 +214,7 @@
         $(document).ready(function () {
             $(".inp_hide").css('display', 'none');
 
+            $('input:checkbox').css('visibility', 'visible');
 
 
            if($('option.etat_roulant').is(':selected'))
