@@ -67,7 +67,8 @@ class CarType extends AbstractType
             ->add('date_prev', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
-                'required' => false
+                'required' => false,
+                'format'    => 'dd/MM/yyyy'
                 ))
             ->add('condition_garantie', TextType::class, array(
                 'required' => false
@@ -76,36 +77,42 @@ class CarType extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 'required'  => false,
+                'format'    => 'dd/MM/yyyy'
                 ))
             ->add('ct', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
                 'required'  => false,
+                'format'    => 'dd/MM/yyyy'
             ))
             ->add('date_extincteur', DateType::class, array(
                 'widget' => 'single_text',
-                'html5' => false,
                 'required'  => false,
+                'format'    => 'd/M/y'
             ))
             ->add('date_limiteur', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
                 'required'  => false,
+                'format'    => 'dd/MM/yyyy'
             ))
             ->add('date_tachy', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
                 'required'  => false,
+                'format'    => 'dd/MM/yyyy'
             ))
             ->add('date_ethylo', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
                 'required'  => false,
+                'format'    => 'dd/MM/yyyy'
             ))
             ->add('fin_garantie', DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => false,
                 'required'  => false,
+                'format'    => 'dd/MM/yyyy'
             ))
             ->add('etat_car', ChoiceType::class, array(
                 'choices' => array(
@@ -138,7 +145,24 @@ class CarType extends AbstractType
 
             // Equipements
             ->add('siege_guide', CheckboxType::class, array(
-                'required' => false,
+                'label'     => 'Siège guide',
+                'required'  => false,
+            ))
+            ->add('wc', CheckboxType::class, array(
+                'required' => false
+            ))
+            ->add('ufr', CheckboxType::class, array(
+                'required' => false
+            ))
+            ->add('usb', CheckboxType::class, array(
+                'required'=> false
+            ))
+            ->add('prises_elec', CheckboxType::class, array(
+
+                'required' => false
+            ))
+            ->add('porte_ski', CheckboxType::class, array(
+                'required' => false
             ))
 
             ->add('enregistrer',    SubmitType::class)

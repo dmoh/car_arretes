@@ -171,12 +171,45 @@
                             {{ form_errors(form.memo_car, {'attr': {'class': 'form-control'}}) }}
                         </div>
                     </div>
+                    <h4 class="upper pt-30">équipements</h4>
                     <div class="form-row">
-                        <div class="col-md-3">
+                        <div class=" form-group col-md-3">
 
-                            {{ form_widget(form.siege_guide, {'attr': {'class': 'form-control'}}) }}<b>Siege guide :</b>
+                            {{ form_widget(form.siege_guide, {'attr': {'class': 'form-control'}}) }}<b>Siège guide </b>
 
                             {{ form_errors(form.siege_guide, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class=" form-group col-md-3">
+
+                            {{ form_widget(form.wc, {'attr': {'class': 'form-control'}}) }}<b>Toilettes </b>
+
+                            {{ form_errors(form.wc, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class=" form-group col-md-3">
+
+                            {{ form_widget(form.ufr, {'attr': {'class': 'form-control'}}) }}<b>Rampe PMR :</b>
+
+                            {{ form_errors(form.ufr, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class=" form-group col-md-3">
+
+                            {{ form_widget(form.usb, {'attr': {'class': 'form-control'}}) }}<b>Prises USB :</b>
+
+                            {{ form_errors(form.usb, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class=" form-group col-md-3">
+
+                            {{ form_widget(form.prises_elec, {'attr': {'class': 'form-control'}}) }}<b>Prises élec.</b>
+
+                            {{ form_errors(form.prises_elec, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class=" form-group col-md-3">
+
+                            {{ form_widget(form.porte_ski, {'attr': {'class': 'form-control'}}) }}<b>Porte ski </b>
+
+                            {{ form_errors(form.porte_ski, {'attr': {'class': 'form-control'}}) }}
                         </div>
                     </div>
                     <div class="form-row">
@@ -215,6 +248,8 @@
             $(".inp_hide").css('display', 'none');
 
             $('input:checkbox').css('visibility', 'visible');
+
+
 
 
            if($('option.etat_roulant').is(':selected'))

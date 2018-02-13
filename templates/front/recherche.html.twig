@@ -4,13 +4,16 @@
 	<section class="jumbotron text-center">
 	    <div class="container">
 	        <h1 class="jumbotron-heading"> Recherche de car </h1>
-	        <div class="form-row">
+            <a class="green" data-toggle="collapse" href="#collapse1" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Recherche avancée
+            </a>
+	        <div class="no_marg form-row">
 	            {# Génération du label. #}
 	            {{ form_start(form, {'attr': {'class': 'form-horizontal col-md-12'}}) }}
 
                 {{ form_errors(form) }}
-	            <div class=" form-group  col-md-12">
-	                {{ form_label(form.recherche, "Rechercher un autocar: ", {'label_attr': {'class': ' control-label'}}) }}
+	            <div class=" form-group  col-md-12 c_hide">
+	                {{ form_label(form.recherche, "Immatriculation : ", {'label_attr': {'class': ' control-label'}}) }}
 	                {# Génération de l'input.#}
 	                {{ form_widget(form.recherche, {'attr': {'class': ' col-md-12 form-control', 'placeholder' : 'Immatriculation du véhicule... ', 'autocomplete': 'off'}}) }}
 
@@ -18,7 +21,51 @@
 	            </div>
 	             {# Génération de l'input.#}
 	             {{ form_widget(form.Rechercher , {'attr': {'class': ' col-md-12 btn btn-primary'}})}}
+                {{ form_end(form) }}
 	        </div>
+            <div class="collapse" id="collapse1">
+                <div class="card card-body">
+                    <div class="no_marg ">
+                        {# Génération du label. #}
+                        {{ form_start(form_avancee, {'attr': {'class': 'form-horizontal col-md-12 pt-30'}}) }}
+
+                        {{ form_errors(form_avancee) }}
+                        <div class="form-row ">
+                            <div class=" form-group  col-md-2">
+                                {{ form_label(form_avancee.date, "De", {'label_attr': {'class': ' control-label'}}) }}
+                                {# Génération de l'input.#}
+                                {{ form_widget(form_avancee.date, {'attr': {'class': 'js-datepicker form-control', 'placeholder' : 'JJ/MM/AAAA', 'autocomplete': 'off'}}) }}
+
+                                {{ form_errors(form_avancee.date, { 'attr': {'class': 'red' }}) }}
+                            </div>
+                            <div class=" form-group  col-md-2">
+                                {{ form_label(form_avancee.date_2, "à ", {'label_attr': {'class': ' control-label'}}) }}
+                                {# Génération de l'input.#}
+                                {{ form_widget(form_avancee.date_2, {'attr': {'class': 'js-datepicker  form-control', 'placeholder' : 'JJ/MM/AAAA', 'autocomplete': 'off'}}) }}
+
+                                {{ form_errors(form_avancee.date_2, { 'attr': {'class': 'red' }}) }}
+                            </div>
+                            <div class=" form-group  col-md-4">
+                                {{ form_label(form_avancee.marque, "Marque", {'label_attr': {'class': ' control-label'}}) }}
+                                {# Génération de l'input.#}
+                                {{ form_widget(form_avancee.marque, {'attr': {'class': ' col-md-12 form-control', 'autocomplete': 'off'}}) }}
+
+                                {{ form_errors(form_avancee.marque, { 'attr': {'class': 'red' }}) }}
+                            </div>
+                            <div class=" form-group  col-md-4">
+                                {{ form_label(form_avancee.recherche_av, "Mots clès :", {'label_attr': {'class': ' control-label'}}) }}
+                                {# Génération de l'input.#}
+                                {{ form_widget(form_avancee.recherche_av, {'attr': {'class': ' col-md-12 form-control', 'placeholder' : 'embrayage, turbo... ', 'autocomplete': 'off'}}) }}
+
+                                {{ form_errors(form_avancee.recherche_av, { 'attr': {'class': 'red' }}) }}
+                            </div>
+                            {# Génération de l'input.#}
+                            {{ form_widget(form_avancee.Valider , {'attr': {'class': ' col-md-12 btn btn-primary'}})}}
+                            {{ form_end(form_avancee) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
 	    </div>
 	</section>
 	<div class="container">
@@ -125,4 +172,32 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('a.green').click(function(){
+                if($('button#form_Rechercher').is(':visible'))
+                {
+                    $('button#form_Rechercher').hide();
+                    $('.c_hide').hide();
+                }
+                else
+                {
+                    $('button#form_Rechercher').show();
+                    $('input#form_recherche').show();
+                    $('.c_hide').show();
+                }
+            });
+            $('button#form_rechercher').on('click', function () {
+                if($('input#form_rechercher') == '' || $('input#form_rechercher').val().length < 1 )
+                {
+                    alert('Remplir le champs recherche');
+                    return false;
+                }
+            });
+
+
+        });
+    </script>
 {% endblock %}

@@ -26,15 +26,17 @@
                     <span class="p_right">
                         {% if car.nbPlaces is defined and car.nbPlaces != 0 %}
                             {{ car.nbPlaces }}
-                        {% else %}
+                            {% else %}
                             Non renseigné
                         {% endif %}
                     </span>
                     <span class="p_right">
                     <b><i class="fa fa-user"></i> Siège guide : </b>
                         {% if car.siegeGuide is defined and car.siegeGuide != 0 %}
-                            {{ car.siegeGuide }}
-                        {% else %}
+                            Oui
+                        {% elseif car.siegeGuide == 0 or car.siegeGuide == '0' %}
+                            Non
+                            {% else %}
                             Non renseigné
                         {% endif %}
                     </span>
@@ -42,15 +44,19 @@
                     <b><i class="fa fa-euro"></i> Norme EURO : </b>
                         {% if car.euro is defined and car.euro != 0 %}
                             {{ car.euro }}
-                        {% else %}
+                        {% elseif car.euro == 0 or car.euro == '0' %}
+                            Non
+                            {% else %}
                             Non renseigné
                         {% endif %}
                     </span>
                     <span>
                     <b><i class="fa fa-male "></i>|<i class="fa fa-female "></i> Toilettes : </b>
                         {% if car.wc is defined and car.wc != 0 %}
-                            {{ car.wc }}
-                        {% else %}
+                            Oui
+                        {% elseif car.wc == 0 or car.wc =="0" %}
+                            Non
+                            {% else %}
                             Non renseigné
                         {% endif %}
                     </span>
@@ -63,32 +69,40 @@
                     <b> <i class="fa fa-wheelchair"></i> Rampe H : </b>
                     <span class="p_right">
                         {% if car.ufr is defined and car.ufr != 0 %}
-                            {{ car.ufr }}
-                        {% else %}
+                            Oui
+                        {% elseif car.ufr == 0 or car.ufr == '0' %}
+                            Non
+                            {% else %}
                             Non renseigné
                         {% endif %}
                     </span>
                     <span class="p_right">
-                         <b><i class="fa fa-usb"></i> Prises USB : </b>
+                         <b><i class="fa fa-usb p_right"></i> Prises USB : </b>
                         {% if car.usb is defined and car.usb != 0 %}
-                            {{ car.usb }}
-                        {% else %}
+                            Oui
+                        {% elseif car.usb == 0 or car.usb == '0' %}
+                            Non
+                            {% else %}
                             Non renseigné
                         {% endif %}
                     </span>
                     <span class="p_right">
                     <b><i class="fa fa-plug"></i> Prises èlec. : </b>
-                        {% if car.plug is defined and car.plug != 0 %}
-                            {{ car.plug }}
-                        {% else %}
+                        {% if car.prisesElec is defined and car.prisesElec != 0 %}
+                            Oui
+                        {% elseif car.prisesElec == 0 or car.prisesElec == '0' %}
+                            Non
+                            {% else %}
                             Non renseigné
                         {% endif %}
                     </span>
                     <span>
                     <b><i class="fa fa-square"></i> Porte Ski : </b>
                         {% if car.porteSki is defined and car.porteSki != 0 %}
-                            {{ car.porteSki }}
-                        {% else %}
+                            Oui
+                        {% elseif car.porteSki == 0 or car.porteSki == '0' %}
+                            Non
+                            {% else %}
                             Non renseigné
                         {% endif %}
                     </span>
@@ -96,39 +110,47 @@
             </div>
         </div>
         <div class="row pt-30 ">
-            <div class="col-md-12"><h5>Date fin équipements</h5></div>
+            <div class="col-md-12"><h5>Date de Fin</h5></div>
         </div>
         <div class="row pb-40">
             <div class="equipements">
                 <div class="col-md-12">
-                    <b> <i class="fa fa-wheelchair"></i> Extincteur : </b>
                     <span class="p_right">
-                        {% if car.ufr is defined and car.ufr != 0 %}
-                            {{ car.ufr }}
+                    <b><i class="fa fa-history"></i> Controle tech : </b>
+                        {% if car.ct is defined %}
+                            {{ car.ct | date('d/m/Y') }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </span>
+                    <b> <i class="fa fa-fire-extinguisher"></i> Extincteur : </b>
+                    <span class="p_right">
+                        {% if car.dateExtincteur is defined %}
+                            {{ car.dateExtincteur | date('d/m/Y') }}
                         {% else %}
                             Non renseigné
                         {% endif %}
                     </span>
                     <span class="p_right">
-                    <b><i class="fa fa-usb"></i> Prises USB : </b>
-                        {% if car.usb is defined and car.usb != 0 %}
-                            {{ car.usb }}
+                    <b><i class="fa fa-clock-o"></i> Limiteur : </b>
+                        {% if car.dateLimiteur is defined  %}
+                            {{ car.dateLimiteur | date('d/m/Y') }}
                         {% else %}
                             Non renseigné
                         {% endif %}
                     </span>
                     <span class="p_right">
-                    <b><i class="fa fa-plug"></i> Prises èlec. : </b>
-                        {% if car.plug is defined and car.plug != 0 %}
-                            {{ car.plug }}
+                    <b><i class="fa fa-credit-card"></i> Tachy : </b>
+                        {% if car.dateTachy is defined %}
+                            {{ car.dateTachy | date('d/m/Y') }}
                         {% else %}
                             Non renseigné
                         {% endif %}
                     </span>
                     <span>
-                    <b><i class="fa fa-square"></i> Porte Ski : </b>
-                        {% if car.porteSki is defined and car.porteSki != 0 %}
-                            {{ car.porteSki }}
+                    <b><i class="fa fa-beer"></i> Ethylo: </b>
+                        {% if car.dateEthylo is defined %}
+                            {{ car.dateEthylo | date('d/m/Y') }}
                         {% else %}
                             Non renseigné
                         {% endif %}

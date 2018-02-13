@@ -42,11 +42,13 @@ class PanneType extends AbstractType
             ->add('date_prev', DateType::class, array(
                 'widget'    => 'single_text',
                 'html5'     => false,
+                'format'    => 'dd/MM/yyyy'
             ))
             ->add('date_effective',DateType::class, array(
                 'widget'    => 'single_text',
                 'html5'     => false,
                 'required'  => false,
+                'format'    => 'dd/MM/yyyy'
             ))
             ->add('nature_panne',   TextType::class, array(
                 'required'  => false,

@@ -11,9 +11,12 @@ use App\Entity\Rubrique;
 use App\Form\RubriqueType;
 use App\Form\UserType;
 use App\Repository\PanneRepository;
+use Doctrine\DBAL\Types\DateType;
+
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,6 +57,7 @@ Class MainController extends Controller
 
             $form->handleRequest($req);
             $data = $form->getData();
+
             $repository = $this->getDoctrine()->getRepository(Cars::class);
             $car_R = $repository->findOneBy(['immat' => $data->getImmat()]);
             //$test = $data->getImmat();
@@ -298,7 +302,9 @@ Class MainController extends Controller
         $em = $this->getDoctrine()->getManager();
         $car_trouver = 'rien';
         $form = $this->createFormBuilder()
-                ->add('recherche', TextType::class)
+                ->add('recherche', TextType::class, array(
+                    'required' => false
+                ))
                 ->add('Rechercher', SubmitType::class)
                 ->getForm()
         ;
@@ -308,6 +314,38 @@ Class MainController extends Controller
         $car_listing = $repository->findBy(array(),
             array('date' => 'DESC')
         );
+
+        $form_avancee = $this->createFormBuilder()
+            ->add('date', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                'widget' => 'single_text',
+                'required'      =>  false,
+                'html5'         =>  false,
+                'format'        =>  'd/MM/yyyy'
+            ))
+            ->add('date_2', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                'widget' => 'single_text',
+                'required'  =>  false,
+                'format'    =>  'd/MM/yyyy'
+            ))
+            ->add('recherche_av', TextType::class, array(
+                'required' => false
+            ))
+            ->add('marque', ChoiceType::class, array(
+                'choices' => array(
+                    'Sélectionner une marque'   => null,
+                    'IVECO CROSSWAY'             => "iveco crossway",
+                    'IVECO MAGELYS'              => "iveco magelys",
+                    'MERCEDES TOURISMO'          => 'mercedes tourismo',
+                    'IVECO DAILY'                => "iveco daily",
+                    'VOLVO 9700HD'               => "volvo 9700 hd",
+                    'SCANIA TOURING'             => "scania touring",
+                    'IVECO RECREO'               => "iveco recreo",
+                    'SOLARIS'                    => "solaris",
+                    'BOVA'                       => "bova",
+                    'IRIZAR I4'                  => "irizar i4",
+                ),))
+            ->add('Valider', SubmitType::class)
+            ->getForm();
         //ajax 
         if ($req->isXmlHttpRequest()) { 
         }
@@ -315,7 +353,37 @@ Class MainController extends Controller
          if( $req->isMethod('POST') )
         {
             $form->handleRequest($req);
+
             $immat_car = $form->getData();
+            if($immat_car['recherche'] == NULL )
+            {
+                $form_avancee->handleRequest($req);
+                $form_av = $form_avancee->getData();
+
+                if($form_av['date'] && $form_av['date_2'])
+                {
+                    $date = $form_av['date'];
+                    $date2 = $form_av['date_2'];
+
+                    $query = $em->createQuery('SELECT p FROM App\Entity\Panne p WHERE p.date_prev BETWEEN :date1 AND :date2')
+                                ->setParameter('date1', $date)
+                                ->setParameter('date2', $date2);
+
+
+                    $rep = $query->getResult();
+
+                    var_dump($rep[0]->getCars()->getMarque());
+                    die();
+                }
+                else
+                {
+                    var_dump($form_av);
+                    die();
+                }
+
+
+            }
+
             $imm = implode($immat_car);
             $car_trouver= $em->getRepository(Cars::class)->findOneByImmat(
             $imm
@@ -336,12 +404,57 @@ Class MainController extends Controller
                         ->add('Rechercher', SubmitType::class)
                         ->getForm();
 
+               $form_avancee = $this->createFormBuilder()
+                   ->add('date', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                       'widget' => 'single_text',
+                       'required'      =>  false,
+                       'html5'         =>  false,
+                       'format'        =>  'd/MM/yyyy'
+                   ))
+                   ->add('date_2', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                       'widget' => 'single_text',
+                       'required'  =>  false,
+                       'format'    =>  'd/MM/yyyy'
+                   ))
+                   ->add('recherche_av', TextType::class, array(
+                       'required' => false
+                   ))
+                   ->add('marque', ChoiceType::class, array(
+                       'choices' => array(
+                           'Sélectionner une marque'   => null,
+                           'IVECO CROSSWAY'             => "iveco crossway",
+                           'IVECO MAGELYS'              => "iveco magelys",
+                           'MERCEDES TOURISMO'          => 'mercedes tourismo',
+                           'IVECO DAILY'                => "iveco daily",
+                           'VOLVO 9700HD'               => "volvo 9700 hd",
+                           'SCANIA TOURING'             => "scania touring",
+                           'IVECO RECREO'               => "iveco recreo",
+                           'SOLARIS'                    => "solaris",
+                           'BOVA'                       => "bova",
+                           'IRIZAR I4'                  => "irizar i4",
+                       ),))
+                   ->add('Valider', SubmitType::class)
+                   ->getForm();
+
+
+                if(!$car_trouver)
+                {
+                    $car_trouver = $qb->select('a')->from('App\Entity\Cars', 'a')
+                        ->where($qb->expr()->like('a.marque', $qb->expr()->literal('%'.$imm.'%')))
+                        ->setMaxResults(20)
+                        ->getQuery()
+                        ->getResult();
+                }
+
                 return $this->render('front/recherche.html.twig', array(
                     'form' => $form->createView(),
+                    'form_avancee' => $form_avancee->createView(),
                     'car' => 'trouver',
                     'car_listing'  => $car_trouver,
                     'plusieurs' => 'OK', 
                 ));
+
+
             }
 
             $form = $this->createFormBuilder()
@@ -362,6 +475,7 @@ Class MainController extends Controller
         //$repo = $em->getRepository(Cars::class)->find($id);
         return $this->render('front/recherche.html.twig', array(
             'form' => $form->createView(),
+            'form_avancee' => $form_avancee->createView(),
             'car'  => $car_trouver,
             'car_listing' => $car_listing,
             'plusieurs' => 'debut',
@@ -579,6 +693,7 @@ Class MainController extends Controller
                     $panne->setDatePrev($test->getDatePrev());
                     $panne->setDescPanne($test->getDescPanne());
                     $panne->setSuitesDonnes($test->getSuitesDonnes());
+                    $panne->setGarantie($test->getGarantie());
 
                     $car->setNaturePanneCar($test->getNaturePanne());
                     $car->setDatePanneDeb($test->getDatePrev());
@@ -615,6 +730,7 @@ Class MainController extends Controller
                     $panne->setEtatCar($etat_car);
                     $panne->setAuteur($test->getAuteur());
                     $panne->setDatePrev($test->getDatePrev());
+                    $panne->setGarantie($test->getGarantie());
 
                     $car->setNaturePanneCar($test->getNaturePanne());
                     $panne->setNaturePanne($test->getNaturePanne());
@@ -667,6 +783,7 @@ Class MainController extends Controller
                     $panne->setCars($car);
                     $p = $em->getRepository(Panne::class)->find($test->getId());
                     $car->setNaturePanneCar($test->getNaturePanne());
+                    $panne->setGarantie($test->getGarantie());
 
                     $em->persist($p);
                     $em->flush();
@@ -686,6 +803,7 @@ Class MainController extends Controller
                     $panne->setDatePrev($test->getDatePrev());
                     $panne->setDescPanne($test->getDescPanne());
                     $panne->setSuitesDonnes($test->getSuitesDonnes());
+                    $panne->setGarantie($test->getGarantie());
 
                     $car->setNaturePanneCar($test->getNaturePanne());
                     $car->setDatePanneDeb($test->getDatePrev());

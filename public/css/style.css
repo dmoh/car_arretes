@@ -279,12 +279,19 @@ form.form-horizontal{
 
 .equipements
 {
-    font-size: 0.6rem;
+    font-size: 0.68rem;
 }
 .equipements .fa
 {
     width: 10px;
     font-size: 0.75rem;
+}
+a.green{
+    color: #3cff35;
+}
+a.collapsed{
+    color: #3cff35;
+    font-size: 15px;
 }
 i.fa.fa-male{
     width: 8px !important;
@@ -292,9 +299,28 @@ i.fa.fa-male{
 .p_right{
     padding-right: 10px;
 }
+.no_marg form.form-horizontal{
+    margin-bottom: 0px !important;
+}
 
+input[type="checkbox" i]{
+    width: 9%;
+    position: relative;
+    display: inline-block;
+    margin-top: 10px;
+}
 
-
+div.card{
+    background-color: #4c473d00;
+}
+select#form_marque.form-control{
+    padding-right: 0.3rem;
+    padding-left: 0.3rem;
+}
+.form-control{
+    padding-right: 0.4rem;
+    padding-left: 0.4rem;
+}
 /***************************************MEDIA QUERIES*************************************************/
 
 @media screen and (max-width: 990px) {

@@ -163,8 +163,6 @@ class Cars
      * @ORM\Column(name="desc_panne_ano", type="text", nullable=true)
      */
     protected $desc_panne_ano;
-
-
     /**
      *
      * @ORM\Column(name="nature_panne_car", type="text", nullable=true)
@@ -186,9 +184,9 @@ class Cars
     protected $nb_places;
 
     /**
-     * @ORM\Column(name="siege_guide", type="string", nullable= true)
+     * @ORM\Column(name="siege_guide", type="boolean", nullable= true)
      */
-    protected $siege_guide;
+    protected $siege_guide = false;
 
     /**
      * @ORM\Column(name="euro", type="string", nullable= true)
@@ -222,29 +220,29 @@ class Cars
     protected $date_ethylo;
 
     /**
-     * @ORM\Column(name="wc", type="string", nullable= true)
+     * @ORM\Column(name="wc", type="boolean", nullable= true)
      */
-    protected $wc;
+    protected $wc = false;
 
     /**
-     * @ORM\Column(name="ufr", type="string", nullable= true)
+     * @ORM\Column(name="ufr", type="boolean", nullable= true)
      */
-    protected $ufr;
+    protected $ufr = false;
 
     /**
-     * @ORM\Column(name="usb", type="string", nullable= true)
+     * @ORM\Column(name="usb", type="boolean", nullable= true)
      */
-    protected $usb;
+    protected $usb = false;
 
     /**
-     * @ORM\Column(name="prises_elec", type="string", nullable= true)
+     * @ORM\Column(name="prises_elec", type="boolean", nullable= true)
      */
-    protected $prises_elec;
+    protected $prises_elec = false;
 
     /**
-     * @ORM\Column(name="porte_ski", type="string", nullable= true)
+     * @ORM\Column(name="porte_ski", type="boolean", nullable= true)
      */
-    protected $porte_ski;
+    protected $porte_ski = false;
 
 
 
