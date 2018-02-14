@@ -362,18 +362,44 @@ Class MainController extends Controller
 
                 if($form_av['date'] && $form_av['date_2'])
                 {
-                    $date = $form_av['date'];
-                    $date2 = $form_av['date_2'];
+                    if($form_av['marque'])
+                    {
 
-                    $query = $em->createQuery('SELECT p FROM App\Entity\Panne p WHERE p.date_prev BETWEEN :date1 AND :date2')
-                                ->setParameter('date1', $date)
-                                ->setParameter('date2', $date2);
+                    }
 
+                    if($form_av['recherche_av'])
+                    {
+                        $mot_cles = $form_av['recherche_av'];
+                        $query = $em->createQuery('SELECT p FROM App\Entity\Panne p WHERE p.nature_panne LIKE :nature')
+                                    ->setParameter( 'nature','%'.$mot_cles.'%');
 
-                    $rep = $query->getResult();
+                        $rep = $query->getResult();
+                        $r = count($rep);
 
-                    var_dump($rep[0]->getCars()->getMarque());
-                    die();
+                        //nombre de résultats posssible
+                        //var_dump($r);
+
+                        var_dump($rep[1]->getNaturePanne());
+                        die();
+
+                    }
+                    else {
+                        $date = $form_av['date'];
+                        $date2 = $form_av['date_2'];
+
+                        $query = $em->createQuery('SELECT p FROM App\Entity\Panne p WHERE p.date_prev BETWEEN :date1 AND :date2')
+                            ->setParameter('date1', $date)
+                            ->setParameter('date2', $date2);
+
+                        $rep = $query->getResult();
+                        $r = count($rep);
+
+                        //nombre de résultats posssible
+                        var_dump($r);
+
+                        //var_dump($rep[0]->getCars()->getMarque());
+                        die();
+                    }
                 }
                 else
                 {
