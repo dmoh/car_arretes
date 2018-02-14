@@ -16,6 +16,7 @@
 	                {{ form_label(form.recherche, "Immatriculation : ", {'label_attr': {'class': ' control-label'}}) }}
 	                {# Génération de l'input.#}
 	                {{ form_widget(form.recherche, {'attr': {'class': ' col-md-12 form-control', 'placeholder' : 'Immatriculation du véhicule... ', 'autocomplete': 'off'}}) }}
+                    <i class="fa fa-times-circle"></i>
 
 	                {{ form_errors(form.recherche, { 'attr': {'class': 'red' }}) }}
 	            </div>
@@ -34,14 +35,14 @@
                             <div class=" form-group  col-md-2">
                                 {{ form_label(form_avancee.date, "De", {'label_attr': {'class': ' control-label'}}) }}
                                 {# Génération de l'input.#}
-                                {{ form_widget(form_avancee.date, {'attr': {'class': 'js-datepicker form-control', 'placeholder' : 'JJ/MM/AAAA', 'autocomplete': 'off'}}) }}
+                                {{ form_widget(form_avancee.date, {'attr': {'class': 'js-datepicker form-control', 'placeholder' : 'jj/mm/AAAA', 'autocomplete': 'off'}}) }}
 
                                 {{ form_errors(form_avancee.date, { 'attr': {'class': 'red' }}) }}
                             </div>
                             <div class=" form-group  col-md-2">
                                 {{ form_label(form_avancee.date_2, "à ", {'label_attr': {'class': ' control-label'}}) }}
                                 {# Génération de l'input.#}
-                                {{ form_widget(form_avancee.date_2, {'attr': {'class': 'js-datepicker  form-control', 'placeholder' : 'JJ/MM/AAAA', 'autocomplete': 'off'}}) }}
+                                {{ form_widget(form_avancee.date_2, {'attr': {'class': 'js-datepicker  form-control', 'placeholder' : 'jj/mm/AAAA', 'autocomplete': 'off'}}) }}
 
                                 {{ form_errors(form_avancee.date_2, { 'attr': {'class': 'red' }}) }}
                             </div>
@@ -80,33 +81,67 @@
 										<th scope="col-md-2">Date d'enregistrement</th>
 										<th scope="col-md-2">N° de série</th>
 										<th scope="col-md-2">Marque</th>
-										<th scope="col-md-2">Site</th>
-										<th scope="col-md-2">Etat Autocar</th>
+                                        {% if car_panne_listing is defined %}
+                                            <th scope="col-md-2">Nature Panne</th>
+                                            <th scope="col-md-2">Panne/Entretien</th>
+                                        {% else %}
+                                            <th scope="col-md-2">Site</th>
+										    <th scope="col-md-2">Etat Autocar</th>
+                                        {% endif %}
 									</tr>
 									</thead>
 									<tbody>
-                                    {% for Car in car_listing %}
-										<tr>
-											<th scope="row">
-                                                {% if app.user %}
-													<a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a>
-                                                {% else %}
-                                                    {{ Car.immat|upper }}
-                                                {% endif %}
-											</th>
-											<td>{{ Car.date|date("d/m/Y") }}</td>
-											<td>{{ Car.numSerie }}</td>
-											<td>{{ Car.marque| upper }}</td>
-											<td>{{ Car.site }}</td>
-											<td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>
-                                                {% elseif Car.etatCar == "roulant ano" or Car.etatCar == "roulant_ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
-                                                {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
-                                                {% else %}
-                                                    {{ Car.etatCar }}
-                                                {% endif %}
-											</td>
-										</tr>
-                                    {% endfor %}
+                                    {% if car_listing is defined %}
+                                        {% for Car in car_listing %}
+                                            <tr>
+                                                <th scope="row">
+                                                    {% if app.user %}
+                                                        <a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a>
+                                                    {% else %}
+                                                        {{ Car.immat|upper }}
+                                                    {% endif %}
+                                                </th>
+                                                <td>{{ Car.date|date("d/m/Y") }}</td>
+                                                <td>{{ Car.numSerie }}</td>
+                                                <td>{{ Car.marque| upper }}</td>
+                                                <td>{{ Car.site }}</td>
+                                                <td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "roulant ano" or Car.etatCar == "roulant_ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "atelier" %} <i class="fa fa-wrench" style="color: red;  font-size: 15px" aria-hidden="true"></i>
+                                                    {% else %}
+                                                        {{ Car.etatCar }}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if car_panne_listing  is defined %}
+
+                                        {% for Car in car_panne_listing %}
+                                            <tr>
+                                                <th scope="row">
+                                                    {% if app.user %}
+                                                        <a href="{{ path('car', { 'id': Car.cars.id }) }}">{{ Car.cars.immat|upper }}</a>
+                                                    {% else %}
+                                                        {{ Car.cars.immat|upper }}
+                                                    {% endif %}
+                                                </th>
+                                                <td>{{ Car.cars.date|date("d/m/Y") }}</td>
+                                                <td>{{ Car.cars.numSerie }}</td>
+                                                <td>{{ Car.cars.marque| upper }}</td>
+                                                <td>{{ Car.naturePanne }}</td>
+                                                <td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "roulant ano" or Car.cars.etatCar == "roulant_ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "atelier" %} <i class="fa fa-wrench" style="color: red;  font-size: 15px" aria-hidden="true"></i>
+                                                    {% else %}
+                                                        {{ Car.cars.etatCar }}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
 									</tbody>
 								</table>
 							</div>
@@ -176,6 +211,17 @@
 {% block javascripts %}
     <script type="text/javascript">
         $(document).ready(function(){
+            $('.fa-times-circle').hide();
+
+            $('input#form_recherche').on('focus',function(){
+
+                if($('.fa-times-circle').is(':visible'))
+                {
+                    $('.fa-times-circle').hide();
+                    $('input#form_recherche').css('border', '1px solid green');
+                }
+            });
+
             $('a.green').click(function(){
                 if($('button#form_Rechercher').is(':visible'))
                 {
@@ -189,13 +235,38 @@
                     $('.c_hide').show();
                 }
             });
-            $('button#form_rechercher').on('click', function () {
-                if($('input#form_rechercher') == '' || $('input#form_rechercher').val().length < 1 )
+
+            $('button#form_Rechercher').on('click', function () {
+                if($('input#form_recherche') == '' || $('input#form_recherche').val().length < 1 )
                 {
-                    alert('Remplir le champs recherche');
+                    $('input#form_recherche').css('border', '2px solid red');
+                    $('.fa-times-circle').show();
                     return false;
                 }
             });
+
+            $('select#form_marque').on('focus',function(){
+
+                $('input#form_recherche_av').css('border', '2px solid green');
+                $('select#form_marque').css('border', '2px solid green');
+            });
+
+
+
+
+            $('button#form_Valider').on('click', function () {
+
+                /*alert($('input#form_recherche_av').val());
+                return false;*/
+
+                if($('select#form_marque').val() == 0 && $('input#form_recherche_av').val() == '' )
+                {
+                    $('input#form_recherche_av').css('border', '2px solid red');
+                    $('select#form_marque').css('border', '2px solid red');
+                    return false;
+                }
+            });
+
 
 
         });

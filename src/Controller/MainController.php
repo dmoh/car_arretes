@@ -306,14 +306,12 @@ Class MainController extends Controller
                     'required' => false
                 ))
                 ->add('Rechercher', SubmitType::class)
-                ->getForm()
-        ;
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository(Cars::class);
-        $car_listing = $repository->findBy(array(),
-            array('date' => 'DESC')
-        );
+                ->getForm();
+
+        $repository = $this->getDoctrine()->getManager()->getRepository(Cars::class);
+
+        $car_listing = $repository->findBy(array(), array('date' => 'DESC'));
+
 
         $form_avancee = $this->createFormBuilder()
             ->add('date', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
@@ -362,28 +360,211 @@ Class MainController extends Controller
 
                 if($form_av['date'] && $form_av['date_2'])
                 {
-                    if($form_av['marque'])
-                    {
+                    $date_de = $form_av['date'];
+                    $date_a = $form_av['date_2'];
 
-                    }
-
-                    if($form_av['recherche_av'])
+                    if($form_av['recherche_av'] && $form_av['marque'] === null)
                     {
                         $mot_cles = $form_av['recherche_av'];
                         $query = $em->createQuery('SELECT p FROM App\Entity\Panne p WHERE p.nature_panne LIKE :nature')
                                     ->setParameter( 'nature','%'.$mot_cles.'%');
 
-                        $rep = $query->getResult();
-                        $r = count($rep);
+                        $car_trouver = $query->getResult();
+                        $r = count($car_trouver);
 
-                        //nombre de résultats posssible
-                        //var_dump($r);
 
-                        var_dump($rep[1]->getNaturePanne());
-                        die();
+                        $form = $this->createFormBuilder()
+                            ->add('recherche', TextType::class)
+                            ->add('Rechercher', SubmitType::class)
+                            ->getForm();
+
+                        $form_avancee = $this->createFormBuilder()
+                            ->add('date', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                                'widget' => 'single_text',
+                                'required'      =>  false,
+                                'html5'         =>  false,
+                                'format'        =>  'd/MM/yyyy'
+                            ))
+                            ->add('date_2', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                                'widget' => 'single_text',
+                                'required'  =>  false,
+                                'format'    =>  'd/MM/yyyy'
+                            ))
+                            ->add('recherche_av', TextType::class, array(
+                                'required' => false
+                            ))
+                            ->add('marque', ChoiceType::class, array(
+                                'choices' => array(
+                                    'Sélectionner une marque'   => null,
+                                    'IVECO CROSSWAY'             => "iveco crossway",
+                                    'IVECO MAGELYS'              => "iveco magelys",
+                                    'MERCEDES TOURISMO'          => 'mercedes tourismo',
+                                    'IVECO DAILY'                => "iveco daily",
+                                    'VOLVO 9700HD'               => "volvo 9700 hd",
+                                    'SCANIA TOURING'             => "scania touring",
+                                    'IVECO RECREO'               => "iveco recreo",
+                                    'SOLARIS'                    => "solaris",
+                                    'BOVA'                       => "bova",
+                                    'IRIZAR I4'                  => "irizar i4",
+                                ),))
+                            ->add('Valider', SubmitType::class)
+                            ->getForm();;
+
+
+
+                        return $this->render('front/recherche.html.twig', array(
+                            'form' => $form->createView(),
+                            'form_avancee' => $form_avancee->createView(),
+                            'car' => 'trouver',
+                            'car_panne_listing'  => $car_trouver,
+                            'plusieurs' => 'OK',
+                        ));
 
                     }
-                    else {
+                    elseif (!$form_av['recherche_av'] && $form_av['marque'] !== null)
+                    {
+                        $marque = $form_av['marque'];
+
+                        //*$query = $em->createQuery('SELECT p FROM App\Entity\Panne p WHERE p.nature_panne LIKE :nature')
+                                   // ->setParameter( 'nature','%'.$marque.'%');
+
+                        $query = $em->createQuery('SELECT p FROM App\Entity\Panne p JOIN App\Entity\Cars car WITH car.marque = :marque WHERE p.date_prev BETWEEN :date1 AND :date2 ')
+                                    ->setParameter('marque', $marque)
+                                    ->setParameter('date1', $date_de)
+                                    ->setParameter('date2', $date_a);
+
+
+
+
+
+                        $car_trouver = $query->getResult();
+
+                        $r = count($car_trouver);
+
+
+                        for($i = 0 ; $i < $r ; $i++)
+                        {
+                             $marque_recu = $car_trouver[$i]->getCars()->getMarque();
+                            if($marque != $marque_recu)
+                            {
+                                unset($car_trouver[$i]);
+                            }
+
+                        }
+
+                        $form = $this->createFormBuilder()
+                            ->add('recherche', TextType::class)
+                            ->add('Rechercher', SubmitType::class)
+                            ->getForm();
+
+                        $form_avancee = $this->createFormBuilder()
+                            ->add('date', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                                'widget' => 'single_text',
+                                'required'      =>  false,
+                                'html5'         =>  false,
+                                'format'        =>  'd/MM/yyyy'
+                            ))
+                            ->add('date_2', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                                'widget' => 'single_text',
+                                'required'  =>  false,
+                                'format'    =>  'd/MM/yyyy'
+                            ))
+                            ->add('recherche_av', TextType::class, array(
+                                'required' => false
+                            ))
+                            ->add('marque', ChoiceType::class, array(
+                                'choices' => array(
+                                    'Sélectionner une marque'   => null,
+                                    'IVECO CROSSWAY'             => "iveco crossway",
+                                    'IVECO MAGELYS'              => "iveco magelys",
+                                    'MERCEDES TOURISMO'          => 'mercedes tourismo',
+                                    'IVECO DAILY'                => "iveco daily",
+                                    'VOLVO 9700HD'               => "volvo 9700 hd",
+                                    'SCANIA TOURING'             => "scania touring",
+                                    'IVECO RECREO'               => "iveco recreo",
+                                    'SOLARIS'                    => "solaris",
+                                    'BOVA'                       => "bova",
+                                    'IRIZAR I4'                  => "irizar i4",
+                                ),))
+                            ->add('Valider', SubmitType::class)
+                            ->getForm();;
+
+
+
+                        return $this->render('front/recherche.html.twig', array(
+                            'form' => $form->createView(),
+                            'form_avancee' => $form_avancee->createView(),
+                            'car' => 'trouver',
+                            'car_panne_listing'  => $car_trouver,
+                            'plusieurs' => 'OK',
+                        ));
+                    }
+                    elseif ($form_av['recherche_av'] && $form_av['marque'] !== null)
+                    {
+                        $marque = $form_av['marque'];
+                        $mot_cles = $form_av['recherche_av'];
+                        //*$query = $em->createQuery('SELECT p FROM App\Entity\Panne p WHERE p.nature_panne LIKE :nature')
+                        // ->setParameter( 'nature','%'.$marque.'%');
+
+                        $query = $em->createQuery('SELECT p FROM App\Entity\Panne p JOIN App\Entity\Cars car WHERE car.marque = :marque AND p.nature_panne LIKE :mots AND p.date_prev BETWEEN :date1 AND :date2 ')
+                                    ->setParameter('marque', $marque)
+                                    ->setParameter('mots',   '%'.$mot_cles.'%')
+                                    ->setParameter('date1', $date_de)
+                                    ->setParameter('date2', $date_a);
+
+                        $car_trouver = $query->getResult();
+                        $r = count($car_trouver);
+
+
+                        $form = $this->createFormBuilder()
+                            ->add('recherche', TextType::class)
+                            ->add('Rechercher', SubmitType::class)
+                            ->getForm();
+
+                        $form_avancee = $this->createFormBuilder()
+                            ->add('date', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                                'widget' => 'single_text',
+                                'required'      =>  false,
+                                'html5'         =>  false,
+                                'format'        =>  'd/MM/yyyy'
+                            ))
+                            ->add('date_2', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                                'widget' => 'single_text',
+                                'required'  =>  false,
+                                'format'    =>  'd/MM/yyyy'
+                            ))
+                            ->add('recherche_av', TextType::class, array(
+                                'required' => false
+                            ))
+                            ->add('marque', ChoiceType::class, array(
+                                'choices' => array(
+                                    'Sélectionner une marque'   => null,
+                                    'IVECO CROSSWAY'             => "iveco crossway",
+                                    'IVECO MAGELYS'              => "iveco magelys",
+                                    'MERCEDES TOURISMO'          => 'mercedes tourismo',
+                                    'IVECO DAILY'                => "iveco daily",
+                                    'VOLVO 9700HD'               => "volvo 9700 hd",
+                                    'SCANIA TOURING'             => "scania touring",
+                                    'IVECO RECREO'               => "iveco recreo",
+                                    'SOLARIS'                    => "solaris",
+                                    'BOVA'                       => "bova",
+                                    'IRIZAR I4'                  => "irizar i4",
+                                ),))
+                            ->add('Valider', SubmitType::class)
+                            ->getForm();;
+
+
+
+                        return $this->render('front/recherche.html.twig', array(
+                            'form' => $form->createView(),
+                            'form_avancee' => $form_avancee->createView(),
+                            'car' => 'trouver',
+                            'car_panne_listing'  => $car_trouver,
+                            'plusieurs' => 'OK',
+                        ));
+                    }
+                    else
+                        {
                         $date = $form_av['date'];
                         $date2 = $form_av['date_2'];
 
@@ -391,23 +572,119 @@ Class MainController extends Controller
                             ->setParameter('date1', $date)
                             ->setParameter('date2', $date2);
 
-                        $rep = $query->getResult();
-                        $r = count($rep);
+                            $car_trouver = $query->getResult();
+                            $r = count($car_trouver);
 
-                        //nombre de résultats posssible
-                        var_dump($r);
 
-                        //var_dump($rep[0]->getCars()->getMarque());
-                        die();
+                            $form = $this->createFormBuilder()
+                                ->add('recherche', TextType::class)
+                                ->add('Rechercher', SubmitType::class)
+                                ->getForm();
+
+                            $form_avancee = $this->createFormBuilder()
+                                ->add('date', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                                    'widget' => 'single_text',
+                                    'required'      =>  false,
+                                    'html5'         =>  false,
+                                    'format'        =>  'd/MM/yyyy'
+                                ))
+                                ->add('date_2', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                                    'widget' => 'single_text',
+                                    'required'  =>  false,
+                                    'format'    =>  'd/MM/yyyy'
+                                ))
+                                ->add('recherche_av', TextType::class, array(
+                                    'required' => false
+                                ))
+                                ->add('marque', ChoiceType::class, array(
+                                    'choices' => array(
+                                        'Sélectionner une marque'   => null,
+                                        'IVECO CROSSWAY'             => "iveco crossway",
+                                        'IVECO MAGELYS'              => "iveco magelys",
+                                        'MERCEDES TOURISMO'          => 'mercedes tourismo',
+                                        'IVECO DAILY'                => "iveco daily",
+                                        'VOLVO 9700HD'               => "volvo 9700 hd",
+                                        'SCANIA TOURING'             => "scania touring",
+                                        'IVECO RECREO'               => "iveco recreo",
+                                        'SOLARIS'                    => "solaris",
+                                        'BOVA'                       => "bova",
+                                        'IRIZAR I4'                  => "irizar i4",
+                                    ),))
+                                ->add('Valider', SubmitType::class)
+                                ->getForm();;
+
+
+
+                            return $this->render('front/recherche.html.twig', array(
+                                'form' => $form->createView(),
+                                'form_avancee' => $form_avancee->createView(),
+                                'car' => 'trouver',
+                                'car_panne_listing'  => $car_trouver,
+                                'plusieurs' => 'OK',
+                            ));
                     }
-                }
-                else
+
+                }// endif $form_av['date'] && $form_av['date_2']
+                elseif($form_av['recherche_av'] && $form_av['marque'])
                 {
-                    var_dump($form_av);
-                    die();
+                    $mot_cles = $form_av['recherche_av'];
+                    $marque = $form_av['marque'];
+
+                    $query = $em->createQuery('SELECT p FROM App\Entity\Panne p JOIN App\Entity\Cars car WHERE car.marque = :marque AND p.nature_panne LIKE :mots ')
+                        ->setParameter('marque', $marque)
+                        ->setParameter('mots',   '%'.$mot_cles.'%');
+
+                    $car_trouver = $query->getResult();
+                    $r = count($car_trouver);
+
+
+                    $form = $this->createFormBuilder()
+                        ->add('recherche', TextType::class)
+                        ->add('Rechercher', SubmitType::class)
+                        ->getForm();
+
+                    $form_avancee = $this->createFormBuilder()
+                        ->add('date', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                            'widget' => 'single_text',
+                            'required'      =>  false,
+                            'html5'         =>  false,
+                            'format'        =>  'd/MM/yyyy'
+                        ))
+                        ->add('date_2', \Symfony\Component\Form\Extension\Core\Type\DateType::class, array(
+                            'widget' => 'single_text',
+                            'required'  =>  false,
+                            'format'    =>  'd/MM/yyyy'
+                        ))
+                        ->add('recherche_av', TextType::class, array(
+                            'required' => false
+                        ))
+                        ->add('marque', ChoiceType::class, array(
+                            'choices' => array(
+                                'Sélectionner une marque'   => null,
+                                'IVECO CROSSWAY'             => "iveco crossway",
+                                'IVECO MAGELYS'              => "iveco magelys",
+                                'MERCEDES TOURISMO'          => 'mercedes tourismo',
+                                'IVECO DAILY'                => "iveco daily",
+                                'VOLVO 9700HD'               => "volvo 9700 hd",
+                                'SCANIA TOURING'             => "scania touring",
+                                'IVECO RECREO'               => "iveco recreo",
+                                'SOLARIS'                    => "solaris",
+                                'BOVA'                       => "bova",
+                                'IRIZAR I4'                  => "irizar i4",
+                            ),))
+                        ->add('Valider', SubmitType::class)
+                        ->getForm();;
+
+
+
+                    return $this->render('front/recherche.html.twig', array(
+                        'form' => $form->createView(),
+                        'form_avancee' => $form_avancee->createView(),
+                        'car' => 'trouver',
+                        'car_panne_listing'  => $car_trouver,
+                        'plusieurs' => 'OK',
+                    ));
                 }
-
-
             }
 
             $imm = implode($immat_car);
@@ -421,7 +698,7 @@ Class MainController extends Controller
 
                 $car_trouver = $qb->select('c')->from('App\Entity\Cars', 'c')
                   ->where( $qb->expr()->like('c.immat', $qb->expr()->literal('%' . $imm . '%')) )
-                  ->setMaxResults(5)
+                  ->setMaxResults(10)
                   ->getQuery()
                   ->getResult();
 
@@ -527,10 +804,6 @@ Class MainController extends Controller
           ['etat_car'   =>  'roulant_ano'],
           ['date_maj'   =>  'ASC']
         );
-
-
-
-
 
         if(!$list_panne)
         {

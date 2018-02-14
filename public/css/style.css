@@ -321,6 +321,19 @@ select#form_marque.form-control{
     padding-right: 0.4rem;
     padding-left: 0.4rem;
 }
+i.fa.fa-times-circle
+{
+    width: 0px;
+    /* top: 45%; */
+    bottom: 24px;
+    /* top: 0; */
+    right: 36px;
+    height: 14px;
+    z-index: 10000;
+    /* padding-top: 11px; */
+    color: red;
+    position: absolute;
+}
 /***************************************MEDIA QUERIES*************************************************/
 
 @media screen and (max-width: 990px) {
