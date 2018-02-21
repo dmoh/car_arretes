@@ -5,7 +5,7 @@
 	    <div class="container">
 	        <h1 class="jumbotron-heading"> Recherche de car </h1>
             <a class="green" data-toggle="collapse" href="#collapse1" role="button" aria-expanded="false" aria-controls="collapseExample">
-                Recherche avancée
+                Recherche avancée (Pannes)
             </a>
 	        <div class="no_marg form-row">
 	            {# Génération du label. #}
@@ -78,7 +78,11 @@
 									<thead>
 									<tr class="text-uppercase">
 										<th scope="col-md-2">Immatriculation</th>
-										<th scope="col-md-2">Date d'enregistrement</th>
+                                        {% if car_panne_listing is defined %}
+                                            <th scope="col-md-2">Durée Panne</th>
+                                            {% else %}
+                                            <th scope="col-md-2">Date d'enregistrement</th>
+                                        {% endif %}
 										<th scope="col-md-2">N° de série</th>
 										<th scope="col-md-2">Marque</th>
                                         {% if car_panne_listing is defined %}
@@ -127,16 +131,22 @@
                                                         {{ Car.cars.immat|upper }}
                                                     {% endif %}
                                                 </th>
-                                                <td>{{ Car.cars.date|date("d/m/Y") }}</td>
+                                                <td>{% if Car.dureePannePrev > 0 or Car.dureePannePrev != '' %}
+                                                        {{ Car.dureePannePrev }} jours
+                                                        {% else %}
+                                                        Indéterminé
+                                                    {% endif %}
+
+                                                </td>
                                                 <td>{{ Car.cars.numSerie }}</td>
                                                 <td>{{ Car.cars.marque| upper }}</td>
                                                 <td>{{ Car.naturePanne }}</td>
                                                 <td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>
-                                                    {% elseif Car.etatCar == "roulant ano" or Car.cars.etatCar == "roulant_ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "roulant ano" or Car.etatCar == "roulant_ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
                                                     {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
                                                     {% elseif Car.etatCar == "atelier" %} <i class="fa fa-wrench" style="color: red;  font-size: 15px" aria-hidden="true"></i>
                                                     {% else %}
-                                                        {{ Car.cars.etatCar }}
+                                                        {{ Car.etatCar }}
                                                     {% endif %}
                                                 </td>
                                             </tr>

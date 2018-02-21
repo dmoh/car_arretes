@@ -334,7 +334,18 @@ i.fa.fa-times-circle
     color: red;
     position: absolute;
 }
-/***************************************MEDIA QUERIES*************************************************/
+.mini_td
+{
+    font-size: 11px;
+}
+
+.green
+{
+    color: #87d116;
+}
+
+/**********
+*****************************MEDIA QUERIES*************************************************/
 
 @media screen and (max-width: 990px) {
 

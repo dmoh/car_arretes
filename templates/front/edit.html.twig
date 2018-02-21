@@ -69,6 +69,9 @@
                             {{ form_label(form.garantie, "En garantie : ", {'label_attr': {'class': ' control-label'}}) }}
                             {# Génération de l'input.#}
                             {{ form_widget(form.garantie, {'attr': {'class': ' form-control'}}) }}
+                            <p class="mini" style="font-size: 0.75rem">{% if cond_garantie is defined %}
+                                    {{ cond_garantie }}
+                                {% endif %}</p>
                             {{ form_errors(form.garantie, { 'attr': {'class': 'red' }}) }}
                         </div>
                     </div>

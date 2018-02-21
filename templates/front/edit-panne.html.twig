@@ -30,6 +30,9 @@
                         {{ form_label(form.garantie, "En garantie : ", {'label_attr': {'class': ' control-label'}}) }}
                         {# Génération de l'input.#}
                         {{ form_widget(form.garantie, {'attr': {'class': ' form-control'}}) }}
+                        <p class="mini" style="font-size: 0.75rem">{% if c_garantie is defined %}
+                                {{ c_garantie }}
+                            {% endif %}</p>
                         {{ form_errors(form.garantie, { 'attr': {'class': 'red' }}) }}
                     </div>
                 </div>
@@ -122,11 +125,19 @@
             if($('option.etat_roulant.avec.anomalie').is(':selected'))
             {
                 $('select option.etat_panne').prop('disabled', true);
+                $('select option.etat_atelier').prop('disabled', true);
             }
             else if($('option.etat_panne').is(':selected'))
             {
                 $('option.etat_roulant.avec.anomalie').prop('disabled', true);
+                $('option.etat_atelier').prop('disabled', true);
             }
+            else if($('option.etat_atelier').is(':selected'))
+            {
+                $('option.etat_roulant.avec.anomalie').prop('disabled', true);
+                $('option.etat_panne').prop('disabled', true);
+            }
+
 
 
 

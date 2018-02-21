@@ -681,8 +681,8 @@ class Cars
         $this->pannes = $pannes;
     }
 
-    /**
-     * @return mixed
+    /*
+     *@return Collection|Panne[]
      */
     public function getPannes()
     {

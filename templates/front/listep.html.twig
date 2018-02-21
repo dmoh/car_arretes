@@ -92,9 +92,6 @@
                                     Num Série
                                 </th>
                                 <th>Marque</th>
-                                <th>
-                                    Date atelier
-                                </th>
                                 <th>En atelier depuis le</th>
                                 <th>Nature atelier</th>
                                 <th>
@@ -106,13 +103,12 @@
                             {% for panne in liste_atelier  %}
                                 <tr>
                                     <td><i style="color: red; font-size: 17px; padding-top: 1px; height: 22px" class="fa fa-wrench"></i></td>
-                                    <td ><a href="{{ path('edit_panne', {'id': panne.id}) }}">{{ panne.immat|upper }}</a></td>
-                                    <td>{{ panne.numSerie | upper }}</td>
-                                    <td>{{ panne.marque | upper }}</td>
+                                    <td ><a href="{{ path('edit_panne', {'id': panne.id}) }}">{{ panne.cars.immat|upper }}</a></td>
+                                    <td>{{ panne.cars.numSerie | upper }}</td>
+                                    <td>{{ panne.cars.marque | upper }}</td>
                                     {# variable date de garantie #}
                                     <td>{{ panne.datePrev | date("d/m/Y") }}</td>
-                                    <td>{{ panne.datePanneDeb | date("d/m/y") }}</td>
-                                    <td>{{ panne.naturePanneCar }}</td>
+                                    <td>{{ panne.naturePanne }}</td>
                                     <td>{{ panne.garantie }}</td>
                                     <td>
                                         <a href="{{ path('edit_panne', {'id':  panne.id }) }}"> Modifier </a>
@@ -154,7 +150,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h4 class="text-center pt-30 pb-40">Autocars avec anomalie  </h4>
-                        <table class="table pt-30  table-bordered">
+                        <table class="table pt-30 table-bordered">
                             <thead class="text-uppercase">
                             <tr>
                                 <th colspan="2">
@@ -164,10 +160,9 @@
                                     Num Série
                                 </th>
                                 <th>Marque</th>
-                                <th>
-                                    Date derniére panne
+                                <th class="mini_td">
+                                    Panne depuis le
                                 </th>
-                                <th>En panne depuis le</th>
                                 <th>Nature Panne</th>
                                 <th>
                                     Garantie
@@ -178,12 +173,11 @@
                             {% for panne in liste_panne_ano  %}
                                 <tr>
                                     <td><i style="color: orange;" class="fa fa-ambulance"></i></td>
-                                    <td ><a href="{{ path('edit_panne', {'id': panne.id}) }}">{{ panne.immat|upper }}</a></td>
-                                    <td>{{ panne.numSerie | upper }}</td>
+                                    <td  class="mini_td"><a href="{{ path('edit_panne', {'id': panne.id }) }}">{{ panne.immat|upper }}</a></td>
+                                    <td class="mini_td">{{ panne.numSerie | upper }}</td>
                                     <td>{{ panne.marque | upper }}</td>
                                     {# variable date de garantie #}
                                     <td>{{ panne.datePrev | date("d/m/Y") }}</td>
-                                    <td>{{ panne.datePanneDeb | date("d/m/y") }}</td>
                                     <td>{{ panne.naturePanneCar }}</td>
                                     <td>{{ panne.garantie }}</td>
                                     <td>

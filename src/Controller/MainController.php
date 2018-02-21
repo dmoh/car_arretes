@@ -137,13 +137,75 @@ Class MainController extends Controller
 
 
     //Historique du Car
-    public function car($id)
+    public function car(Request $req, $id)
     {
         $repo = $this->getDoctrine()->getManager();
-
+        $kms = 0;
         $car_info = $repo->getRepository(Cars::class)->find(
            $id
         );
+
+
+        $immat =  $car_info->getImmat();
+        $ti = time();
+
+        if($immat !== "CS-223-JK" && $immat !== "BZ-668-TH")
+        {
+             $hache = base64_encode(hash_hmac("SHA1", "apa-aps-t39-c1ws.truckonline.proGET/apis/rest/v2.2/fleet/vehicles?vehicle_vrn=".$immat."".$ti."", "5a35101a-62ae-4cba-b70a-b1efd5cd75f0", true));
+            /*var_dump($hache);
+           die();*/
+            /*Accès à l'APi TruckOnline signature tous les véhicules
+            $opts = array(
+                'http' => array(
+                    'method'=>'GET',
+                    'header' => "x-tonl-client-id:  apa-aps-t39-c1\r\n".
+                                "x-tonl-timestamp:  1519113161\r\n".
+                                "x-tonl-signature:  ckk8syXJQGUHIgTCMZj4fDif9Q4="
+            ));*/
+            $opts = array(
+                'http' => array(
+                    'method'=>'GET',
+                    'header' => "x-tonl-client-id:  apa-aps-t39-c1\r\n".
+                                "x-tonl-timestamp:  ".$ti."\r\n".
+                                "x-tonl-signature: ".$hache.""
+                ));
+            // Recherche api truck online tous les vehicules
+            //$kil = file_get_contents("https://ws.truckonline.pro/apis/rest/v2.2/fleet/vehicles", false, $context);
+
+            $context = stream_context_create($opts);
+            $kil = file_get_contents("https://ws.truckonline.pro/apis/rest/v2.2/fleet/vehicles?vehicle_vrn=".$immat."", false, $context);
+
+            /*$req->headers->set("x-tonl-client-id", "apa-aps-t39-c1");
+            $req->headers->set("x-tonl-timestamp", "".time()."");
+            $req->headers->set("x-tonl-signature",  "ckk8syXJQGUHIgTCMZj4fDif9Q4=");*/
+            $result = json_decode($kil, true);
+
+            $v = count($result);
+            /*var_dump($result);
+            die();*/
+
+            if($result[0])
+            {
+                $kms = $result[0]["totalKms"];
+            }
+        }
+
+        /*for ($i = 0; $i < $v ; $i++)
+        {
+            if($result[$i]["registration"] != $immat)
+            {
+               unset($result[$i]);
+            }
+            else
+            {
+                $kms = $result[$i]["totalKms"];
+
+            }
+        }*/
+
+
+
+
         $em = $this->getDoctrine()->getManager();
 
         $pannes = $repo->getRepository(Panne::class)
@@ -182,8 +244,9 @@ Class MainController extends Controller
         return $this->render('front/car.html.twig',
             array(
                 'car'       => $car_info,
-                'nombrep'   =>  $nombrep,
-                'pannes'    => $pannes
+                'nombrep'   => $nombrep,
+                'pannes'    => $pannes,
+                'kms'       => $kms
                 )
         );
 
@@ -201,6 +264,9 @@ Class MainController extends Controller
         $panne = new Panne;
         $form = $this->createForm(PanneType::class, $panne);
         $car = $repo->getRepository(Cars::class)->find($id);
+        $condition_garantie = $car->getConditionGarantie();
+
+
 
         if($req->isMethod('POST'))
         {
@@ -224,21 +290,54 @@ Class MainController extends Controller
                     $panne->setNaturePanne($test->getNaturePanne());
                     $panne->setDescPanneAnoP($test->getDescPanne());
                     $panne->setAuteur($test->getAuteur());
+                    $panne->setGarantie($test->getGarantie());
 
                     $car->setAuteur($test->getAuteur());
                     $car->setNaturePanneCar($test->getNaturePanne());
                     $car->setDescPanneAno($test->getDescPanne());
                     $car->setDescPanneCar($test->getDescPanne());
+                    $car->setGarantie($test->getGarantie());
 
                 }
                 elseif ($etat_car == 'atelier')
                 {
+                    $panne->setCars($car);
+                    $d_today = new \DateTime();
+                    $d_prev = $test->getDatePrev();
                     $panne->setNaturePanne($test->getNaturePanne());
                     $panne->setAuteur($test->getAuteur());
+                    $panne->setGarantie($test->getGarantie());
 
-                    $car->setAuteur($test->getAuteur());
-                    $car->setNaturePanneCar($test->getNaturePanne());
-                    $car->setDescPanneCar($test->getDescPanne());
+                    $date_prev = $test->getDatePrev();
+                    $date_effective = $test->getDateEffective();
+
+                    if($date_effective != null  && $date_prev != null)
+                    {
+                        // Durée de panne
+                        $duree_panne_prev = date_diff($date_prev, $date_effective);
+                        $duree_panne_prev = $duree_panne_prev->format('%d');
+
+                        $panne->setDureePannePrev($duree_panne_prev);
+                        $car->setDureePanne($duree_panne_prev);
+
+                    }
+
+                    if($d_today >= $d_prev)
+                    {
+                        $car->setGarantie($test->getGarantie());
+                        $car->setAuteur($test->getAuteur());
+                        $car->setMaj(new \DateTime());
+                        $car->setNaturePanneCar($test->getNaturePanne());
+                        $car->setDescPanneCar($test->getDescPanne());
+                        $car->setEtatCar($test->getEtatCar());
+                    }
+
+                    $em -> persist($car);
+                    $em -> persist($panne);
+                    $em -> flush();
+
+                    return $this->redirectToRoute('liste_panne');
+
                 }
 
                 $panne->setCars($car);
@@ -289,6 +388,7 @@ Class MainController extends Controller
         return $this->render('front/edit.html.twig',
             array('car' => $car,
                   'form' => $form->createView(),
+                'cond_garantie'=> $condition_garantie,
                 )
             );
 
@@ -363,7 +463,7 @@ Class MainController extends Controller
                     $date_de = $form_av['date'];
                     $date_a = $form_av['date_2'];
 
-                    if($form_av['recherche_av'] && $form_av['marque'] === null)
+                    if($form_av['recherche_av'] && $form_av['marque'] === null || $form_av['marque'] == null || $form_av['marque'] == '' )
                     {
                         $mot_cles = $form_av['recherche_av'];
                         $query = $em->createQuery('SELECT p FROM App\Entity\Panne p WHERE p.nature_panne LIKE :nature')
@@ -421,36 +521,36 @@ Class MainController extends Controller
                         ));
 
                     }
-                    elseif (!$form_av['recherche_av'] && $form_av['marque'] !== null)
+                    elseif ($form_av['recherche_av'] && $form_av['marque'] != null)
                     {
                         $marque = $form_av['marque'];
-
+                        $mot_cles = $form_av['recherche_av'];
                         //*$query = $em->createQuery('SELECT p FROM App\Entity\Panne p WHERE p.nature_panne LIKE :nature')
-                                   // ->setParameter( 'nature','%'.$marque.'%');
-
-                        $query = $em->createQuery('SELECT p FROM App\Entity\Panne p JOIN App\Entity\Cars car WITH car.marque = :marque WHERE p.date_prev BETWEEN :date1 AND :date2 ')
-                                    ->setParameter('marque', $marque)
-                                    ->setParameter('date1', $date_de)
-                                    ->setParameter('date2', $date_a);
+                        // ->setParameter( 'nature','%'.$marque.'%');
 
 
-
-
+                        $query = $em->createQuery('SELECT p FROM App\Entity\Panne p JOIN App\Entity\Cars car WHERE car.marque = :marque AND p.nature_panne LIKE :mots AND p.date_prev BETWEEN :date1 AND :date2 ')
+                            ->setParameter('marque', $marque)
+                            ->setParameter('mots',   '%'.$mot_cles.'%')
+                            ->setParameter('date1', $date_de)
+                            ->setParameter('date2', $date_a);
 
                         $car_trouver = $query->getResult();
-
                         $r = count($car_trouver);
-
 
                         for($i = 0 ; $i < $r ; $i++)
                         {
-                             $marque_recu = $car_trouver[$i]->getCars()->getMarque();
+                            $marque_recu = $car_trouver[$i]->getCars()->getMarque();
                             if($marque != $marque_recu)
                             {
                                 unset($car_trouver[$i]);
                             }
 
                         }
+
+
+                        // $r2 = count($car_trouver);
+
 
                         $form = $this->createFormBuilder()
                             ->add('recherche', TextType::class)
@@ -499,21 +599,37 @@ Class MainController extends Controller
                             'plusieurs' => 'OK',
                         ));
                     }
-                    elseif ($form_av['recherche_av'] && $form_av['marque'] !== null)
+                    elseif ( $form_av['recherche_av'] === '' || $form_av['recherche_av'] === null && $form_av['marque'] !== null || $form_av['marque'] != null || $form_av['marque'] != '')
                     {
                         $marque = $form_av['marque'];
-                        $mot_cles = $form_av['recherche_av'];
-                        //*$query = $em->createQuery('SELECT p FROM App\Entity\Panne p WHERE p.nature_panne LIKE :nature')
-                        // ->setParameter( 'nature','%'.$marque.'%');
 
-                        $query = $em->createQuery('SELECT p FROM App\Entity\Panne p JOIN App\Entity\Cars car WHERE car.marque = :marque AND p.nature_panne LIKE :mots AND p.date_prev BETWEEN :date1 AND :date2 ')
+
+
+                        //*$query = $em->createQuery('SELECT p FROM App\Entity\Panne p WHERE p.nature_panne LIKE :nature')
+                                   // ->setParameter( 'nature','%'.$marque.'%');
+
+                        $query = $em->createQuery('SELECT p FROM App\Entity\Panne p JOIN App\Entity\Cars car WITH car.marque = :marque WHERE p.date_prev BETWEEN :date1 AND :date2 ')
                                     ->setParameter('marque', $marque)
-                                    ->setParameter('mots',   '%'.$mot_cles.'%')
                                     ->setParameter('date1', $date_de)
                                     ->setParameter('date2', $date_a);
 
                         $car_trouver = $query->getResult();
+
                         $r = count($car_trouver);
+
+
+
+                        for($i = 0 ; $i < $r ; $i++)
+                        {
+                             $marque_recu = $car_trouver[$i]->getCars()->getMarque();
+                            if($marque != $marque_recu)
+                            {
+                                unset($car_trouver[$i]);
+                            }
+
+                        }
+
+
 
 
                         $form = $this->createFormBuilder()
@@ -789,6 +905,13 @@ Class MainController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /*$car_en_atelier = $em->getRepository(Panne::class)->findBy(
+          'eta'
+        );*/
+
+        $date_atelier = $em->getRepository(Panne::class)->findParDateAtelier("atelier");
+        /*var_dump($s);
+        die();*/
 
         $list_panne = $em->getRepository(Cars::class)->findBy(
           ['etat_car'  => 'panne' ],
@@ -798,12 +921,45 @@ Class MainController extends Controller
         $list_atelier = $em->getRepository(Cars::class)->findBy(
            ['etat_car'  => 'atelier'],
            ['date'      => 'ASC']
-        );
+        );/**/
+
+
+
+
+
+        // Vérifier la date
+        $s = count($date_atelier);
+        if($s > 0)
+        {
+            for($i=0 ; $i < $s ; $i++)
+            {
+                if($date_atelier[$i]->getCars()->getEtatCar() != "atelier")
+                {
+                    $date_atelier[$i]->getCars()->setEtatCar("atelier");
+                    $nature=$date_atelier[$i]->getNaturePanne();
+                    $desc=$date_atelier[$i]->getDescPanne();
+                    $date_atelier[$i]->getCars()->setDateMaj(new \DateTime());
+                    $date_atelier[$i]->getCars()->setNaturePanneCar($nature);
+                    $date_atelier[$i]->getCars()->setDescPanneCar($desc);
+                    $date_atelier[$i]->getCars()->setGarantie($date_atelier[$i]->getGarantie());
+                    $date_atelier[$i]->getCars()->setDatePanneDeb($date_atelier[$i]->getDatePrev());
+                }
+            }
+        }
 
         $list_panne_ano = $em->getRepository(Cars::class)->findBy(
           ['etat_car'   =>  'roulant_ano'],
           ['date_maj'   =>  'ASC']
         );
+
+
+
+
+
+        /*$list_panne_ano_p = $em->getRepository(Panne::class)->findBy(
+           ['etat_car'  => 'roulant_ano'],
+           ['id'        => 'DESC']
+        );*/
 
         if(!$list_panne)
         {
@@ -830,10 +986,6 @@ Class MainController extends Controller
 
         //ajax
         if ($request->isXmlHttpRequest()) {
-
-
-
-
         }
         //var_dump($list_panne);
 
@@ -860,7 +1012,7 @@ Class MainController extends Controller
         return $this->render('front/listep.html.twig', array(
             'liste_panne'       =>      $list_panne,
             'liste_panne_ano'   =>      $list_panne_ano,
-            'liste_atelier'     =>      $list_atelier,
+            'liste_atelier'     =>      $date_atelier,
             'form'              =>      $form->createView(),
         ));
     }
@@ -947,6 +1099,7 @@ Class MainController extends Controller
 
         $etat_actu = $car->getEtatCar();
         $car_id = $car->getId();
+        $c_garantie = $car->getConditionGarantie();
 
 
         $panne = new Panne($car);
@@ -986,6 +1139,7 @@ Class MainController extends Controller
                     $car->setEtatCar($etat_car);
                     $car->setDateMaj(new \DateTime());
                     $car->setAuteur($test->getAuteur());
+                    $car->setGarantie($test->getGarantie());
 
                     $panne->setEtatCar($etat_car);
                     $panne->setAuteur($test->getAuteur());
@@ -1024,6 +1178,8 @@ Class MainController extends Controller
 
                     $car->setEtatCar($etat_actu);
                     $car->setDateMaj(new \DateTime());
+                    $car->setGarantie($test->getGarantie());
+
 
 
                     $panne->setEtatCar($etat_car);
@@ -1077,11 +1233,73 @@ Class MainController extends Controller
                         'id' => $id_car
                     ));
                 }
+                elseif ($etat_car == 'roulant ano' || $etat_car  == 'roulant_ano' && $etat_actu != 'roulant_ano')
+                {
+                    //Roulant avec anomalie écrase panne
+
+                    $car->setEtatCar($etat_actu);
+                    $car->setDateMaj(new \DateTime());
+                    $car->setGarantie($test->getGarantie());
+
+
+
+                    $panne->setEtatCar($etat_car);
+                    $panne->setAuteur($test->getAuteur());
+                    $panne->setDatePrev($test->getDatePrev());
+                    $panne->setGarantie($test->getGarantie());
+
+                    $car->setNaturePanneCar($test->getNaturePanne());
+                    $panne->setNaturePanne($test->getNaturePanne());
+                    $car->setAuteur($test->getAuteur());
+                    $car->setDatePanneDeb($test->getDatePrev());
+
+                    // $car->setPannes($panne);
+                    $panne->setCars($car);
+
+
+                    //Desc panne ano dans l'entitè Car
+                    $car->setDescPanneAno($test->getDescPanne());
+
+                    $panne->setDescPanneAnoP($test->getDescPanne());
+                    //$car->setDescPanneAno($test->getDescPanne());
+
+
+                    if($test->getDateEffective())
+                    {
+                        //Date_ <-> DateFin de panne
+                        $car->setDateFinPanne($test->getDateEffective());
+                        $panne->setDateEffective($test->getDateEffective());
+
+                        if ($test->getDatePrev() && $test->getDateEffective())
+                        {
+                            $deb_panne = $test->getDatePrev();
+                            $fin_panne = $test->getDateEffective();
+                            $duree_panne = date_diff($deb_panne, $fin_panne);
+
+                            $duree_panne = $duree_panne->format('%d');
+
+                            $panne->setDureePannePrev($duree_panne);
+                        }
+
+                    }
+
+                    $id_car = $car->getId();
+
+                    /*$em->persist($car);
+                    $em->persist($panne);*/
+                    $em->flush();
+
+
+                    return $this->redirectToRoute('car',array(
+                        'id' => $id_car
+                    ));
+                }
                 elseif ($etat_car == 'panne' && $etat_actu == 'panne')
                 {
                     $panne->setCars($car);
                     $p = $em->getRepository(Panne::class)->find($test->getId());
                     $car->setNaturePanneCar($test->getNaturePanne());
+                    $car->setGarantie($test->getGarantie());
                     $panne->setGarantie($test->getGarantie());
 
                     $em->persist($p);
@@ -1096,6 +1314,7 @@ Class MainController extends Controller
                     $car->setEtatCar($etat_car);
                     $car->setDateMaj(new \DateTime());
                     $car->setAuteur($test->getAuteur());
+                    $car->setGarantie($test->getGarantie());
 
                     $panne->setEtatCar($etat_car);
                     $panne->setAuteur($test->getAuteur());
@@ -1179,6 +1398,7 @@ Class MainController extends Controller
             'car_panne'             => $car,
             'liste_panne'           => $liste_panne,
             'liste_panne_anterieur' => $liste_panne_anterieur,
+            'c_garantie'            => $c_garantie,
             'form'                  => $form->createView()
             ));
     }
