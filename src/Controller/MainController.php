@@ -141,6 +141,8 @@ Class MainController extends Controller
     {
         $repo = $this->getDoctrine()->getManager();
         $kms = 0;
+        $geoc_lat = 0;
+        $geoc_long = 0;
         $car_info = $repo->getRepository(Cars::class)->find(
            $id
         );
@@ -188,6 +190,36 @@ Class MainController extends Controller
             {
                 $kms = $result[0]["totalKms"];
             }
+
+            $hache2 = base64_encode(hash_hmac("SHA1", "apa-aps-t39-c1ws.truckonline.proGET/apis/rest/v2.2/gpstracking?count=1&vehicle_vrn=".$immat."".$ti."", "5a35101a-62ae-4cba-b70a-b1efd5cd75f0", true));
+
+            $opts2 = array(
+                'http' => array(
+                    'method'=>'GET',
+                    'header' => "x-tonl-client-id:  apa-aps-t39-c1\r\n".
+                        "x-tonl-timestamp:  ".$ti."\r\n".
+                        "x-tonl-signature: ".$hache2.""
+                ));
+            // Recherche api truck online tous les vehicules
+            //$kil = file_get_contents("https://ws.truckonline.pro/apis/rest/v2.2/fleet/vehicles", false, $context);
+
+            $context2 = stream_context_create($opts2);
+            $kil2 = file_get_contents("https://ws.truckonline.pro/apis/rest/v2.2/gpstracking?count=1&vehicle_vrn=".$immat."", false, $context2);
+
+            /*$req->headers->set("x-tonl-client-id", "apa-aps-t39-c1");
+            $req->headers->set("x-tonl-timestamp", "".time()."");
+            $req->headers->set("x-tonl-signature",  "ckk8syXJQGUHIgTCMZj4fDif9Q4=");*/
+            $result2 = json_decode($kil2, true);
+            if($result2[0])
+            {
+                $geoc_lat = $result2[0]["gpsInfo"]["latitude"];
+                $geoc_long = $result2[0]["gpsInfo"]["longitude"];
+            }
+            
+            /*var_dump($result);
+            die();*/
+
+
         }
 
         /*for ($i = 0; $i < $v ; $i++)
@@ -246,7 +278,9 @@ Class MainController extends Controller
                 'car'       => $car_info,
                 'nombrep'   => $nombrep,
                 'pannes'    => $pannes,
-                'kms'       => $kms
+                'kms'       => $kms,
+                'geoc_lat'  => $geoc_lat,
+                'geoc_long' => $geoc_long,
                 )
         );
 
@@ -326,7 +360,7 @@ Class MainController extends Controller
                     {}
                         $car->setGarantie($test->getGarantie());
                         $car->setAuteur($test->getAuteur());
-                        $car->setMaj(new \DateTime());
+                        $car->setDateMaj(new \DateTime());
                         $car->setNaturePanneCar($test->getNaturePanne());
                         $car->setDescPanneCar($test->getDescPanne());
                         $car->setEtatCar($test->getEtatCar());
@@ -338,6 +372,80 @@ Class MainController extends Controller
 
                     return $this->redirectToRoute('liste_panne');
 
+                }
+                else if ($etat_car == 'panne')
+                {
+                    $panne->setCars($car);
+                    $d_today = new \DateTime();
+                    $d_prev = $test->getDatePrev();
+                    $panne->setNaturePanne($test->getNaturePanne());
+                    $panne->setAuteur($test->getAuteur());
+                    $panne->setGarantie($test->getGarantie());
+
+                    $date_prev = $test->getDatePrev();
+                    $date_effective = $test->getDateEffective();
+
+                    if($date_effective != null  && $date_prev != null)
+                    {
+                        // Durée de panne
+                        $duree_panne_prev = date_diff($date_prev, $date_effective);
+                        $duree_panne_prev = $duree_panne_prev->format('%d');
+
+                        $panne->setDureePannePrev($duree_panne_prev);
+                        $car->setDureePanne($duree_panne_prev);
+
+                    }
+
+                    if($d_today >= $d_prev)
+                    {}
+                    $car->setGarantie($test->getGarantie());
+                    $car->setAuteur($test->getAuteur());
+                    $car->setDateMaj(new \DateTime());
+                    $car->setNaturePanneCar($test->getNaturePanne());
+                    $car->setDescPanneCar($test->getDescPanne());
+                    $car->setEtatCar($test->getEtatCar());
+
+
+                    $em -> persist($car);
+                    $em -> persist($panne);
+                    $em -> flush();
+
+                    $panne->setCars($car);
+                    $d_today = new \DateTime();
+                    $d_prev = $test->getDatePrev();
+                    $panne->setNaturePanne($test->getNaturePanne());
+                    $panne->setAuteur($test->getAuteur());
+                    $panne->setGarantie($test->getGarantie());
+
+                    $date_prev = $test->getDatePrev();
+                    $date_effective = $test->getDateEffective();
+
+                    if($date_effective != null  && $date_prev != null)
+                    {
+                        // Durée de panne
+                        $duree_panne_prev = date_diff($date_prev, $date_effective);
+                        $duree_panne_prev = $duree_panne_prev->format('%d');
+
+                        $panne->setDureePannePrev($duree_panne_prev);
+                        $car->setDureePanne($duree_panne_prev);
+
+                    }
+
+                    if($d_today >= $d_prev)
+                    {}
+                    $car->setGarantie($test->getGarantie());
+                    $car->setAuteur($test->getAuteur());
+                    $car->setMaj(new \DateTime());
+                    $car->setNaturePanneCar($test->getNaturePanne());
+                    $car->setDescPanneCar($test->getDescPanne());
+                    $car->setEtatCar($test->getEtatCar());
+
+
+                    $em -> persist($car);
+                    $em -> persist($panne);
+                    $em -> flush();
+
+                    return $this->redirectToRoute('liste_panne');
                 }
 
                 $panne->setCars($car);
@@ -915,12 +1023,12 @@ Class MainController extends Controller
 
         $list_panne = $em->getRepository(Cars::class)->findBy(
           ['etat_car'  => 'panne' ],
-          ['date'       => 'ASC']
+          ['id'       => 'DESC']
         );
 
         $list_atelier = $em->getRepository(Cars::class)->findBy(
            ['etat_car'  => 'atelier'],
-           ['date'      => 'ASC']
+           ['id'      => 'DESC']
         );/**/
 
 
@@ -949,7 +1057,7 @@ Class MainController extends Controller
 
         $list_panne_ano = $em->getRepository(Cars::class)->findBy(
           ['etat_car'   =>  'roulant_ano'],
-          ['date_maj'   =>  'ASC']
+          ['id'   =>  'DESC']
         );
 
 
@@ -1134,7 +1242,7 @@ Class MainController extends Controller
 
                 $etat_car = $test->getEtatCar();
 
-                if( $etat_car == 'panne')
+                if($etat_car == 'panne')
                 {
                     $car->setEtatCar($etat_car);
                     $car->setDateMaj(new \DateTime());
@@ -1151,7 +1259,6 @@ Class MainController extends Controller
                     $car->setNaturePanneCar($test->getNaturePanne());
                     $car->setDatePanneDeb($test->getDatePrev());
                     $car->setDescPanneCar($test->getDescPanne());
-                    $car->setDescPanneCar($test->getDescPanne());
                     $idcar = $car->getId();
 
                     $panne->setCars($car);
@@ -1167,7 +1274,7 @@ Class MainController extends Controller
                     $em->persist($panne);*/
                     $em->flush();
 
-                    return $this->redirectToRoute('car', array('id'=>$idcar));
+                    return $this->redirectToRoute('liste_panne');
 
 
 
@@ -1229,15 +1336,13 @@ Class MainController extends Controller
                     $em->flush();
 
 
-                    return $this->redirectToRoute('car',array(
-                        'id' => $id_car
-                    ));
+                    return $this->redirectToRoute('liste_panne');
                 }
                 elseif ($etat_car == 'roulant ano' || $etat_car  == 'roulant_ano' && $etat_actu != 'roulant_ano')
                 {
                     //Roulant avec anomalie écrase panne
 
-                    $car->setEtatCar($etat_actu);
+                    $car->setEtatCar($etat_car);
                     $car->setDateMaj(new \DateTime());
                     $car->setGarantie($test->getGarantie());
 
@@ -1290,9 +1395,7 @@ Class MainController extends Controller
                     $em->flush();
 
 
-                    return $this->redirectToRoute('car',array(
-                        'id' => $id_car
-                    ));
+                    return $this->redirectToRoute('liste_panne');
                 }
                 elseif ($etat_car == 'panne' && $etat_actu == 'panne')
                 {
@@ -1342,7 +1445,7 @@ Class MainController extends Controller
                     $em->persist($panne);*/
                     $em->flush();
 
-                    return $this->redirectToRoute('car', array('id'=> $car_id));
+                    return $this->redirectToRoute('liste_panne');
                 }
                 elseif ($etat_car == 'roulant')
                 {
@@ -1379,10 +1482,7 @@ Class MainController extends Controller
                         $liste_panne->setDureePannePrev($duree_panne_prev);
                         $car->setDureePanne($duree_panne_prev);
                     }
-
                     /*$em->persist($car);*/
-
-
 
                     $em->flush();
 

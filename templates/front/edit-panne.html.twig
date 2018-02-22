@@ -121,10 +121,10 @@
 {% block javascripts %}
     <script type="text/javascript">
         $(document).ready(function () {
-
+           
             if($('option.etat_roulant.avec.anomalie').is(':selected'))
             {
-                $('select option.etat_panne').prop('disabled', true);
+                /*$('select option.etat_panne').prop('disabled', true);
                 $('select option.etat_atelier').prop('disabled', true);
             }
             else if($('option.etat_panne').is(':selected'))
@@ -135,7 +135,7 @@
             else if($('option.etat_atelier').is(':selected'))
             {
                 $('option.etat_roulant.avec.anomalie').prop('disabled', true);
-                $('option.etat_panne').prop('disabled', true);
+                $('option.etat_panne').prop('disabled', true);*/
             }
 
 

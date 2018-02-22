@@ -3,9 +3,9 @@
 {% block body %}
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="jumbotron-heading"> Autocar <em class="green">{{ car.immat| upper }}</em></h1>
-            <p><a href="{{ path('ajout_panne', { 'id': car.id }) }}">Ajouter une panne a cet autocar</a></p>
-            <p class="lead text-muted"></p>
+                <h1 class="jumbotron-heading"> Autocar <em class="green" id="car_immat">{{ car.immat| upper }}</em></h1>
+                <p><a href="{{ path('ajout_panne', { 'id': car.id }) }}">Ajouter une panne a cet autocar</a></p>
+                <p class="lead text-muted"></p>
         </div>
     </section>
     <section class="container">
@@ -14,6 +14,20 @@
                 <a class="btn btn-primary ml-40 tee" href="{{ path('ajout_panne', { 'id': car.id }) }}">Ajouter une panne</a>
                 <a class="btn btn-primary " href="{{ path('edit_car', { 'id': car.id }) }}">Editer fiche du car</a>
                 <a class="btn btn-danger " href="{{ path('effacer_car', { 'id': car.id }) }}">Supprimer fiche du car</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="elem_gps">
+                    <p id="geoc_lat">{{ geoc_lat }}</p><p id="geoc_long">{{ geoc_long }}</p>
+                </div>
+                <h6 class="text-center"><a href="" id="locate_bus"><i class="fa fa-bus"></i>Position actuel du car</a></h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="map"></div>
+                {#AIzaSyD_YTCQfh_Jthc4ajFAU4-o_2nfss6ouIw#}
             </div>
         </div>
         <div class="row">
@@ -269,7 +283,62 @@
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
+
         $(document).ready(function(){
+
+
+            $('.elem_gps').css('display', 'none');
+            $('div#map').hide();
+            var geoc_lat = $('p#geoc_lat').html();
+            var f = parseFloat(geoc_lat);
+            var geoc_long = $('p#geoc_long').html();
+            var c = parseFloat(geoc_long);
+            function initMap() {
+                var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+                var uluru = {lat: f, lng: c};
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 18,
+                    center: uluru
+                });
+                var marker = new google.maps.Marker({
+                    position: uluru,
+                    map: map,
+                    icon: iconBase+ 'bus.png',
+                });
+            }
+
+
+            $('#locate_bus').on('click', function(e){
+                initMap();
+
+                    $('div#map').show();
+
+
+
+                e.preventDefault();
+                /*$.ajax({
+                    url: 'https://ws.truckonline.pro/apis/rest/v2.2/fleet/vehicles?vehicle_vrn='+car_immat,
+                    headers: {
+                        "x-tonl-client-id":  "apa-aps-t39-c1",
+                        "x-tonl-timestamp":  "1519122919",
+                        "x-tonl-signature":  "IHUjgRXlVmZo7q9WTxLupxn40QU="
+                    },
+                    type: 'GET',
+                    dataType:'json',
+                    success :function(data){
+                        /* for(var key in data) {
+                             $('#resultat').append('<div>'+ data[key]['registration'] +'<br />'+ data[key]['totalKms'] +  data[key]['status'] +'</div>');
+                         }
+                        console.log(data[0]['registration']);
+                        console.log(data);
+                    }
+                });*/
+
+
+
+            });
+
+
 
               $('.fa-trash').on('click', function(){
                   location.reload(true);
@@ -283,5 +352,8 @@
             });
 
         });
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_YTCQfh_Jthc4ajFAU4-o_2nfss6ouIw&callback=initMap">
     </script>
 {% endblock %}
