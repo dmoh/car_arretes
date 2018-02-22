@@ -21,12 +21,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="listing_car">
+                        <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
                                 <tr class="text-uppercase">
                                     <th scope="col-md-2">Immatriculation</th>
-                                    <th scope="col-md-2">Date d'enregistrement</th>
-                                    <th scope="col-md-2">N° de série</th>
+                                    <th scope="col-md-3">Date d'enregistrement</th>
                                     <th scope="col-md-2">Marque</th>
                                     <th scope="col-md-2">Site</th>
                                     <th scope="col-md-2">Etat Autocar</th>
@@ -34,8 +34,7 @@
                                 </thead>
                                 <tbody>
                                 {% for Car in pagination %}
-                                <tr {% if loop.index is odd %}class="color"{% endif %}>
-                                <tr>
+                                    <tr {% if loop.index is odd %}class="color"{% endif %}>
                                     <th scope="row">
                                         {% if app.user %}
                                             <a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a>
@@ -44,7 +43,6 @@
                                         {% endif %}
                                     </th>
                                     <td>{{ Car.date|date("d/m/Y") }}</td>
-                                    <td>{{ Car.numSerie }}</td>
                                     <td>{{ Car.marque| upper }}</td>
                                     <td>{{ Car.site }}</td>
                                     <td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>

@@ -109,8 +109,11 @@ ul.nav a
 }
 
 .table td{
-    font-size: 13px;
+    font-size: 12px;
     text-align: center;
+}
+.table td, .table th {
+    border-right: 1px solid #e9ecef;
 }
 .upper{
     text-transform: uppercase;
@@ -119,6 +122,23 @@ ul.nav a
 {
     text-align: center;
 }
+
+
+
+.bg-madison {
+    background: #0d2d62;
+    fill: #0d2d62;
+}
+
+.divider {
+    width: 50px;
+    height: 3px;
+    padding: 0;
+    margin: 21px auto 21px;
+    background: #b1b1b1;
+    border: none;
+}
+
 /***********************************SLIDE ***********************/
 /* SLIDE THREE */
 .slideThree {
@@ -146,6 +166,10 @@ ul.nav a
     z-index: 0;
     font-weight: bold;
     text-shadow: 1px 1px 0px rgba(255,255,255,.15);
+}
+
+h3{
+    font-family: 'Montserrat', sans-serif;
 }
 
 .slideThree:before {
@@ -262,6 +286,10 @@ p.right{
 article.g-pa-25{
     margin-bottom: 15px;
 }
+
+article .btn{
+    margin-top: 0;
+}
 form.form-horizontal{
     margin-bottom: 55px;
 }
@@ -298,6 +326,14 @@ i.fa.fa-male{
 }
 .p_right{
     padding-right: 10px;
+}
+article .text-right{
+    float: right;
+    padding-top: 7px;
+    color: #505050;
+    font-weight: 300;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
 }
 .no_marg form.form-horizontal{
     margin-bottom: 0px !important;

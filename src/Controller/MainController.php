@@ -149,7 +149,7 @@ Class MainController extends Controller
         $immat =  $car_info->getImmat();
         $ti = time();
 
-        if($immat !== "CS-223-JK" && $immat !== "BZ-668-TH")
+        if($immat !== "CS-223-JK" && $immat !== "BZ-668-TH" && $immat !== "BM-276-ZC")
         {
              $hache = base64_encode(hash_hmac("SHA1", "apa-aps-t39-c1ws.truckonline.proGET/apis/rest/v2.2/fleet/vehicles?vehicle_vrn=".$immat."".$ti."", "5a35101a-62ae-4cba-b70a-b1efd5cd75f0", true));
             /*var_dump($hache);
@@ -323,14 +323,14 @@ Class MainController extends Controller
                     }
 
                     if($d_today >= $d_prev)
-                    {
+                    {}
                         $car->setGarantie($test->getGarantie());
                         $car->setAuteur($test->getAuteur());
                         $car->setMaj(new \DateTime());
                         $car->setNaturePanneCar($test->getNaturePanne());
                         $car->setDescPanneCar($test->getDescPanne());
                         $car->setEtatCar($test->getEtatCar());
-                    }
+
 
                     $em -> persist($car);
                     $em -> persist($panne);
@@ -927,7 +927,7 @@ Class MainController extends Controller
 
 
 
-        // Vérifier la date
+        /* Vérifier la date
         $s = count($date_atelier);
         if($s > 0)
         {
@@ -945,7 +945,7 @@ Class MainController extends Controller
                     $date_atelier[$i]->getCars()->setDatePanneDeb($date_atelier[$i]->getDatePrev());
                 }
             }
-        }
+        }*/
 
         $list_panne_ano = $em->getRepository(Cars::class)->findBy(
           ['etat_car'   =>  'roulant_ano'],
@@ -1012,7 +1012,7 @@ Class MainController extends Controller
         return $this->render('front/listep.html.twig', array(
             'liste_panne'       =>      $list_panne,
             'liste_panne_ano'   =>      $list_panne_ano,
-            'liste_atelier'     =>      $date_atelier,
+            'liste_atelier'     =>      $list_atelier,
             'form'              =>      $form->createView(),
         ));
     }
