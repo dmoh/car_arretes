@@ -16,20 +16,21 @@
                 <a class="btn btn-danger " href="{{ path('effacer_car', { 'id': car.id }) }}">Supprimer fiche du car</a>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="elem_gps">
-                    <p id="geoc_lat">{{ geoc_lat }}</p><p id="geoc_long">{{ geoc_long }}</p>
+        {% if geoc_lat > 0 and geoc_long > 0 %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="elem_gps">
+                        <p id="geoc_lat">{{ geoc_lat }}</p><p id="geoc_long">{{ geoc_long }}</p>
+                    </div>
+                    <h6 class="text-center"><a href="" id="locate_bus"><i class="fa fa-bus"></i>Position actuel du car</a> <em class="green" id="car_immat">{{ car.immat| upper }}</em></h6>
                 </div>
-                <h6 class="text-center"><a href="" id="locate_bus"><i class="fa fa-bus"></i>Position actuel du car</a></h6>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div id="map"></div>
-                {#AIzaSyD_YTCQfh_Jthc4ajFAU4-o_2nfss6ouIw#}
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="map"></div>
+                </div>
             </div>
-        </div>
+        {% endif %}
         <div class="row">
             <div class="col-md-12">
                 {% if kms is defined and kms > 0 %}
@@ -180,59 +181,61 @@
             </div>
         </div>
         <div class="row pb-40">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col-md-2">Immatriculation</th>
-                    <th scope="col-md-1">Date d'enregistrement</th>
-                    <th scope="col-md-2">Déclarant</th>
-                    <th scope="col-md-2" >Etat du Car (ACTUEL)</th>
-                    <th scope="col-md-2" >
-                        {% if car.EtatCar == 'panne'  %}
-                            Nature panne
-                            {% elseif car.EtatCar == 'atelier' %}
-                            Entretien
-                            {% elseif car.EtatCar == 'roulant ano' or car.EtatCar == 'roulant_ano' %}
-                            Nature du problème
-                            {% elseif car.EtatCar == 'roulant' %}
-                            Situation Car
-                        {% endif %} </th>
-                </tr>
-                </thead>
-                <tbody>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <th scope="row">
-                        {% if car.EtatCar == 'panne' or car.EtatCar == 'atelier'%}
-                            <a href="{{ path('edit_panne', {'id': car.id}) }}">{{ car.immat| upper }}</a>
-                        {% elseif car.EtatCar == 'roulant ano' or car.EtatCar == 'roulant_ano' %}
-                            <a href="{{ path('edit_panne', {'id': car.id }) }}">{{ car.immat| upper }}</a>
-                        {% else %}
-                            {{ car.immat|upper }}
-                        {% endif %}
-                        </th>
-                        <td>{{ car.date | date("d/m/Y") }}</td>
-                        <td>{{ car.auteur }}</td>
-                        <td >{% if car.EtatCar == 'roulant_ano' %}
-                                <i class="fa fa-ambulance" style="color:orange; padding-top: 0 !important; font-size: 15px" id="etat_ra"></i>
+                        <th scope="col-md-2">Immatriculation</th>
+                        <th scope="col-md-1">Date d'enregistrement</th>
+                        <th scope="col-md-2">Déclarant</th>
+                        <th scope="col-md-2" >Etat du Car (ACTUEL)</th>
+                        <th scope="col-md-2" >
+                            {% if car.EtatCar == 'panne'  %}
+                                Nature panne
                                 {% elseif car.EtatCar == 'atelier' %}
-                                <i class="fa fa-wrench" style="color:red; padding-top: 0 !important; font-size: 15px"></i>
-                            {% elseif car.EtatCar == 'panne' %}
-                                <i class="fa fa-ambulance" style="font-size: 15px; padding-top: 0 !important; color: red;" id="etat_panne"></i>
-                                {% else %}
-                                <i class="fa fa-bus" style="color: #00e765; font-size: 15px; padding-top: 0 !important;" id="etat_ok"></i>
-                            {% endif %}</td>
-                        <td>
-                            {% if car.EtatCar == 'panne' or car.EtatCar == 'atelier' %}
-                               {{ car.naturePanneCar| upper }}
-                            {% elseif car.EtatCar == 'roulant ano' or car.EtatCar == 'roulant_ano' %}
-                                {{ car.naturePanneCar | upper }}
-                            {% else %}
-                               Aucun Problème
-                            {% endif %}
-                        </td>
+                                Entretien
+                                {% elseif car.EtatCar == 'roulant ano' or car.EtatCar == 'roulant_ano' %}
+                                Nature du problème
+                                {% elseif car.EtatCar == 'roulant' %}
+                                Situation Car
+                            {% endif %} </th>
                     </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">
+                            {% if car.EtatCar == 'panne' or car.EtatCar == 'atelier'%}
+                                <a href="{{ path('edit_panne', {'id': car.id}) }}">{{ car.immat| upper }}</a>
+                            {% elseif car.EtatCar == 'roulant ano' or car.EtatCar == 'roulant_ano' %}
+                                <a href="{{ path('edit_panne', {'id': car.id }) }}">{{ car.immat| upper }}</a>
+                            {% else %}
+                                {{ car.immat|upper }}
+                            {% endif %}
+                            </th>
+                            <td>{{ car.date | date("d/m/Y") }}</td>
+                            <td>{{ car.auteur }}</td>
+                            <td >{% if car.EtatCar == 'roulant_ano' %}
+                                    <i class="fa fa-ambulance" style="color:orange; padding-top: 0 !important; font-size: 15px" id="etat_ra"></i>
+                                    {% elseif car.EtatCar == 'atelier' %}
+                                    <i class="fa fa-wrench" style="color:red; padding-top: 0 !important; font-size: 15px"></i>
+                                {% elseif car.EtatCar == 'panne' %}
+                                    <i class="fa fa-ambulance" style="font-size: 15px; padding-top: 0 !important; color: red;" id="etat_panne"></i>
+                                    {% else %}
+                                    <i class="fa fa-bus" style="color: #00e765; font-size: 15px; padding-top: 0 !important;" id="etat_ok"></i>
+                                {% endif %}</td>
+                            <td>
+                                {% if car.EtatCar == 'panne' or car.EtatCar == 'atelier' %}
+                                   {{ car.naturePanneCar| upper }}
+                                {% elseif car.EtatCar == 'roulant ano' or car.EtatCar == 'roulant_ano' %}
+                                    {{ car.naturePanneCar | upper }}
+                                {% else %}
+                                   Aucun Problème
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -241,42 +244,44 @@
         </div>
         <div class="row">
             {% if pannes is defined %}
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col-md-2">Immatriculation</th>
-                        <th scope="col-md-1">Déclarant</th>
-                        <th scope="col-md-1">état du Car (Antérieur)</th>
-                        <th scope="col-md-1">Durée Panne</th>
-                        <th scope="col-md-2">
-                            Panne ou Entretien
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for panne in pannes %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
                         <tr>
-                            <td scope="row">{{ car.immat| upper }} <br> <a href="{{ path('edit_panne_ant', { 'id': panne.id }) }}"><i style="color: #00a7d0; margin-right: 5px; font-size: 15px;" class="fa fa-pencil-square"> </i></a> <a href="{{ path('delete_panne', { 'id': panne.id }) }}"><i  style="font-size: 15px;" class="fa fa-trash"></i></a></td>
-                            <td>{{ panne.auteur }}</td>
-                            <td>{% if panne.EtatCar == 'roulant_ano' %}
-                                    <i class="fa fa-ambulance" style="color:orange; padding-top: 0 !important; font-size: 15px"></i>
-                            {% elseif panne.EtatCar == 'panne' %}
-                                    <i class="fa fa-ambulance" style="font-size: 15px; padding-top: 0 !important; color: red;"></i>
-                                {% elseif panne.EtatCar == 'atelier' %}
-                                    <i class="fa fa-wrench" style="font-size: 15px; padding-top: 0 !important; color: red;"></i>
-                                    {% else %}
-                                    {#<i class="fa fa-bus" style="font-size: 15px; padding-top: 0 !important; color: greenyellow;"></i>#}
-                                {% endif %}</td>
-                            <td> {% if panne.dureePannePrev is not null or panne.dureePannePrev != '' %}
-                                {{ panne.dureePannePrev }} jours
-                                    {% else %}
-                                    <p>Indéterminé</p>
-                                {% endif %} </td>
-                            <td>{{ panne.naturePanne }}</td>
+                            <th scope="col-md-2">Immatriculation</th>
+                            <th scope="col-md-1">Déclarant</th>
+                            <th scope="col-md-1">état du Car (Antérieur)</th>
+                            <th scope="col-md-1">Durée Panne</th>
+                            <th scope="col-md-2">
+                                Panne ou Entretien
+                            </th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {% for panne in pannes %}
+                            <tr>
+                                <td scope="row">{{ car.immat| upper }} <br> <a href="{{ path('edit_panne_ant', { 'id': panne.id }) }}"><i style="color: #00a7d0; margin-right: 5px; font-size: 15px;" class="fa fa-pencil-square"> </i></a> <a href="{{ path('delete_panne', { 'id': panne.id }) }}"><i  style="font-size: 15px;" class="fa fa-trash"></i></a></td>
+                                <td>{{ panne.auteur }}</td>
+                                <td>{% if panne.EtatCar == 'roulant_ano' %}
+                                        <i class="fa fa-ambulance" style="color:orange; padding-top: 0 !important; font-size: 15px"></i>
+                                    {% elseif panne.EtatCar == 'panne' %}
+                                        <i class="fa fa-ambulance" style="font-size: 15px; padding-top: 0 !important; color: red;"></i>
+                                    {% elseif panne.EtatCar == 'atelier' %}
+                                        <i class="fa fa-wrench" style="font-size: 15px; padding-top: 0 !important; color: red;"></i>
+                                    {% else %}
+                                        {#<i class="fa fa-bus" style="font-size: 15px; padding-top: 0 !important; color: greenyellow;"></i>#}
+                                    {% endif %}</td>
+                                <td> {% if panne.dureePannePrev is not null or panne.dureePannePrev != '' %}
+                                        {{ panne.dureePannePrev }} jours
+                                    {% else %}
+                                        <p>Indéterminé</p>
+                                    {% endif %} </td>
+                                <td>{{ panne.naturePanne }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% endif %}
         </div>
     </section>
@@ -303,17 +308,13 @@
                 var marker = new google.maps.Marker({
                     position: uluru,
                     map: map,
-                    icon: iconBase+ 'bus.png',
                 });
             }
 
 
             $('#locate_bus').on('click', function(e){
                 initMap();
-
-                    $('div#map').show();
-
-
+                $('div#map').show();
 
                 e.preventDefault();
                 /*$.ajax({

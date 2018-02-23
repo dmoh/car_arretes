@@ -151,40 +151,21 @@ Class MainController extends Controller
         $immat =  $car_info->getImmat();
         $ti = time();
 
-        if($immat !== "CS-223-JK" && $immat !== "BZ-668-TH" && $immat !== "BM-276-ZC")
+        if($immat !== "CS-223-JK" && $immat !== "BZ-668-TH" && $immat !== "BM-276-ZC" && $immat !== "BL-182-AH" && $immat !== "DD-968-AR")
         {
              $hache = base64_encode(hash_hmac("SHA1", "apa-aps-t39-c1ws.truckonline.proGET/apis/rest/v2.2/fleet/vehicles?vehicle_vrn=".$immat."".$ti."", "5a35101a-62ae-4cba-b70a-b1efd5cd75f0", true));
-            /*var_dump($hache);
-           die();*/
-            /*Accès à l'APi TruckOnline signature tous les véhicules
-            $opts = array(
-                'http' => array(
-                    'method'=>'GET',
-                    'header' => "x-tonl-client-id:  apa-aps-t39-c1\r\n".
-                                "x-tonl-timestamp:  1519113161\r\n".
-                                "x-tonl-signature:  ckk8syXJQGUHIgTCMZj4fDif9Q4="
-            ));*/
             $opts = array(
                 'http' => array(
                     'method'=>'GET',
                     'header' => "x-tonl-client-id:  apa-aps-t39-c1\r\n".
                                 "x-tonl-timestamp:  ".$ti."\r\n".
                                 "x-tonl-signature: ".$hache.""
-                ));
+                )
+            );
             // Recherche api truck online tous les vehicules
-            //$kil = file_get_contents("https://ws.truckonline.pro/apis/rest/v2.2/fleet/vehicles", false, $context);
-
             $context = stream_context_create($opts);
             $kil = file_get_contents("https://ws.truckonline.pro/apis/rest/v2.2/fleet/vehicles?vehicle_vrn=".$immat."", false, $context);
-
-            /*$req->headers->set("x-tonl-client-id", "apa-aps-t39-c1");
-            $req->headers->set("x-tonl-timestamp", "".time()."");
-            $req->headers->set("x-tonl-signature",  "ckk8syXJQGUHIgTCMZj4fDif9Q4=");*/
             $result = json_decode($kil, true);
-
-            $v = count($result);
-            /*var_dump($result);
-            die();*/
 
             if($result[0])
             {
@@ -199,45 +180,18 @@ Class MainController extends Controller
                     'header' => "x-tonl-client-id:  apa-aps-t39-c1\r\n".
                         "x-tonl-timestamp:  ".$ti."\r\n".
                         "x-tonl-signature: ".$hache2.""
-                ));
-            // Recherche api truck online tous les vehicules
-            //$kil = file_get_contents("https://ws.truckonline.pro/apis/rest/v2.2/fleet/vehicles", false, $context);
-
+                )
+            );
             $context2 = stream_context_create($opts2);
             $kil2 = file_get_contents("https://ws.truckonline.pro/apis/rest/v2.2/gpstracking?count=1&vehicle_vrn=".$immat."", false, $context2);
-
-            /*$req->headers->set("x-tonl-client-id", "apa-aps-t39-c1");
-            $req->headers->set("x-tonl-timestamp", "".time()."");
-            $req->headers->set("x-tonl-signature",  "ckk8syXJQGUHIgTCMZj4fDif9Q4=");*/
             $result2 = json_decode($kil2, true);
             if($result2[0])
             {
                 $geoc_lat = $result2[0]["gpsInfo"]["latitude"];
                 $geoc_long = $result2[0]["gpsInfo"]["longitude"];
             }
-            
-            /*var_dump($result);
-            die();*/
-
 
         }
-
-        /*for ($i = 0; $i < $v ; $i++)
-        {
-            if($result[$i]["registration"] != $immat)
-            {
-               unset($result[$i]);
-            }
-            else
-            {
-                $kms = $result[$i]["totalKms"];
-
-            }
-        }*/
-
-
-
-
         $em = $this->getDoctrine()->getManager();
 
         $pannes = $repo->getRepository(Panne::class)
