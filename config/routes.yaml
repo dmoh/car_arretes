@@ -21,7 +21,7 @@ recherche:
     controller: App\Controller\MainController::recherche
 
 liste_panne:
-    path: /liste-panne
+    path: /
     controller: App\Controller\MainController::listePanne
 
 edit_car:

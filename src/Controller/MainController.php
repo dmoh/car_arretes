@@ -151,7 +151,7 @@ Class MainController extends Controller
         $immat =  $car_info->getImmat();
         $ti = time();
 
-        if($immat !== "CS-223-JK" && $immat !== "BZ-668-TH" && $immat !== "BM-276-ZC" && $immat !== "BL-182-AH" && $immat !== "DD-968-AR")
+        if($immat !== "CS-223-JK" && $immat !== "BZ-668-TH" && $immat !== "BM-276-ZC" && $immat !== "BL-182-AH" && $immat)
         {
              $hache = base64_encode(hash_hmac("SHA1", "apa-aps-t39-c1ws.truckonline.proGET/apis/rest/v2.2/fleet/vehicles?vehicle_vrn=".$immat."".$ti."", "5a35101a-62ae-4cba-b70a-b1efd5cd75f0", true));
             $opts = array(
@@ -389,7 +389,7 @@ Class MainController extends Controller
                     {}
                     $car->setGarantie($test->getGarantie());
                     $car->setAuteur($test->getAuteur());
-                    $car->setMaj(new \DateTime());
+                    $car->setDateMaj(new \DateTime());
                     $car->setNaturePanneCar($test->getNaturePanne());
                     $car->setDescPanneCar($test->getDescPanne());
                     $car->setEtatCar($test->getEtatCar());

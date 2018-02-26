@@ -74,88 +74,86 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="listing_car">
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr class="text-uppercase">
-                                            <th scope="col-md-2">Immatriculation</th>
-                                            {% if car_panne_listing is defined %}
-                                                <th scope="col-md-2">Durée Panne</th>
-                                                {% else %}
-                                                <th scope="col-md-2">Date d'enregistrement</th>
-                                            {% endif %}
-                                            <th scope="col-md-2">N° de série</th>
-                                            <th scope="col-md-2">Marque</th>
-                                            {% if car_panne_listing is defined %}
-                                                <th scope="col-md-2">Nature Panne</th>
-                                                <th scope="col-md-2">Panne/Entretien</th>
+								<table class="table table-striped">
+									<thead>
+									<tr class="text-uppercase">
+										<th scope="col-md-2">Immatriculation</th>
+                                        {% if car_panne_listing is defined %}
+                                            <th scope="col-md-2">Durée Panne</th>
                                             {% else %}
-                                                <th scope="col-md-2">Site</th>
-                                                <th scope="col-md-2">Etat Autocar</th>
-                                            {% endif %}
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% if car_listing is defined %}
-                                            {% for Car in car_listing %}
-                                                <tr>
-                                                    <th scope="row">
-                                                        {% if app.user %}
-                                                            <a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a>
-                                                        {% else %}
-                                                            {{ Car.immat|upper }}
-                                                        {% endif %}
-                                                    </th>
-                                                    <td>{{ Car.date|date("d/m/Y") }}</td>
-                                                    <td>{{ Car.numSerie }}</td>
-                                                    <td>{{ Car.marque| upper }}</td>
-                                                    <td>{{ Car.site }}</td>
-                                                    <td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>
-                                                        {% elseif Car.etatCar == "roulant ano" or Car.etatCar == "roulant_ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
-                                                        {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
-                                                        {% elseif Car.etatCar == "atelier" %} <i class="fa fa-wrench" style="color: red;  font-size: 15px" aria-hidden="true"></i>
-                                                        {% else %}
-                                                            {{ Car.etatCar }}
-                                                        {% endif %}
-                                                    </td>
-                                                </tr>
-                                            {% endfor %}
+                                            <th scope="col-md-2">Date d'entrée</th>
                                         {% endif %}
-                                        {% if car_panne_listing  is defined %}
-
-                                            {% for Car in car_panne_listing %}
-                                                <tr>
-                                                    <th scope="row">
-                                                        {% if app.user %}
-                                                            <a href="{{ path('car', { 'id': Car.cars.id }) }}">{{ Car.cars.immat|upper }}</a>
-                                                        {% else %}
-                                                            {{ Car.cars.immat|upper }}
-                                                        {% endif %}
-                                                    </th>
-                                                    <td>{% if Car.dureePannePrev > 0 or Car.dureePannePrev != '' %}
-                                                            {{ Car.dureePannePrev }} jours
-                                                            {% else %}
-                                                            Indéterminé
-                                                        {% endif %}
-
-                                                    </td>
-                                                    <td>{{ Car.cars.numSerie }}</td>
-                                                    <td>{{ Car.cars.marque| upper }}</td>
-                                                    <td>{{ Car.naturePanne }}</td>
-                                                    <td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>
-                                                        {% elseif Car.etatCar == "roulant ano" or Car.etatCar == "roulant_ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
-                                                        {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
-                                                        {% elseif Car.etatCar == "atelier" %} <i class="fa fa-wrench" style="color: red;  font-size: 15px" aria-hidden="true"></i>
-                                                        {% else %}
-                                                            {{ Car.etatCar }}
-                                                        {% endif %}
-                                                    </td>
-                                                </tr>
-                                            {% endfor %}
+										<th scope="col-md-2">N° de série</th>
+										<th scope="col-md-2">Marque</th>
+                                        {% if car_panne_listing is defined %}
+                                            <th scope="col-md-2">Nature Panne</th>
+                                            <th scope="col-md-2">Panne/Entretien</th>
+                                        {% else %}
+                                            <th scope="col-md-2">Site</th>
+										    <th scope="col-md-2">Etat Autocar</th>
                                         {% endif %}
-                                        </tbody>
-                                    </table>
-                                </div>
+									</tr>
+									</thead>
+									<tbody>
+                                    {% if car_listing is defined %}
+                                        {% for Car in car_listing %}
+                                            <tr>
+                                                <th scope="row">
+                                                    {% if app.user %}
+                                                        <a href="{{ path('car', { 'id': Car.id }) }}">{{ Car.immat|upper }}</a>
+                                                    {% else %}
+                                                        {{ Car.immat|upper }}
+                                                    {% endif %}
+                                                </th>
+                                                <td>{{ Car.date|date("d/m/Y") }}</td>
+                                                <td>{{ Car.numSerie }}</td>
+                                                <td>{{ Car.marque| upper }}</td>
+                                                <td>{{ Car.site }}</td>
+                                                <td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "roulant ano" or Car.etatCar == "roulant_ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "atelier" %} <i class="fa fa-wrench" style="color: red;  font-size: 15px" aria-hidden="true"></i>
+                                                    {% else %}
+                                                        {{ Car.etatCar }}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if car_panne_listing  is defined %}
+
+                                        {% for Car in car_panne_listing %}
+                                            <tr>
+                                                <th scope="row">
+                                                    {% if app.user %}
+                                                        <a href="{{ path('car', { 'id': Car.cars.id }) }}">{{ Car.cars.immat|upper }}</a>
+                                                    {% else %}
+                                                        {{ Car.cars.immat|upper }}
+                                                    {% endif %}
+                                                </th>
+                                                <td>{% if Car.dureePannePrev > 0 or Car.dureePannePrev != '' %}
+                                                        {{ Car.dureePannePrev }} jours
+                                                        {% else %}
+                                                        Indéterminé
+                                                    {% endif %}
+
+                                                </td>
+                                                <td>{{ Car.cars.numSerie }}</td>
+                                                <td>{{ Car.cars.marque| upper }}</td>
+                                                <td>{{ Car.naturePanne }}</td>
+                                                <td>{% if  Car.etatCar == "roulant" %}<i class="fa fa-bus" style="color: #00a65a;" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "roulant ano" or Car.etatCar == "roulant_ano" %} <i class="fa fa-ambulance" style="color: orange; font-size: 15px" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "panne" %} <i class="fa fa-ambulance" style="color: red;  font-size: 15px" aria-hidden="true"></i>
+                                                    {% elseif Car.etatCar == "atelier" %} <i class="fa fa-wrench" style="color: red;  font-size: 15px" aria-hidden="true"></i>
+                                                    {% else %}
+                                                        {{ Car.etatCar }}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
