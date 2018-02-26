@@ -397,7 +397,30 @@ i.fa.fa-times-circle
 .navbar-nav {
     padding-left: 40px;
 }
+.head_login{
+    background: url("../images/headerBus.jpg") top left no-repeat;
+    background-size: cover;
 
+}
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
+.form_bg{
+    color: #fff;
+    padding: 25px;
+    border-top: 3px solid #0d2d62;
+    background: #1f1f1f73;
+    -webkit-box-shadow: 3px 2px 2px 0px rgba(0,0,0,0.47);
+    -moz-box-shadow: 3px 2px 2px 0px rgba(0,0,0,0.47);
+    box-shadow: 3px 2px 2px 0px rgba(0,0,0,0.47);
+}
+.head_login h4{
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    box-shadow: #777777;
+}
 /**********
 *****************************MEDIA QUERIES*************************************************/
 
